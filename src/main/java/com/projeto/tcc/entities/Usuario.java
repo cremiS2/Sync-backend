@@ -1,21 +1,30 @@
 package com.projeto.tcc.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 @Entity(name="tb_usuario")
 public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private Long id;
 	private String senha;
 	private String username;
 	private String email;
-	
-	
+
+	@ManyToMany
+	@JoinTable(
+			name = "tb_user_roles",
+			joinColumns =  @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	private Set<Role> roles;
+
 	public Usuario(Long id, String senha, String username, String email) {
 		
 		this.id = id;
@@ -68,7 +77,12 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 }

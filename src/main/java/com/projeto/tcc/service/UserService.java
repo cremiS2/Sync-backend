@@ -1,5 +1,6 @@
 package com.projeto.tcc.service;
 
+import com.projeto.tcc.dto.UserDetalhesDTO;
 import com.projeto.tcc.dto.UsuarioDTO;
 import com.projeto.tcc.entities.Role;
 import com.projeto.tcc.entities.Usuario;
@@ -14,13 +15,13 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class CreateUserService {
+public class UserService {
 
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public CreateUserService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder) {
+    public UserService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder) {
         this.usuarioRepository = usuarioRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = encoder;
@@ -38,9 +39,8 @@ public class CreateUserService {
             newUsuario.setRoles(Set.of(roles));
             newUsuario.setSenha(passwordEncoder.encode(usuario.senha()));
             usuarioRepository.save(newUsuario);
-
         }else{
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail já cadastrado");
         }
     }
 
@@ -49,8 +49,9 @@ public class CreateUserService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    public List<Usuario> listar() {
-        return usuarioRepository.findAll();
+    public List<UserDetalhesDTO> listar() {
+        return usuarioRepository.findAll().stream().map(user -> new UserDetalhesDTO(user.getEmail(), user.getUsername(), user.getRoles())).toList();
+
     }
 
     public Usuario atualizar(Long id, Usuario usuario) {

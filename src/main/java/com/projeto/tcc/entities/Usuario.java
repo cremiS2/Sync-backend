@@ -1,6 +1,8 @@
 package com.projeto.tcc.entities;
 
+import com.projeto.tcc.dto.UserAcces;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -84,5 +86,10 @@ public class Usuario {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public boolean loginIsCorrect(UserAcces userAcces, BCryptPasswordEncoder passwordEncoder){
+		return passwordEncoder.matches(userAcces.senha(), this.senha);
+
 	}
 }

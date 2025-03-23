@@ -2,6 +2,7 @@ package com.projeto.tcc.controller;
 
 import java.util.List;
 
+import com.projeto.tcc.dto.UserDetalhesDTO;
 import com.projeto.tcc.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,18 +10,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.projeto.tcc.entities.Usuario;
-import com.projeto.tcc.service.CreateUserService;
+import com.projeto.tcc.service.UserService;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    @Autowired
-    private CreateUserService usuarioService;
+    public UserService usuarioService;
+
+    public UsuarioController(UserService userService) {
+        this.usuarioService = userService;
+    }
 
     @GetMapping
-    public List<Usuario> listarTodos() {
+    public List<UserDetalhesDTO> listarTodos() {
         return usuarioService.listar();
     }
 

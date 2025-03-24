@@ -7,6 +7,7 @@ import com.projeto.tcc.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.projeto.tcc.entities.Usuario;
@@ -28,6 +29,7 @@ public class UsuarioController {
         return usuarioService.listar();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id) {
         Usuario usuario = usuarioService.buscarPorId(id);

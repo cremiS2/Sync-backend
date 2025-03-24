@@ -2,7 +2,6 @@ package com.projeto.tcc.service;
 
 import com.projeto.tcc.dto.LoginDTO;
 import com.projeto.tcc.dto.UserAcces;
-import com.projeto.tcc.dto.UsuarioDTO;
 import com.projeto.tcc.repository.RoleRepository;
 import com.projeto.tcc.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;

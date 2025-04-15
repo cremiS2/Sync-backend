@@ -2,11 +2,7 @@ package com.projeto.tcc.entities;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="tb_maquina")
@@ -17,14 +13,17 @@ public class Maquina {
 	private Long id;
 	private String nome;
 	private LocalDate ultima_manutencao;
+	@ManyToOne
+	private Setor setor;
 	
 	public Maquina() {
 	}
 
-	public Maquina(Long id, String nome, LocalDate ultima_manutencao) {
+	public Maquina(Long id, String nome, LocalDate ultima_manutencao, Setor setor) {
 		this.id = id;
 		this.nome = nome;
 		this.ultima_manutencao = ultima_manutencao;
+		this.setor = setor;
 	}
 
 	public Long getId() {
@@ -50,7 +49,12 @@ public class Maquina {
 	public void setUltima_manutencao(LocalDate ultima_manutencao) {
 		this.ultima_manutencao = ultima_manutencao;
 	}
-	
-	
-	
+
+	public Setor getSetor() {
+		return setor;
+	}
+
+	public void setSetor(Setor setor) {
+		this.setor = setor;
+	}
 }

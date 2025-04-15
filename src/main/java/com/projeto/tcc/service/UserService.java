@@ -11,7 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -20,12 +22,20 @@ public class UserService {
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private Map<Long, Usuario> usuariosCache = new HashMap<>();
 
     public UserService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder) {
         this.usuarioRepository = usuarioRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = encoder;
     }
+
+    private Usuario procurarUserCache(Long id) {
+        return usuariosCache.computeIfAbsent(id, chave ->
+                usuarioRepository.findById(chave).orElse(null)
+        );
+    }
+
 
     public void adicionarUser(UsuarioDTO usuario) {
         var roles = roleRepository.findByName(Role.Values.BASIC.name());
@@ -45,8 +55,9 @@ public class UserService {
     }
 
 
-    public Usuario buscarPorId(Long id) {
-        return usuarioRepository.findById(id).orElse(null);
+    public UsuarioDTO buscarPorId(Long id) {
+        var user = usuarioRepository.findById(id).orElse(null);
+        return new UsuarioDTO((Usuario) user);
     }
 
     public List<UserDetalhesDTO> listar() {
@@ -55,7 +66,7 @@ public class UserService {
     }
 
     public Usuario atualizar(Long id, Usuario usuario) {
-        Usuario usuarioExistente = buscarPorId(id);
+        UsuarioDTO usuarioExistente = buscarPorId(id);
         if (usuarioExistente != null) {
             usuarioExistente.setUsername(usuario.getUsername());
             usuarioExistente.setSenha(usuario.getSenha());

@@ -1,11 +1,9 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.dto.UserAcces;
+import com.projeto.tcc.dto.UsuarioDTO;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity(name="tb_usuario")
@@ -15,8 +13,11 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Long id;
+	@Column(nullable = false)
 	private String senha;
+	@Column(nullable = false)
 	private String username;
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@ManyToMany
@@ -88,7 +89,7 @@ public class Usuario {
 		this.roles = roles;
 	}
 
-	public boolean loginIsCorrect(UserAcces userAcces, BCryptPasswordEncoder passwordEncoder){
+	public boolean verificarSenha(UsuarioDTO userAcces, BCryptPasswordEncoder passwordEncoder){
 		return passwordEncoder.matches(userAcces.senha(), this.senha);
 
 	}

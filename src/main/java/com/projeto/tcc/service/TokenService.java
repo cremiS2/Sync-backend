@@ -1,7 +1,7 @@
 package com.projeto.tcc.service;
 
 import com.projeto.tcc.dto.LoginDTO;
-import com.projeto.tcc.dto.UserAcces;
+import com.projeto.tcc.dto.UsuarioDTO;
 import com.projeto.tcc.repository.RoleRepository;
 import com.projeto.tcc.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
@@ -30,10 +30,10 @@ public class TokenService {
         this.roleRepository = roleRepository;
     }
 
-    public LoginDTO criarToken(UserAcces userAcces){
+    public LoginDTO criarToken(UsuarioDTO userAcces){
         var user = repository.findByEmail(userAcces.email());
 
-        if(user.isEmpty() || !user.get().loginIsCorrect(userAcces, passwordEncoder)){
+        if(user.isEmpty() || !user.get().verificarSenha(userAcces, passwordEncoder)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 

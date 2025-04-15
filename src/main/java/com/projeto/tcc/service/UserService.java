@@ -1,11 +1,13 @@
 package com.projeto.tcc.service;
 
-import com.projeto.tcc.dto.UserDetalhesDTO;
 import com.projeto.tcc.dto.UsuarioDTO;
 import com.projeto.tcc.entities.Role;
 import com.projeto.tcc.entities.Usuario;
+import com.projeto.tcc.exceptions.EmailJaCadastradoException;
+import com.projeto.tcc.exceptions.UsuarioNaoEncontradoException;
 import com.projeto.tcc.repository.RoleRepository;
 import com.projeto.tcc.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -36,10 +39,9 @@ public class UserService {
         );
     }
 
-
+    @Transactional
     public void adicionarUser(UsuarioDTO usuario) {
         var roles = roleRepository.findByName(Role.Values.BASIC.name());
-
         var user = usuarioRepository.findByEmail(usuario.email());
 
         if(user.isEmpty()){
@@ -49,31 +51,43 @@ public class UserService {
             newUsuario.setRoles(Set.of(roles));
             newUsuario.setSenha(passwordEncoder.encode(usuario.senha()));
             usuarioRepository.save(newUsuario);
+            usuariosCache.put(newUsuario.getId(), newUsuario);
+            System.out.println("Usuario adicionado no cache com sucesso");
         }else{
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail já cadastrado");
+            throw new EmailJaCadastradoException("E-mail já cadastrado");
         }
     }
-
 
     public UsuarioDTO buscarPorId(Long id) {
-        var user = usuarioRepository.findById(id).orElse(null);
-        return new UsuarioDTO((Usuario) user);
+        return new UsuarioDTO(procurarUserCache(id));
     }
 
-    public List<UserDetalhesDTO> listar() {
-        return usuarioRepository.findAll().stream().map(user -> new UserDetalhesDTO(user.getEmail(), user.getUsername(), user.getRoles())).toList();
+    public List<UsuarioDTO> listar() {
+        return usuarioRepository.findAll().stream().map(UsuarioDTO::new).collect(Collectors.toList());
 
     }
 
-    public Usuario atualizar(Long id, Usuario usuario) {
-        UsuarioDTO usuarioExistente = buscarPorId(id);
-        if (usuarioExistente != null) {
-            usuarioExistente.setUsername(usuario.getUsername());
-            usuarioExistente.setSenha(usuario.getSenha());
-            usuarioExistente.setEmail(usuario.getEmail());
-            return usuarioRepository.save(usuarioExistente);
+    public UsuarioDTO atualizar(UsuarioDTO user) {
+        var usuario = procurarUserCache(user.id());
+        if(usuario != null){
+            if(user.username() != null && !user.username().equals(usuario.getUsername())){
+                usuario.setUsername(user.username());
+            }
+            if(user.email() != null && !user.email().equals(usuario.getEmail())){
+                usuario.setEmail(user.email());
+            }
+            if(user.senha() != null && !usuario.verificarSenha(user, passwordEncoder)){
+                usuario.setSenha(passwordEncoder.encode(user.senha()));
+            }
+
+            usuarioRepository.save(usuario);
+            usuariosCache.put(usuario.getId(), usuario);
+            System.out.println("Usuario atualizado com sucesso");
+            return new UsuarioDTO(usuario);
+
+        }else{
+            throw new UsuarioNaoEncontradoException("Usuário não encontrado");
         }
-        return null;
     }
 
     public void deletar(Long id) {

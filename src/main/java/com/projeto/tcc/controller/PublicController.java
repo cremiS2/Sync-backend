@@ -2,7 +2,6 @@ package com.projeto.tcc.controller;
 
 
 import com.projeto.tcc.dto.LoginDTO;
-import com.projeto.tcc.dto.UserAcces;
 import com.projeto.tcc.dto.UsuarioDTO;
 import com.projeto.tcc.service.UserService;
 import com.projeto.tcc.service.TokenService;
@@ -26,7 +25,7 @@ public class PublicController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<LoginDTO> entrar(@RequestBody UserAcces acces){
+    public ResponseEntity<LoginDTO> entrar(@RequestBody UsuarioDTO acces){
         return ResponseEntity.ok().body(tokenService.criarToken(acces));
     }
 

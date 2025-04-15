@@ -1,17 +1,15 @@
 package com.projeto.tcc.controller;
 
-import java.util.List;
-
-import com.projeto.tcc.dto.UserDetalhesDTO;
 import com.projeto.tcc.dto.UsuarioDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.projeto.tcc.entities.Usuario;
+import com.projeto.tcc.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.projeto.tcc.entities.Usuario;
-import com.projeto.tcc.service.UserService;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -41,7 +39,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody UsuarioDTO usuario) {
+    public ResponseEntity<UsuarioDTO> salvarUsuario(@Validated @RequestBody UsuarioDTO usuario) {
         usuarioService.adicionarUser(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }

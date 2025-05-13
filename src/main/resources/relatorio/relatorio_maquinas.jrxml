@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+                                  http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Relatório"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="515"
+              leftMargin="10"
+              rightMargin="10"
+              topMargin="10"
+              bottomMargin="10">
+
+    <!-- Declaração de campos -->
+    <field name="nome" class="java.lang.String"/>
+    <field name="ultima_manutencao" class="java.time.LocalDate"/>
+    <field name="setor" class="java.lang.String"/>
+    <field name="status" class="com.projeto.tcc.enuns.StatusMaquina"/>
+
+    <!-- Declaração de variáveis -->
+    <variable name="dateFormatter" class="java.time.format.DateTimeFormatter">
+        <variableExpression><![CDATA[java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")]]></variableExpression>
+    </variable>
+
+    <!-- Corpo do relatório -->
+    <detail>
+        <band height="20">
+            <!-- Nome -->
+            <textField>
+                <reportElement x="0" y="0" width="150" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+            </textField>
+
+            <!-- Última Manutenção -->
+            <textField>
+                <reportElement x="150" y="0" width="150" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{ultima_manutencao}.format($V{dateFormatter})]]></textFieldExpression>
+            </textField>
+
+            <!-- Setor -->
+            <textField>
+                <reportElement x="300" y="0" width="150" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{setor}]]></textFieldExpression>
+            </textField>
+
+            <!-- Status -->
+            <textField>
+                <reportElement x="450" y="0" width="150" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

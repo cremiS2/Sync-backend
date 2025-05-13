@@ -23,7 +23,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UserDetalhesDTO> listarTodos() {
+    public List<UsuarioDTO> listarTodos() {
         return usuarioService.listar();
     }
 
@@ -45,8 +45,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuario) {
+        UsuarioDTO usuarioAtualizado = usuarioService.atualizar(usuario);
         if (usuarioAtualizado == null) {
             return ResponseEntity.notFound().build();
         }

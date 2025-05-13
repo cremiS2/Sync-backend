@@ -44,9 +44,9 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/registrar").permitAll()
-                                .anyRequest().authenticated())
+                                //.requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                //.requestMatchers(HttpMethod.POST, "/registrar").permitAll()
+                                .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

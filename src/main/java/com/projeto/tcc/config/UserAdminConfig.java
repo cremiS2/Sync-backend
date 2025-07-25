@@ -1,5 +1,5 @@
 package com.projeto.tcc.config;
-
+/***
 import com.projeto.tcc.entities.Role;
 import com.projeto.tcc.entities.Usuario;
 import com.projeto.tcc.repository.RoleRepository;
@@ -41,3 +41,4 @@ public class UserAdminConfig implements CommandLineRunner {
 
     }
 }
+**/

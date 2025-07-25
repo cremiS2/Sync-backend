@@ -1,9 +1,8 @@
 package com.projeto.tcc.enuns;
 
-public enum StatusMaquina {
-
+public enum StatusMaquina{
     OPERANDO,
-    MANUTENCAO,
-    DESLIGADA,
-    DESATIVADA
+    PARADA,
+    EM_MANUTENCAO,
+    AVARIADA
 }

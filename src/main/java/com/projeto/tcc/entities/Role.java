@@ -17,6 +17,7 @@ public class Role {
         this.id = id;
         this.name = name;
     }
+    public Role(String name){};
 
     public Role() {
 
@@ -40,7 +41,8 @@ public class Role {
 
     public enum Values{
         ADMIN(1L),
-        BASIC(2L);
+        GERENTE(2L),
+        OPERADOR(3L);
 
         private Long value;
 

@@ -46,33 +46,34 @@ public class ConfigSecurity {
                         authorize
                                 //.requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 //.requestMatchers(HttpMethod.POST, "/registrar").permitAll()
-                                .anyRequest().permitAll())
-                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                                .anyRequest().permitAll());
+//                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
 
     }
-
-    @Bean
-    public NimbusJwtDecoder decoder(){
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
-    }
-
-    @Bean
-    public NimbusJwtEncoder encoder(){
-        JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
-        var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwks);
-    }
-
-    @Bean
-    public BCryptPasswordEncoder cryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-
-
-
-
 }
+//
+//    @Bean
+//    public NimbusJwtDecoder decoder(){
+//        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+//    }
+//
+//    @Bean
+//    public NimbusJwtEncoder encoder(){
+//        JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
+//        var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+//        return new NimbusJwtEncoder(jwks);
+//    }
+//
+//    @Bean
+//    public BCryptPasswordEncoder cryptPasswordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//
+//
+//
+//
+//}

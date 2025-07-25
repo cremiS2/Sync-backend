@@ -1,32 +1,44 @@
 package com.projeto.tcc.exceptions;
 
+import com.projeto.tcc.dto.ErroCampo;
+import com.projeto.tcc.dto.ErroResposta;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+import java.util.List;
+
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UsuarioNaoEncontradoException.class)
-    public ResponseEntity<?> handleUsuarioNaoEncontrado(UsuarioNaoEncontradoException ex) {
-        ApiError error = new ApiError(
-                HttpStatus.NOT_FOUND.value(),
-                "Usuário não encontrado",
-                ex.getMessage()
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErroResposta handleCamposInvvalidosExcption(MethodArgumentNotValidException e){
+        return new ErroResposta(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Erro de validação",
+                e.getFieldErrors().stream().map(erro -> new ErroCampo(erro.getField(), erro.getDefaultMessage())).toList()
         );
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(EmailJaCadastradoException.class)
-    public ResponseEntity<?> handleEmailJaCadastrado(EmailJaCadastradoException ex) {
-        ApiError error = new ApiError(
-                HttpStatus.CONFLICT.value(),
-                "E-mail já cadastrado",
-                ex.getMessage()
-        );
+    @ExceptionHandler(ConflitoCampoException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErroResposta handleConflitoException(ConflitoCampoException e){
+        return ErroResposta.conflito(e.getMessage());
+    }
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    @ExceptionHandler(NaoRegistradoExcpetion.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErroResposta handleRegistroNaoEncotradoException(NaoRegistradoExcpetion e){
+        return ErroResposta.naoRegistrado(e.getMessage());
+    }
+
+    @ExceptionHandler(CampoInvalidoException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErroResposta handleCampoInvalidoException(CampoInvalidoException e){
+        return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Informações inválidas", List.of(new ErroCampo(e.campo, e.getMessage())));
     }
 }

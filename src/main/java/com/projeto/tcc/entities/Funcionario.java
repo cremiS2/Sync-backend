@@ -1,38 +1,37 @@
 package com.projeto.tcc.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_funcionarios")
+@Data
 public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "funcionario_id  ")
+    @Column(name = "funcionario_id")
     private Long id;
     private String nome;
+    private String matricula;
+    @ManyToMany
+    @JoinTable(
+            name = "tb_funcionario_roles",
+            joinColumns =  @JoinColumn(name = "funcionario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
-    public Funcionario(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
+    @ManyToOne
+    @JoinColumn(name = "escala_id")
+    EscalaFuncionario escalaFuncionario;
 
-    public Funcionario() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "setor_id")
+    private Setor setor;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    @OneToOne(mappedBy = "funcionarioOperando")
+    private Maquina maquinaOperada;
 }

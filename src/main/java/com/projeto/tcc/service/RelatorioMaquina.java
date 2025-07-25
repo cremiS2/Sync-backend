@@ -1,4 +1,4 @@
-package com.projeto.tcc.service;
-
-public class RelatorioMaquina {
-}
+//package com.projeto.tcc.service;
+//
+//public class RelatorioMaquina {
+//}

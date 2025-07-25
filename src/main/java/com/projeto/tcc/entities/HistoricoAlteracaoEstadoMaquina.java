@@ -1,14 +1,42 @@
 package com.projeto.tcc.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Table;
+import com.projeto.tcc.enuns.StatusMaquina;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDate;
 
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table("")
-public class HistoricoAlteracaoEstadosMaquina {
+@Table(name = "tb_alteracao_estado_maquina")
+public class HistoricoAlteracaoEstadoMaquina {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "maquina_alterada")
+    private Maquina maquina;
+
+    @Column(name = "status_antigo")
+    @Enumerated(EnumType.STRING)
+    private StatusMaquina statusAntigo;
+
+    @Column(name = "status_novo")
+    @Enumerated(EnumType.STRING)
+    private StatusMaquina statusNovo;
+
+    @CreatedDate
+    @Column(name = "data_alteracao")
+    private LocalDate dataAlteracao;
+
+    @OneToOne
+    @JoinColumn(name = "funcionario_alterou")
+    private Funcionario funcionario;
+
+
 }

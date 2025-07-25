@@ -2,13 +2,19 @@ spring:
   application:
     name: tcc
   datasource:
-    url: jdbc:mysql://localhost:3306/tcc
-    username: root
-    password: root
+    url: jdbc:postgresql://localhost:12345/tccdb
+    username: postgres
+    password: postgres
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+  jackson:
+    time-format: HH:mm
+    serialization:
+      write-dates-as-timestamps: false
 jwt:
   private:
     key: "classpath:chave_privada.key"

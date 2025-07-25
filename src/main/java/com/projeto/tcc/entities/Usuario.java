@@ -1,6 +1,6 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.dto.UsuarioDTO;
+import com.projeto.tcc.dto.entrada.UsuarioDTO;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

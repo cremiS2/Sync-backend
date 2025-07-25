@@ -1,4 +1,6 @@
 package com.projeto.tcc.enuns;
 
-public enum TURNO {
+public enum Turno {
+    DIURNO,
+    NORTURNO
 }

@@ -1,11 +1,13 @@
 package com.projeto.tcc.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_setor")
+@Data
 public class Setor {
 
     @Id
@@ -15,55 +17,11 @@ public class Setor {
     private String nome;
     private String descricao;
 
-    @ManyToMany
-    @JoinTable(
-            name = "funcionario_setor",
-            joinColumns = @JoinColumn(name = "funcionario_id"),
-            inverseJoinColumns = @JoinColumn(name = "setor_id")
-    )
+    @OneToMany(mappedBy = "setor")
     private List<Funcionario> funcionarios;
 
+    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
+    private List<Maquina> maquinas;
 
-    public Setor(Long id, String nome, String descricao, List<Funcionario> funcionarios) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.funcionarios = funcionarios;
-    }
-
-    public Setor() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public List<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(List<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
 }
 

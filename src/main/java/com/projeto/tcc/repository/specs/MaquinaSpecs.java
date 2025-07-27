@@ -27,8 +27,8 @@ public class MaquinaSpecs {
 
     public static Specification<Maquina> modeloMaquinaLike(String nomeModelo){
         return ((root, query, cb) -> {
-            Join joinModelo = root.join("modeloMaquina", JoinType.INNER);
-            return cb.like(cb.upper(root.get("nomeModelo")), "%" + nomeModelo.toUpperCase() + "%");
+            Join<Object, Object> joinModelo = root.join("modeloMaquina", JoinType.INNER);
+            return cb.like(cb.upper(joinModelo.get("nomeModelo")), "%" + nomeModelo.toUpperCase() + "%");
         });
     }
 

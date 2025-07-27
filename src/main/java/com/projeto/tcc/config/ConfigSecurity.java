@@ -12,18 +12,17 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -41,39 +40,42 @@ public class ConfigSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                //.requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                //.requestMatchers(HttpMethod.POST, "/registrar").permitAll()
-                                .anyRequest().permitAll());
-//                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/registrar").permitAll()
+                                .anyRequest().authenticated())
+                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
 
     }
+
+
+    @Bean
+    public NimbusJwtDecoder decoder(){
+        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+    }
+
+
+
+    @Bean
+    public NimbusJwtEncoder encoder(){
+        JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
+        var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder cryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
+
+
+
+
 }
-//
-//    @Bean
-//    public NimbusJwtDecoder decoder(){
-//        return NimbusJwtDecoder.withPublicKey(publicKey).build();
-//    }
-//
-//    @Bean
-//    public NimbusJwtEncoder encoder(){
-//        JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
-//        var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-//        return new NimbusJwtEncoder(jwks);
-//    }
-//
-//    @Bean
-//    public BCryptPasswordEncoder cryptPasswordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//
-//
-//
-//
-//}

@@ -3,6 +3,7 @@ package com.projeto.tcc.service.validation;
 import com.projeto.tcc.dto.ErroCampo;
 import com.projeto.tcc.dto.entrada.MaquinaDTO;
 import com.projeto.tcc.entities.Maquina;
+import com.projeto.tcc.enuns.StatusMaquina;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
 import com.projeto.tcc.repository.MaquinaRepositoy;
 import com.projeto.tcc.service.FuncionarioService;
@@ -10,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -49,6 +52,20 @@ public class MaquinaValidation {
                 throw new CampoInvalidoException("funcionarioOperando", "funcionário com id " + dto.funcionarioOperando() + " não encontrado");
             }
         }
+
+        //Arrumar uma forma melhor de fazer isso depois!
+        if(dto.status() != null){
+            int erro = 0;
+            for(StatusMaquina status : StatusMaquina.values()){
+                if(!status.getNome().equals(dto.status().toLowerCase())){
+                    erro += 1;
+                }
+            }
+            if(erro == 4){
+                throw new CampoInvalidoException("status", "o status informado não existe");
+            }
+        }
+
 
     }
 

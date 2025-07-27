@@ -29,7 +29,7 @@ public record MaquinaDTO(
         LocalDate ultimaManutencao,
 
         @NotNull(message = "Por favor, preencha o campo. Tipos: OPERANDO, PARADA, EM_MANUTENCAO, AVARIADA")
-        StatusMaquina status,
+        String status,
 
         Long funcionarioOperando
 ) {

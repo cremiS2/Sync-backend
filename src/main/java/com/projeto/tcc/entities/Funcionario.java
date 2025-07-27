@@ -1,7 +1,10 @@
 package com.projeto.tcc.entities;
 
+import com.projeto.tcc.dto.LoginInformacoes;
+import com.projeto.tcc.dto.entrada.FuncionarioDTO;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
@@ -14,7 +17,9 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funcionario_id")
     private Long id;
+
     private String nome;
+    private String senha;
     private Integer matricula;
     @ManyToMany
     @JoinTable(
@@ -34,4 +39,9 @@ public class Funcionario {
 
     @OneToOne(mappedBy = "funcionarioOperando")
     private Maquina maquinaOperada;
+
+
+    public boolean verificarSenha(LoginInformacoes dto, PasswordEncoder encoder){
+        return encoder.matches(dto.senha(), this.senha);
+    }
 }

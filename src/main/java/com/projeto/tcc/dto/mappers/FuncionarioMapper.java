@@ -18,11 +18,11 @@ public abstract class FuncionarioMapper {
 
     @Mapping(target = "escalaFuncionario",
             expression =
-                    "java( repository.findById(dto.escalaFuncionario()).orElse(null))")
+                    "java(dto.escalaFuncionario() == null ? null : repository.findById(dto.escalaFuncionario()).orElse(null))")
 
     @Mapping(target = "setor",
             expression =
-                    "java( setorRepository.findById(dto.setor()).orElse(null))")
+                    "java(dto.setor() == null ? null : setorRepository.findById(dto.setor()).orElse(null))")
 
     @Mapping(target = "roles",
             ignore = true)

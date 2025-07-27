@@ -4,7 +4,6 @@ import com.projeto.tcc.dto.entrada.FuncionarioDTO;
 import com.projeto.tcc.entities.Funcionario;
 import com.projeto.tcc.entities.Role;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
-import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
 import com.projeto.tcc.repository.FuncionarioRepository;
 import com.projeto.tcc.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +25,17 @@ public class FuncionarioValidation {
             throw new CampoInvalidoException("matricula", "Funcionário com matrícula já cadastrado!");
         }
 
-        if(funcionario.getId() == null){
+        if(dto.escalaFuncionario() != null){
             if(funcionario.getEscalaFuncionario() == null){
                 throw new CampoInvalidoException("escalaFuncionario","Escala não existente");
             }
+        }
+        if(dto.setor() != null){
             if(funcionario.getSetor() == null){
                 throw new CampoInvalidoException("setor","Setor não existente");
             }
         }
-
+        //Se colocar mais de uma role, ele não identifica se as outras roles existem!
        if(dto.roles() != null && !dto.roles().isEmpty()){
            Set<Role> rolesFuncionario = roleRepository.findAllByNameIn(dto.roles().stream().map(String::toLowerCase).collect(Collectors.toSet()));
            if (rolesFuncionario.isEmpty()) throw new CampoInvalidoException("roles","Roles não encontradas");

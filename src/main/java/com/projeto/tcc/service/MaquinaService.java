@@ -4,6 +4,7 @@ import com.projeto.tcc.dto.entrada.MaquinaDTO;
 import com.projeto.tcc.dto.mappers.MaquinaMapper;
 import com.projeto.tcc.dto.pesquisa.MaquinaResultadoDTO;
 import com.projeto.tcc.entities.Maquina;
+import com.projeto.tcc.enuns.StatusMaquina;
 import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
 import com.projeto.tcc.repository.MaquinaRepositoy;
 import com.projeto.tcc.service.validation.MaquinaValidation;
@@ -28,6 +29,7 @@ public class MaquinaService {
     public Maquina salvarMaquina(MaquinaDTO maquinaDTO) {
         Maquina maquinaEntidade = mapper.toEntity(maquinaDTO);
         validation.validarInformacoes(maquinaEntidade, maquinaDTO);
+        maquinaEntidade.setStatus(StatusMaquina.valueOf(maquinaDTO.status().toUpperCase()));
         return maquinaRepositoy.save(maquinaEntidade);
     }
 
@@ -44,9 +46,13 @@ public class MaquinaService {
                                 + idMaquina + " não cadastrada!"));
     }
 
+    //Arrumar uma forma melhor de fazer isso depois!
     public void updateMaquina(Long idMaquina, MaquinaDTO dto){
         Maquina maquina = getIdReturnMaquina(idMaquina);
         validation.validarInformacoes(mapper.toEntity(dto), dto);
+        if(dto.status() != null){
+            maquina.setStatus(StatusMaquina.valueOf(dto.status().toUpperCase()));
+        }
         mapper.updateEntityFromDto(dto, maquina);
         if(dto.funcionarioOperando() == null){
             maquina.setFuncionarioOperando(null);

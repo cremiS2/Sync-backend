@@ -40,6 +40,7 @@ public abstract class MaquinaMapper  {
     @Mapping(target = "funcionarioOperando",
             expression =
                     "java(dto.funcionarioOperando() == null ? null : funcionarioRepository.findById(dto.funcionarioOperando()).orElse(null))")
+    @Mapping(target = "status", ignore = true)
     abstract public Maquina toEntity(MaquinaDTO dto);
 
 
@@ -65,6 +66,7 @@ public abstract class MaquinaMapper  {
             expression =
                     "java(dto.funcionarioOperando() == null ? maquina.getFuncionarioOperando() : funcionarioRepository.findById(dto.funcionarioOperando()).orElse(null))")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "status", ignore = true)
     public abstract void updateEntityFromDto(MaquinaDTO dto, @MappingTarget Maquina maquina);
 
 

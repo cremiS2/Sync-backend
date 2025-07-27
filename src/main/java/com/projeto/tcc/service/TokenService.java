@@ -1,62 +1,57 @@
-//package com.projeto.tcc.service;
-//
-//import com.projeto.tcc.dto.cadastrar.LoginDTO;
-//import com.projeto.tcc.dto.cadastrar.UsuarioDTO;
-//import com.projeto.tcc.repository.RoleRepository;
-//import com.projeto.tcc.repository.UsuarioRepository;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-//import org.springframework.security.oauth2.jwt.JwtEncoder;
-//import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.server.ResponseStatusException;
-//
-//import java.time.Instant;
-//import java.util.stream.Collectors;
-//
-//@Service
-//public class TokenService {
-//
-//    private UsuarioRepository repository;
-//    private BCryptPasswordEncoder passwordEncoder;
-//    private JwtEncoder encoder;
-//    private RoleRepository roleRepository;
-//
-//    public TokenService(UsuarioRepository repository, BCryptPasswordEncoder passwordEncoder, JwtEncoder encoder, RoleRepository roleRepository) {
-//        this.repository = repository;
-//        this.passwordEncoder = passwordEncoder;
-//        this.encoder = encoder;
-//        this.roleRepository = roleRepository;
-//    }
-//
-//    public LoginDTO criarToken(UsuarioDTO userAcces){
-//        var user = repository.findByEmail(userAcces.email());
-//
-//        if(user.isEmpty() || !user.get().verificarSenha(userAcces, passwordEncoder)){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        var now = Instant.now();
-//        var expir = 300L;
-//
-//
-//        var scopes = user.get().getRoles()
-//                .stream()
-//                .map(role -> role.getName().toUpperCase())
-//                .collect(Collectors.joining(" "));
-//
-//        var claims = JwtClaimsSet.builder()
-//                .issuer("login")
-//                .subject(user.get().getUsername().toString())
-//                .issuedAt(now)
-//                .expiresAt(now.plusSeconds(expir))
-//                .claim("scope", scopes)
-//                .build();
-//
-//        return new LoginDTO(encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue(), expir);
-//    }
-//
-//
-//}
-//
+package com.projeto.tcc.service;
+
+
+import com.projeto.tcc.dto.LoginInformacoes;
+import com.projeto.tcc.dto.entrada.FuncionarioDTO;
+import com.projeto.tcc.dto.entrada.LoginDTO;
+import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
+import com.projeto.tcc.repository.FuncionarioRepository;
+import com.projeto.tcc.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.stream.Collectors;
+@RequiredArgsConstructor
+@Service
+public class TokenService {
+
+    private final FuncionarioRepository repository;
+    private final  BCryptPasswordEncoder passwordEncoder;
+    private final  JwtEncoder encoder;
+    private final  RoleRepository roleRepository;
+
+    public LoginDTO criarToken(LoginInformacoes funcionarioAcces){
+        var funcionario = repository.findByMatricula(funcionarioAcces.matricula());
+
+        if(funcionario.isEmpty() || !funcionario.get().verificarSenha(funcionarioAcces, passwordEncoder)){
+            throw new NaoRegistradoExcpetion("Funcionário não encontrado");
+        }
+
+        var now = Instant.now();
+        var expir = 300L;
+
+
+        var scopes = funcionario.get().getRoles()
+                .stream()
+                .map(role -> role.getName().toUpperCase())
+                .toList();
+
+        var claims = JwtClaimsSet.builder()
+                .issuer("login")
+                .subject(funcionario.get().getNome().toString())
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(expir))
+                .claim("scope", scopes)
+                .build();
+
+        return new LoginDTO(encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue(), expir);
+    }
+
+
+}
+

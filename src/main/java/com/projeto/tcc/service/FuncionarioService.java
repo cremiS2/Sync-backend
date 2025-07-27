@@ -6,10 +6,16 @@ import com.projeto.tcc.dto.pesquisa.FuncionarioResultadoDTO;
 import com.projeto.tcc.entities.Funcionario;
 import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
 import com.projeto.tcc.repository.FuncionarioRepository;
-import com.projeto.tcc.repository.RoleRepository;
 import com.projeto.tcc.service.validation.FuncionarioValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.projeto.tcc.repository.specs.FuncionarioSpecs.*;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +24,11 @@ public class FuncionarioService {
     private final FuncionarioRepository repository;
     private final FuncionarioMapper mapper;
     private final FuncionarioValidation validation;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public Funcionario criarFuncionario(FuncionarioDTO dto){
         Funcionario funcionario = mapper.toEntity(dto);
+        funcionario.setSenha(passwordEncoder.encode(dto.senha()));
         validation.validarEntidade(funcionario, dto);
         return repository.save(funcionario);
     }
@@ -39,5 +47,50 @@ public class FuncionarioService {
         mapper.updateFuncionario(funcionarioDTO, funcionario);
         validation.validarEntidade(funcionario, funcionarioDTO);
         repository.save(funcionario);
+    }
+
+    public Page<FuncionarioResultadoDTO> pesquisa(
+            String nome,
+            Integer matricula,
+            String role,
+            Long idEscala,
+            String setor,
+            String maquina,
+            Integer numeroPagina,
+            Integer tamanhoPagina
+    ){
+
+        Specification<Funcionario> specs = Specification.where((root, query, cb) -> cb.conjunction());
+
+        if(nome != null){
+            specs = specs.and(nomeLike(nome));
+        }
+        if(matricula != null){
+            specs = specs.and(matriculaEqual(matricula));
+        }
+        if(role != null){
+            specs = specs.and(escalaEqual(idEscala));
+        }
+        if(setor != null){
+            specs =  specs.and(setorLike(setor));
+        }
+        if(maquina != null){
+            specs = specs.and(maquinaLike(maquina));
+        }
+
+        //Não está funcionando muito bem
+        if(role != null){
+            specs = specs.and(roleLike(role));
+        }
+
+        Pageable pageable = PageRequest.of(numeroPagina, tamanhoPagina);
+
+        return repository.findAll(specs,pageable)
+                .map(mapper::toDTO);
+
+    }
+
+    public void deletarFuncionario(Long idFuncionario){
+        repository.delete(getFuncionarioEntity(idFuncionario));
     }
 }

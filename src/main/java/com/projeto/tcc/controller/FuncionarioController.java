@@ -28,4 +28,10 @@ public class FuncionarioController implements GenericController {
         return ResponseEntity.ok().body(funcionarioService.getFuncionarioId(id));
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Void> updateFuncionario(@PathVariable Long id, @RequestBody FuncionarioDTO dto){
+        funcionarioService.upadateFuncionario(id, dto);
+        return ResponseEntity.noContent().build();
+    }
+
 }

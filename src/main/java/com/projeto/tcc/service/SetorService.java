@@ -25,5 +25,8 @@ public class SetorService {
         return mapper.toDTO(repository.findById(idSetor).orElseThrow(
                 () -> new NaoRegistradoExcpetion("Setor com o id " + idSetor + " não existe")));
     }
+    public Setor getIdReturnEnity(Long idSetor){
+        return repository.findById(idSetor).orElseThrow(() -> new NaoRegistradoExcpetion("Setor com o id " + idSetor + " não encontrado" ));
+    }
 
 }

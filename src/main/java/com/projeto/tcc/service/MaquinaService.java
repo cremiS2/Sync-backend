@@ -27,7 +27,7 @@ public class MaquinaService {
 
     public Maquina salvarMaquina(MaquinaDTO maquinaDTO) {
         Maquina maquinaEntidade = mapper.toEntity(maquinaDTO);
-        validation.validarEntidade(maquinaEntidade);
+        validation.validarInformacoes(maquinaEntidade, maquinaDTO);
         return maquinaRepositoy.save(maquinaEntidade);
     }
 
@@ -46,11 +46,12 @@ public class MaquinaService {
 
     public void updateMaquina(Long idMaquina, MaquinaDTO dto){
         Maquina maquina = getIdReturnMaquina(idMaquina);
+        validation.validarInformacoes(mapper.toEntity(dto), dto);
         mapper.updateEntityFromDto(dto, maquina);
         if(dto.funcionarioOperando() == null){
             maquina.setFuncionarioOperando(null);
         }
-        validation.validarEntidade(maquina);
+
         maquinaRepositoy.save(maquina);
     }
 

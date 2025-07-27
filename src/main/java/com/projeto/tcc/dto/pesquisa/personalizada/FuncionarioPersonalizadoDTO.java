@@ -7,7 +7,7 @@ import java.util.Set;
 public record FuncionarioPersonalizadoDTO(
         Long id,
         String nome,
-        String matricula,
+        Integer matricula,
         Set<Role> roles
 ) {
 }

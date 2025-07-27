@@ -29,4 +29,8 @@ public class EscalaService {
                 () -> new NaoRegistradoExcpetion("Escala com o id " + idEscala + " não existe")));
     }
 
+    public EscalaFuncionario getIdReturnEntity(Long idEscala){
+        return repository.findById(idEscala).orElseThrow(() -> new NaoRegistradoExcpetion("Escala com o id " + idEscala + " não encontrada"));
+    }
+
 }

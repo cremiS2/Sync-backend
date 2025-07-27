@@ -1,6 +1,7 @@
 package com.projeto.tcc.service.validation;
 
 import com.projeto.tcc.dto.ErroCampo;
+import com.projeto.tcc.dto.entrada.MaquinaDTO;
 import com.projeto.tcc.entities.Maquina;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
 import com.projeto.tcc.repository.MaquinaRepositoy;
@@ -16,10 +17,6 @@ import java.util.List;
 public class MaquinaValidation {
 
     private final MaquinaRepositoy repositoy;
-    private final FuncionarioService funcionarioService;
-    private List<ErroCampo> listaErros = new ArrayList<>();
-
-
 
     public void validarEntidade(Maquina maquina){
         if(existeBoolean(maquina)){
@@ -27,17 +24,34 @@ public class MaquinaValidation {
         } else if (funcionarioJaAlocado(maquina)) {
             throw new CampoInvalidoException("funcionarioOperando","Funcionário já está operando em outra máquina");
         }
-        
-        if(maquina.getLocalMaquina() == null){
-            throw new CampoInvalidoException("localMaquina", "Local não existente");
-        }
-        if(maquina.getModeloMaquina() == null){
-            throw new CampoInvalidoException("modeloMaquina","Modelo de máquina não existente");
-        }
-        if(maquina.getSetor() == null){
-            throw new CampoInvalidoException("setor", "Setor não existente");
-        }
     }
+
+
+    public void validarInformacoes(Maquina maquina, MaquinaDTO dto){
+        validarEntidade(maquina);
+        if(dto.localMaquina() != null){
+            if(maquina.getLocalMaquina() == null){
+                throw new CampoInvalidoException("localMaquina", "Local não existente");
+            }
+        }
+        if(dto.modeloMaquina() != null){
+            if(maquina.getModeloMaquina() == null){
+                throw new CampoInvalidoException("modeloMaquina","Modelo de máquina não existente");
+            }
+        }
+        if(dto.setor() != null){
+            if(maquina.getSetor() == null){
+                throw new CampoInvalidoException("setor", "Setor não existente");
+            }
+        }
+        if(dto.funcionarioOperando() != null){
+            if(maquina.getFuncionarioOperando() == null){
+                throw new CampoInvalidoException("funcionarioOperando", "funcionário com id " + dto.funcionarioOperando() + " não encontrado");
+            }
+        }
+
+    }
+
 
 
     private boolean existeBoolean(Maquina maquina){
@@ -53,8 +67,7 @@ public class MaquinaValidation {
 
     private boolean funcionarioJaAlocado(Maquina maquina){
         return maquina.getFuncionarioOperando() != null && repositoy.findByFuncionarioOperando(
-                        funcionarioService
-                                .getFuncionarioEntity(maquina.getFuncionarioOperando().getId()))
+                        maquina.getFuncionarioOperando())
                 .isPresent();
     }
 

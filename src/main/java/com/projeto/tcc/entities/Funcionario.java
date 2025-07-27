@@ -15,7 +15,7 @@ public class Funcionario {
     @Column(name = "funcionario_id")
     private Long id;
     private String nome;
-    private String matricula;
+    private Integer matricula;
     @ManyToMany
     @JoinTable(
             name = "tb_funcionario_roles",

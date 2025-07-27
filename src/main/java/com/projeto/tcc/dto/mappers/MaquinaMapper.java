@@ -27,11 +27,11 @@ public abstract class MaquinaMapper  {
 
     @Mapping(target = "setor",
             expression =
-                    "java(setorRepository.findById(dto.setor()).orElse(null))")
+                    "java(dto.setor() == null ? null : setorRepository.findById(dto.setor()).orElse(null))")
 
     @Mapping(target = "modeloMaquina",
             expression =
-                    "java(modeloMaquinasRepository.findById(dto.modeloMaquina()).orElse(null))")
+                    "java(dto.modeloMaquina() == null ? null : modeloMaquinasRepository.findById(dto.modeloMaquina()).orElse(null))")
 
     @Mapping(target = "localMaquina",
             expression =
@@ -51,19 +51,19 @@ public abstract class MaquinaMapper  {
     //UPDATE
     @Mapping(target = "setor",
             expression =
-                    "java(dto.setor() == null ? null : setorRepository.findById(dto.setor()).orElse(null))")
+                    "java(dto.setor() == null ? maquina.getSetor() : setorRepository.findById(dto.setor()).orElse(null))")
 
     @Mapping(target = "modeloMaquina",
             expression =
-                    "java(dto.modeloMaquina() == null ? null : modeloMaquinasRepository.findById(dto.modeloMaquina()).orElse(null))")
+                    "java(dto.modeloMaquina() == null ? maquina.getModeloMaquina() : modeloMaquinasRepository.findById(dto.modeloMaquina()).orElse(null))")
 
     @Mapping(target = "localMaquina",
             expression =
-                    "java(dto.localMaquina() == null ? null : localRepository.findById(dto.localMaquina()).orElse(null))")
+                    "java(dto.localMaquina() == null ? maquina.getLocalMaquina() : localRepository.findById(dto.localMaquina()).orElse(null))")
 
     @Mapping(target = "funcionarioOperando",
             expression =
-                    "java(dto.funcionarioOperando() == null ? null : funcionarioRepository.findById(dto.funcionarioOperando()).orElse(null))")
+                    "java(dto.funcionarioOperando() == null ? maquina.getFuncionarioOperando() : funcionarioRepository.findById(dto.funcionarioOperando()).orElse(null))")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateEntityFromDto(MaquinaDTO dto, @MappingTarget Maquina maquina);
 

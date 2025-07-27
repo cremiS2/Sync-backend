@@ -10,7 +10,7 @@ import java.util.Set;
 public record FuncionarioResultadoDTO(
         Long id,
         String nome,
-        String matricula,
+        Integer matricula,
         EscalaFuncionarioDTO escalaFuncionario,
         Set<Role> roles,
         SetorPersonalizadoDTO setor,

@@ -15,8 +15,8 @@
 <!--    &lt;!&ndash; Declaração de campos &ndash;&gt;-->
 <!--    <field name="nome" class="java.lang.String"/>-->
 <!--    <field name="ultima_manutencao" class="java.time.LocalDate"/>-->
-<!--    <field name="setor" class="java.lang.String"/>-->
-<!--    <field name="status" class="com.projeto.tcc.enuns.StatusMaquina"/>-->
+<!--    <field name="sector" class="java.lang.String"/>-->
+<!--    <field name="status" class="com.projeto.tcc.enuns.StatusMachine"/>-->
 
 <!--    &lt;!&ndash; Declaração de variáveis &ndash;&gt;-->
 <!--    <variable name="dateFormatter" class="java.time.format.DateTimeFormatter">-->
@@ -44,7 +44,7 @@
 <!--            <textField>-->
 <!--                <reportElement x="300" y="0" width="150" height="20"/>-->
 <!--                <textElement textAlignment="Left"/>-->
-<!--                <textFieldExpression><![CDATA[$F{setor}]]></textFieldExpression>-->
+<!--                <textFieldExpression><![CDATA[$F{sector}]]></textFieldExpression>-->
 <!--            </textField>-->
 
 <!--            &lt;!&ndash; Status &ndash;&gt;-->

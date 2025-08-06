@@ -1,9 +1,9 @@
 package com.projeto.tcc.controller;
 
-import com.projeto.tcc.dto.entrada.MaquinaDTO;
-import com.projeto.tcc.dto.mappers.MaquinaMapper;
-import com.projeto.tcc.dto.pesquisa.MaquinaResultadoDTO;
-import com.projeto.tcc.service.MaquinaService;
+import com.projeto.tcc.dto.entry.MachineDTO;
+import com.projeto.tcc.dto.mappers.MachineMapper;
+import com.projeto.tcc.dto.exit.MachineResultDTO;
+import com.projeto.tcc.service.MachineService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,35 +15,35 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MaquinaController implements GenericController{
 
-    private final MaquinaService maquinaService;
-    private final MaquinaMapper mapper;
+    private final MachineService machineService;
+    private final MachineMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> salvarMaquina(@RequestBody @Valid MaquinaDTO maquinaDTO) {
-        var entidade = maquinaService.salvarMaquina(maquinaDTO);
+    public ResponseEntity<Void> salvarMaquina(@RequestBody @Valid MachineDTO machineDTO) {
+        var entidade = machineService.salvarMaquina(machineDTO);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MaquinaResultadoDTO> verPorId(@PathVariable("id") Long idMaquina){
-        return ResponseEntity.ok(maquinaService.getMaquinaId(idMaquina));
+    public ResponseEntity<MachineResultDTO> verPorId(@PathVariable("id") Long idMaquina){
+        return ResponseEntity.ok(machineService.getMaquinaId(idMaquina));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> atualizarMaquina(@PathVariable Long id, @RequestBody MaquinaDTO dto){
+    public ResponseEntity<Void> atualizarMaquina(@PathVariable Long id, @RequestBody MachineDTO dto){
         System.out.println("ID DA MAQUINA "+ id + " PROPRIEDADE NULA "+ dto.funcionarioOperando());
-        maquinaService.updateMaquina(id, dto);
+        machineService.updateMaquina(id, dto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void>  deletarMaquina(@PathVariable Long id){
-        maquinaService.deletarMaquina(id);
+        machineService.deletarMaquina(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<Page<MaquinaResultadoDTO>> pesquisa(
+    public ResponseEntity<Page<MachineResultDTO>> pesquisa(
             @RequestParam(value = "nome-maquina", required = false)
             String nomeMaquina,
             @RequestParam(value = "numero-serie", required = false)
@@ -64,7 +64,7 @@ public class MaquinaController implements GenericController{
             Integer tamanhoPagina
     ){
 
-        var maquinasPesquisa = maquinaService.pesquisa(
+        var maquinasPesquisa = machineService.pesquisa(
                 nomeMaquina,
                 numeroSerie,
                 nomeUnidadeLocal,

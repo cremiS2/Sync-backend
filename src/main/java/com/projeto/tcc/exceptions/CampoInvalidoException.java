@@ -1,9 +1,6 @@
 package com.projeto.tcc.exceptions;
 
-import com.projeto.tcc.dto.ErroCampo;
 import lombok.Getter;
-
-import java.util.List;
 
 public class CampoInvalidoException extends RuntimeException {
 

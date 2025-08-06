@@ -1,7 +1,7 @@
 package com.projeto.tcc.exceptions;
 
-import com.projeto.tcc.dto.ErroCampo;
-import com.projeto.tcc.dto.ErroResposta;
+import com.projeto.tcc.dto.ErrorField;
+import com.projeto.tcc.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,29 +16,29 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ErroResposta handleCamposInvvalidosExcption(MethodArgumentNotValidException e){
-        return new ErroResposta(
+    public ErrorResponse handleCamposInvvalidosExcption(MethodArgumentNotValidException e){
+        return new ErrorResponse(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 "Erro de validação",
-                e.getFieldErrors().stream().map(erro -> new ErroCampo(erro.getField(), erro.getDefaultMessage())).toList()
+                e.getFieldErrors().stream().map(erro -> new ErrorField(erro.getField(), erro.getDefaultMessage())).toList()
         );
     }
 
     @ExceptionHandler(ConflitoCampoException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErroResposta handleConflitoException(ConflitoCampoException e){
-        return ErroResposta.conflito(e.getMessage());
+    public ErrorResponse handleConflitoException(ConflitoCampoException e){
+        return ErrorResponse.conflito(e.getMessage());
     }
 
     @ExceptionHandler(NaoRegistradoExcpetion.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErroResposta handleRegistroNaoEncotradoException(NaoRegistradoExcpetion e){
-        return ErroResposta.naoRegistrado(e.getMessage());
+    public ErrorResponse handleRegistroNaoEncotradoException(NaoRegistradoExcpetion e){
+        return ErrorResponse.naoRegistrado(e.getMessage());
     }
 
     @ExceptionHandler(CampoInvalidoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ErroResposta handleCampoInvalidoException(CampoInvalidoException e){
-        return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Informações inválidas", List.of(new ErroCampo(e.campo, e.getMessage())));
+    public ErrorResponse handleCampoInvalidoException(CampoInvalidoException e){
+        return new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Informações inválidas", List.of(new ErrorField(e.campo, e.getMessage())));
     }
 }

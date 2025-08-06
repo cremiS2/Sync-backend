@@ -1,9 +1,9 @@
 package com.projeto.tcc.controller;
 
 
-import com.projeto.tcc.dto.entrada.FuncionarioDTO;
-import com.projeto.tcc.dto.pesquisa.FuncionarioResultadoDTO;
-import com.projeto.tcc.service.FuncionarioService;
+import com.projeto.tcc.dto.entry.EmployeeDTO;
+import com.projeto.tcc.dto.exit.EmployeeResultDTO;
+import com.projeto.tcc.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,32 +16,32 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class FuncionarioController implements GenericController {
 
-    private final FuncionarioService funcionarioService;
+    private final EmployeeService employeeService;
 
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Void> salvarFuncionario(@RequestBody @Valid FuncionarioDTO dto){
-        var funcionario = funcionarioService.criarFuncionario(dto);
+    public ResponseEntity<Void> salvarFuncionario(@RequestBody @Valid EmployeeDTO dto){
+        var funcionario = employeeService.criarFuncionario(dto);
         var uri = gerarHeaderLocation(funcionario.getId());
         return ResponseEntity.created(uri).build();
     }
 
     @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
     @GetMapping("{id}")
-    public ResponseEntity<FuncionarioResultadoDTO> getFuncionarioId(@PathVariable Long id){
-        return ResponseEntity.ok().body(funcionarioService.getFuncionarioId(id));
+    public ResponseEntity<EmployeeResultDTO> getFuncionarioId(@PathVariable Long id){
+        return ResponseEntity.ok().body(employeeService.getFuncionarioId(id));
     }
 
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateFuncionario(@PathVariable Long id, @RequestBody FuncionarioDTO dto){
-        funcionarioService.upadateFuncionario(id, dto);
+    public ResponseEntity<Void> updateFuncionario(@PathVariable Long id, @RequestBody EmployeeDTO dto){
+        employeeService.upadateFuncionario(id, dto);
         return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
     @GetMapping
-    public ResponseEntity<Page<FuncionarioResultadoDTO>> pesquisa(
+    public ResponseEntity<Page<EmployeeResultDTO>> pesquisa(
             @RequestParam(value = "nome-funcionario", required = false)
             String nome,
             @RequestParam(value = "matricula-funcionario", required = false)
@@ -60,7 +60,7 @@ public class FuncionarioController implements GenericController {
             Integer tamanhoPagina
     ){
 
-        var servicePesquisa = funcionarioService.pesquisa(
+        var servicePesquisa = employeeService.pesquisa(
                 nome,
                 matricula,
                 nomeRole,
@@ -76,7 +76,7 @@ public class FuncionarioController implements GenericController {
 
     @DeleteMapping("{id}")
     public void deletarFuncionario(@PathVariable Long id){
-        funcionarioService.deletarFuncionario(id);
+        employeeService.deletarFuncionario(id);
     }
 
 }

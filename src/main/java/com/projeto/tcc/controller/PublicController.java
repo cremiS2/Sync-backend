@@ -2,9 +2,8 @@ package com.projeto.tcc.controller;
 
 
 import com.projeto.tcc.dto.LoginInformacoes;
-import com.projeto.tcc.dto.entrada.FuncionarioDTO;
-import com.projeto.tcc.dto.entrada.LoginDTO;
-import com.projeto.tcc.service.FuncionarioService;
+import com.projeto.tcc.dto.entry.LoginDTO;
+import com.projeto.tcc.service.EmployeeService;
 import com.projeto.tcc.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PublicController {
 
-    private final FuncionarioService funcionarioService;
+    private final EmployeeService employeeService;
     private final TokenService tokenService;
 
 

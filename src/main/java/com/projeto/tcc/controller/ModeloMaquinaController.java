@@ -1,8 +1,8 @@
 package com.projeto.tcc.controller;
 
-import com.projeto.tcc.dto.nao_utilizadas.ModeloMaquinasDTO;
-import com.projeto.tcc.dto.pesquisa.ModeloMaquinaResultadoDTO;
-import com.projeto.tcc.service.ModeloMaquinaService;
+import com.projeto.tcc.dto.entry.MachineModelDTO;
+import com.projeto.tcc.dto.exit.MachineModelResultDTO;
+import com.projeto.tcc.service.MachineModelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ModeloMaquinaController implements GenericController{
 
-    private final ModeloMaquinaService service;
+    private final MachineModelService service;
 
     @PostMapping
-    public ResponseEntity<Void> salvarModeloMaquina(@RequestBody @Valid ModeloMaquinasDTO dto){
+    public ResponseEntity<Void> salvarModeloMaquina(@RequestBody @Valid MachineModelDTO dto){
         var entidade = service.salvarModelo(dto);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ModeloMaquinaResultadoDTO> verPorId(@PathVariable("id") Long idModelo){
+    public ResponseEntity<MachineModelResultDTO> verPorId(@PathVariable("id") Long idModelo){
         return ResponseEntity.ok(service.getModeloMaquinaId(idModelo));
     }
 

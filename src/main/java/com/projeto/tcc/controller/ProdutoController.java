@@ -1,8 +1,6 @@
 package com.projeto.tcc.controller;
 
-import com.projeto.tcc.dto.entrada.ProdutoDTO;
-import com.projeto.tcc.dto.pesquisa.ProdutoResultadoDTO;
-import com.projeto.tcc.service.ProdutoService;
+import com.projeto.tcc.dto.entry.ProdutoDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

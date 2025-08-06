@@ -1,10 +1,10 @@
 package com.projeto.tcc.service;
 
-import com.projeto.tcc.dto.entrada.UsuarioDTO;
+import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.dto.mappers.UserMapper;
-import com.projeto.tcc.entities.Usuario;
+import com.projeto.tcc.entities.User;
 import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
-import com.projeto.tcc.repository.UsuarioRepository;
+import com.projeto.tcc.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,26 +17,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final  Map<Long, Usuario> usuariosCache = new HashMap<>();
+    private final  Map<Long, User> usuariosCache = new HashMap<>();
     private final UserMapper mapper;
 
-    private Usuario procurarUserCache(Long id) {
+    private User procurarUserCache(Long id) {
         return usuariosCache.computeIfAbsent(id, chave ->
-                usuarioRepository.findById(chave).orElse(null)
+                userRepository.findById(chave).orElse(null)
         );
     }
 
     @Transactional
-    public void adicionarUser(UsuarioDTO usuario) {
-        var user = usuarioRepository.findByEmail(usuario.email());
+    public void adicionarUser(UserDTO usuario) {
+        var user = userRepository.findByEmail(usuario.email());
 
         if(user.isEmpty()){
-            var newUsuario = new Usuario();
+            var newUsuario = new User();
             newUsuario.setEmail(usuario.email());
             newUsuario.setSenha(passwordEncoder.encode(usuario.senha()));
-            usuarioRepository.save(newUsuario);
+            userRepository.save(newUsuario);
             usuariosCache.put(newUsuario.getId(), newUsuario);
             System.out.println("Usuario adicionado no cache com sucesso");
         }else{
@@ -45,7 +45,7 @@ public class UserService {
     }
 
 
-    public UsuarioDTO atualizar(UsuarioDTO user) {
+    public UserDTO atualizar(UserDTO user) {
         var usuario = procurarUserCache(user.id());
         if(usuario != null){
             if(user.email() != null && !user.email().equals(usuario.getEmail())){
@@ -55,7 +55,7 @@ public class UserService {
                 usuario.setSenha(passwordEncoder.encode(user.senha()));
             }
 
-            usuarioRepository.save(usuario);
+            userRepository.save(usuario);
             usuariosCache.put(usuario.getId(), usuario);
             System.out.println("Usuario atualizado com sucesso");
             return mapper.toDTO(usuario);
@@ -66,6 +66,6 @@ public class UserService {
     }
 
     public void deletar(Long id) {
-        usuarioRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 }

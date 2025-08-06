@@ -1,6 +1,6 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.enuns.StatusMaquina;
+import com.projeto.tcc.enuns.StatusMachine;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,15 +20,15 @@ public class HistoricoAlteracaoEstadoMaquina {
 
     @OneToOne
     @JoinColumn(name = "maquina_alterada")
-    private Maquina maquina;
+    private Machine machine;
 
     @Column(name = "status_antigo")
     @Enumerated(EnumType.STRING)
-    private StatusMaquina statusAntigo;
+    private StatusMachine statusAntigo;
 
     @Column(name = "status_novo")
     @Enumerated(EnumType.STRING)
-    private StatusMaquina statusNovo;
+    private StatusMachine statusNovo;
 
     @CreatedDate
     @Column(name = "data_alteracao")
@@ -36,7 +36,7 @@ public class HistoricoAlteracaoEstadoMaquina {
 
     @OneToOne
     @JoinColumn(name = "funcionario_alterou")
-    private Funcionario funcionario;
+    private Employee employee;
 
 
 }

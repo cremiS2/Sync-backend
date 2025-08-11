@@ -17,9 +17,10 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funcionario_id")
     private Long id;
-
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Usuario usuario;
     private String nome;
-    private String senha;
     private Integer matricula;
     @ManyToMany
     @JoinTable(
@@ -41,7 +42,4 @@ public class Funcionario {
     private Maquina maquinaOperada;
 
 
-    public boolean verificarSenha(LoginInformacoes dto, PasswordEncoder encoder){
-        return encoder.matches(dto.senha(), this.senha);
-    }
 }

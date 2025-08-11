@@ -24,11 +24,9 @@ public class FuncionarioService {
     private final FuncionarioRepository repository;
     private final FuncionarioMapper mapper;
     private final FuncionarioValidation validation;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     public Funcionario criarFuncionario(FuncionarioDTO dto){
         Funcionario funcionario = mapper.toEntity(dto);
-        funcionario.setSenha(passwordEncoder.encode(dto.senha()));
         validation.validarEntidade(funcionario, dto);
         return repository.save(funcionario);
     }

@@ -23,10 +23,6 @@ public record FuncionarioDTO(
 
         @NotNull(message = "Por favor, preencha o campo")
         @NotEmpty(message = "Por favor, preencha o campo. Tipos: ADMIN, GERENTE, OPERADOR")
-        List<String> roles,
-
-        @NotBlank(message = "É obrigatório preencher esse campo")
-        @Min(value = 8, message = "Digite 8 ou mais caracteres")
-        String senha
+        List<String> roles
 ) {
 }

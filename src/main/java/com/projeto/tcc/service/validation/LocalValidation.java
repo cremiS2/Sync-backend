@@ -1,6 +1,6 @@
 package com.projeto.tcc.service.validation;
 
-import com.projeto.tcc.entities.Local;
+import com.projeto.tcc.entities.Departamento;
 import com.projeto.tcc.exceptions.ConflitoCampoException;
 import com.projeto.tcc.repository.LocalRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,25 +12,25 @@ public class LocalValidation {
 
     private final LocalRepository repository;
 
-    public void validarEntidade(Local local){
-        if(existeBoolean(local)){
+    public void validarEntidade(Departamento departamento){
+        if(existeBoolean(departamento)){
             throw new ConflitoCampoException("Informações já cadastradas!");
         }
     }
 
-    private boolean existeBoolean(Local local) {
+    private boolean existeBoolean(Departamento departamento) {
         var procura = repository.findByEnderecoAndNomeUnidadeAndCapacidadeMaquinas(
-                local.getEndereco(),
-                local.getNomeUnidade(),
-                local.getCapacidadeMaquinas()
+                departamento.getEndereco(),
+                departamento.getNomeDepartamento(),
+                departamento.getCapacidadeMaquinas()
         );
 
-        if (local.getId() == null) {
+        if (departamento.getId() == null) {
             return procura.isPresent();
         }
 
         return procura.
-                map(p -> !p.getId().equals(local.getId())
+                map(p -> !p.getId().equals(departamento.getId())
                 ).orElse(false);
     }
 }

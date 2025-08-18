@@ -1,19 +1,12 @@
 package com.projeto.tcc.service.validation;
 
-import com.projeto.tcc.dto.ErroCampo;
 import com.projeto.tcc.dto.entrada.MaquinaDTO;
 import com.projeto.tcc.entities.Maquina;
 import com.projeto.tcc.enuns.StatusMaquina;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
 import com.projeto.tcc.repository.MaquinaRepositoy;
-import com.projeto.tcc.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +26,7 @@ public class MaquinaValidation {
     public void validarInformacoes(Maquina maquina, MaquinaDTO dto){
         validarEntidade(maquina);
         if(dto.localMaquina() != null){
-            if(maquina.getLocalMaquina() == null){
+            if(maquina.getDepartamentoMaquina() == null){
                 throw new CampoInvalidoException("localMaquina", "Local não existente");
             }
         }

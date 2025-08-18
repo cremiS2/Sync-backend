@@ -3,7 +3,7 @@ package com.projeto.tcc.service;
 import com.projeto.tcc.dto.entrada.LocalDTO;
 import com.projeto.tcc.dto.mappers.LocalMapper;
 import com.projeto.tcc.dto.pesquisa.LocalResultadoDTO;
-import com.projeto.tcc.entities.Local;
+import com.projeto.tcc.entities.Departamento;
 import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
 import com.projeto.tcc.repository.LocalRepository;
 import com.projeto.tcc.service.validation.LocalValidation;
@@ -19,7 +19,7 @@ public class LocalService {
     private final LocalValidation validation;
 
 
-    public Local salvarLocal(LocalDTO dto){
+    public Departamento salvarLocal(LocalDTO dto){
         var localEntidade = mapper.toEntity(dto);
         validation.validarEntidade(localEntidade);
         return repository.save(localEntidade);

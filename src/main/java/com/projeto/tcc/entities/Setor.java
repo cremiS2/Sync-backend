@@ -23,5 +23,8 @@ public class Setor {
     @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
     private List<Maquina> maquinas;
 
+    @ManyToOne
+    private Departamento departamento;
+
 }
 

@@ -26,7 +26,7 @@ public class FuncionarioValidation {
         }
 
         if(dto.escalaFuncionario() != null){
-            if(funcionario.getEscalaFuncionario() == null){
+            if(funcionario.getTurno() == null){
                 throw new CampoInvalidoException("escalaFuncionario","Escala não existente");
             }
         }

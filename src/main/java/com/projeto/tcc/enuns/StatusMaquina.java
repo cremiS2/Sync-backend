@@ -10,8 +10,8 @@ import lombok.Setter;
 public enum StatusMaquina{
     OPERANDO("operando"),
     PARADA("parada"),
-    EM_MANUTENCAO("em_manutencao"),
-    AVARIADA("avariada");
+    MANUTENCAO("manutencao");
+
 
     private final String nome;
 }

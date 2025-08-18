@@ -1,4 +1,4 @@
 package com.projeto.tcc.dto;
 
-public record LoginInformacoes(Integer matricula, String senha) {
+public record LoginInformacoes(String email, String senha) {
 }

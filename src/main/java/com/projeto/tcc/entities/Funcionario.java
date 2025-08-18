@@ -1,10 +1,9 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.dto.LoginInformacoes;
-import com.projeto.tcc.dto.entrada.FuncionarioDTO;
+import com.projeto.tcc.enuns.DisponibilidadeFuncionario;
+import com.projeto.tcc.enuns.Turno;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
@@ -17,11 +16,15 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funcionario_id")
     private Long id;
+
+    private String foto_url;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private Usuario usuario;
+
     private String nome;
-    private Integer matricula;
+
     @ManyToMany
     @JoinTable(
             name = "tb_funcionario_roles",
@@ -30,16 +33,21 @@ public class Funcionario {
     )
     private Set<Role> roles;
 
-    @ManyToOne
-    @JoinColumn(name = "escala_id")
-    EscalaFuncionario escalaFuncionario;
+    @Enumerated(EnumType.STRING)
+    Turno turno;
+
+    @Enumerated(EnumType.STRING)
+    private DisponibilidadeFuncionario disponibilidadeFuncionario;
 
     @ManyToOne
     @JoinColumn(name = "setor_id")
     private Setor setor;
 
-    @OneToOne(mappedBy = "funcionarioOperando")
+    @ManyToOne
     private Maquina maquinaOperada;
 
+    @ManyToOne
+    @JoinColumn(name = "departamento_id")
+    private Departamento departamento;
 
 }

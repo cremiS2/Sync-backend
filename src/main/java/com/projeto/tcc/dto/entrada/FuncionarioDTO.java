@@ -16,9 +16,6 @@ public record FuncionarioDTO(
         Integer matricula,
 
         @NotNull(message = "Por favor, preencha o campo")
-        Long escalaFuncionario,
-
-        @NotNull(message = "Por favor, preencha o campo")
         Long setor,
 
         @NotNull(message = "Por favor, preencha o campo")

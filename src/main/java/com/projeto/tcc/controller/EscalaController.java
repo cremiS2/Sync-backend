@@ -1,8 +1,8 @@
 package com.projeto.tcc.controller;
 
-import com.projeto.tcc.dto.entrada.EscalaFuncionarioDTO;
+import com.projeto.tcc.dto.nao_utilizadas.EscalaFuncionarioDTO;
 import com.projeto.tcc.dto.pesquisa.EscalaFuncionarioResultadoDTO;
-import com.projeto.tcc.service.EscalaService;
+import com.projeto.tcc.service.nao_utilizadas.EscalaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

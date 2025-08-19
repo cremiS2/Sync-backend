@@ -1,8 +1,8 @@
 package com.projeto.tcc.controller;
 
-import com.projeto.tcc.dto.entrada.LocalDTO;
+import com.projeto.tcc.dto.entrada.DepartamentoDTO;
 import com.projeto.tcc.dto.pesquisa.LocalResultadoDTO;
-import com.projeto.tcc.service.LocalService;
+import com.projeto.tcc.service.DepartamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class LocalController implements GenericController{
 
-    private final LocalService service;
+    private final DepartamentoService service;
 
     @PostMapping
-    public ResponseEntity<Void> salvarLocal(@RequestBody @Valid LocalDTO dto){
+    public ResponseEntity<Void> salvarLocal(@RequestBody @Valid DepartamentoDTO dto){
         var entidade = service.salvarLocal(dto);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }

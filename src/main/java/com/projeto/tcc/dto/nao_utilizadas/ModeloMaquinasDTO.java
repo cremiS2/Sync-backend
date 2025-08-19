@@ -1,4 +1,4 @@
-package com.projeto.tcc.dto.entrada;
+package com.projeto.tcc.dto.nao_utilizadas;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

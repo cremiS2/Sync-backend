@@ -1,7 +1,6 @@
-package com.projeto.tcc.dto.entrada;
+package com.projeto.tcc.dto.nao_utilizadas;
 
 import com.projeto.tcc.enuns.Turno;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;

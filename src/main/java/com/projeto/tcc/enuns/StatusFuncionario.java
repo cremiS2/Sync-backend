@@ -1,8 +1,7 @@
 package com.projeto.tcc.enuns;
 
 public enum StatusFuncionario {
-    ATIVO,
-    LICENCA,
-    INTERVALO,
-    INATIVO
+    ACTIVE,
+    ON_LEAVE,
+    MEDICAL_LEAVE
 }

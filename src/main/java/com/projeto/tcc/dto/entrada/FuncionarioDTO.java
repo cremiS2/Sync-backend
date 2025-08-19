@@ -1,5 +1,7 @@
 package com.projeto.tcc.dto.entrada;
 
+import com.projeto.tcc.enuns.StatusFuncionario;
+import com.projeto.tcc.enuns.Turno;
 import jakarta.validation.constraints.*;
 
 import java.util.List;
@@ -8,18 +10,25 @@ public record FuncionarioDTO(
 
         @NotBlank(message = "Por favor, preencha o campo")
         @Size(max = 200, message = "Campo excede o tamanho máximo de 200 caracteres")
-        String nome,
+        String name,
 
         @NotNull(message = "Por favor, preencha o campo")
-        @Max(value = 99999, message = "Campo excede o tamanho máximo de 5 dígitos")
-        @Min(1000)
-        Integer matricula,
-
-        @NotNull(message = "Por favor, preencha o campo")
-        Long setor,
+        Long sector,
 
         @NotNull(message = "Por favor, preencha o campo")
         @NotEmpty(message = "Por favor, preencha o campo. Tipos: ADMIN, GERENTE, OPERADOR")
-        List<String> roles
+        List<String> roles,
+
+        @NotNull(message = "Por favor, preencha o campo")
+        Turno shift,
+
+        @NotNull(message = "Por favor, preencha o campo")
+        String status,
+
+        @NotNull(message = "Por favor, preencha o campo")
+        String photo
+
 ) {
 }
+
+

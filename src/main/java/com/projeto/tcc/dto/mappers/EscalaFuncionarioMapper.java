@@ -1,6 +1,6 @@
 package com.projeto.tcc.dto.mappers;
 
-import com.projeto.tcc.dto.entrada.EscalaFuncionarioDTO;
+import com.projeto.tcc.dto.nao_utilizadas.EscalaFuncionarioDTO;
 import com.projeto.tcc.dto.pesquisa.EscalaFuncionarioResultadoDTO;
 import com.projeto.tcc.entities.Turno;
 import org.mapstruct.Mapper;

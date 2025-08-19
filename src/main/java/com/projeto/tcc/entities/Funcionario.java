@@ -1,6 +1,6 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.enuns.DisponibilidadeFuncionario;
+import com.projeto.tcc.enuns.StatusFuncionario;
 import com.projeto.tcc.enuns.Turno;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -17,13 +17,13 @@ public class Funcionario {
     @Column(name = "funcionario_id")
     private Long id;
 
-    private String foto_url;
+    private String photo;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private Usuario usuario;
 
-    private String nome;
+    private String name;
 
     @ManyToMany
     @JoinTable(
@@ -34,20 +34,16 @@ public class Funcionario {
     private Set<Role> roles;
 
     @Enumerated(EnumType.STRING)
-    Turno turno;
+    Turno shift;
 
     @Enumerated(EnumType.STRING)
-    private DisponibilidadeFuncionario disponibilidadeFuncionario;
+    private StatusFuncionario status;
 
     @ManyToOne
     @JoinColumn(name = "setor_id")
-    private Setor setor;
+    private Setor sector;
 
     @ManyToOne
-    private Maquina maquinaOperada;
-
-    @ManyToOne
-    @JoinColumn(name = "departamento_id")
-    private Departamento departamento;
+    private Maquina machine;
 
 }

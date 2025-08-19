@@ -14,17 +14,18 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "setor_id")
     private Long id;
-    private String nome;
-    private String descricao;
+    private String name;
+
+    private Float efficiency;
 
     @OneToMany(mappedBy = "setor")
-    private List<Funcionario> funcionarios;
+    private List<Funcionario> employees;
 
     @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
-    private List<Maquina> maquinas;
+    private List<Maquina> machines;
 
     @ManyToOne
-    private Departamento departamento;
+    private Departamento departament;
 
 }
 

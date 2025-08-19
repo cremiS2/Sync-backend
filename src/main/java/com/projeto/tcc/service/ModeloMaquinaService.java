@@ -1,7 +1,7 @@
 package com.projeto.tcc.service;
 
 
-import com.projeto.tcc.dto.entrada.ModeloMaquinasDTO;
+import com.projeto.tcc.dto.nao_utilizadas.ModeloMaquinasDTO;
 import com.projeto.tcc.dto.mappers.ModeloMaquinasMapper;
 import com.projeto.tcc.dto.pesquisa.ModeloMaquinaResultadoDTO;
 import com.projeto.tcc.entities.ModeloMaquinas;

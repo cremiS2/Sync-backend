@@ -20,6 +20,8 @@ public class Usuario {
 	@Column(nullable = false, unique = true)
 	private String email;
 
+	private String name;
+
     @OneToOne(mappedBy = "usuario")
     private Funcionario funcionario;
 

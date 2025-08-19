@@ -1,7 +1,7 @@
 package com.projeto.tcc.dto.pesquisa;
 
-import com.projeto.tcc.dto.entrada.LocalDTO;
-import com.projeto.tcc.dto.entrada.ModeloMaquinasDTO;
+import com.projeto.tcc.dto.entrada.DepartamentoDTO;
+import com.projeto.tcc.dto.nao_utilizadas.ModeloMaquinasDTO;
 import com.projeto.tcc.dto.pesquisa.personalizada.FuncionarioPersonalizadoDTO;
 import com.projeto.tcc.enuns.StatusMaquina;
 
@@ -9,12 +9,15 @@ import java.time.LocalDate;
 
 public record MaquinaResultadoDTO(
         Long id,
-        String nomeMaquina,
-        Integer numeroSerie,
-        LocalDate ultimaManutencao,
+        String name,
+        Integer serieNumber,
+        ModeloMaquinasDTO modelMachine,
         StatusMaquina status,
-        ModeloMaquinasDTO modeloMaquina,
-        LocalDTO localMaquina,
-        FuncionarioPersonalizadoDTO funcionarioOperando
+        Float oee,
+        String photo,
+        Integer throughput,
+        LocalDate lastMaintence,
+        SetorResultadoDTO sector,
+        FuncionarioPersonalizadoDTO employess
 ) {
 }

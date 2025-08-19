@@ -18,31 +18,25 @@ public class Maquina {
 	@Column(name = "maquina_id")
 	private Long id;
 
-	private String nomeMaquina;
-	private String foto_url;
-	private LocalDate ultimaManutencao;
-	private Double oee;
-	private Integer rendimento;
+	private String name;
+	private String photo;
+	private LocalDate lastMaintenance;
+	private Float oee;
+	private Integer throughput;
+	private Integer serieNumber;
 
 	@ManyToOne
 	@JoinColumn(name = "setor_id")
-	private Setor setor;
+	private Setor sector;
 
 	@ManyToOne
 	@JoinColumn(name = "modelo_maquina_id")
-	private ModeloMaquinas modeloMaquina;
-
-	@ManyToOne
-	@JoinColumn(name = "departamento_id")
-	private Departamento departamentoMaquina;
+	private ModeloMaquinas modelMachine;
 
 	@Enumerated(EnumType.STRING)
 	private StatusMaquina status;
 
 	@OneToMany
-	private Set<Funcionario> funcionariosOperando;
-
-   //	@ManyToMany(mappedBy = "maquinas", fetch = FetchType.LAZY)
-   //	private List<Produto> produtos;
+	private Set<Funcionario> employees;
 
 }

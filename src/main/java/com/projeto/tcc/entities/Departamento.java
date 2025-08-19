@@ -21,26 +21,26 @@ public class Departamento {
     @Column(name = "departamento_id")
     private Long id;
 
-    private String nomeDepartamento;
+    private String name;
 
-    private String descricao;
+    private String description;
 
-    private String localizacao;
+    private String location;
 
     @Enumerated(EnumType.STRING)
-    private StatusDepartamento statusDepartamento;
+    private StatusDepartamento status;
 
 
     @CreatedDate
-    private LocalDateTime dataCriacao;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "departamento")
-    private Set<Funcionario> funcionarios;
+    private Set<Funcionario> employees;
 
-    private BigDecimal orcamento;
+    private BigDecimal budget;
 
     @OneToMany(mappedBy = "departamento")
-    private Set<Setor> setores;
+    private Set<Setor> sectors;
 
     //    @Embedded
     //    private Endereco endereco;

@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import static com.projeto.tcc.repository.specs.FuncionarioSpecs.*;
+import static com.projeto.tcc.repository.specs.EmployeeSpecs.*;
 
 @Service
 @RequiredArgsConstructor

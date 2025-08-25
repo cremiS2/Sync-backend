@@ -1,7 +1,8 @@
 package com.projeto.tcc.dto.mappers;
 
+import com.projeto.tcc.dto.entry.AllocatedEmployeeMachineDTO;
 import com.projeto.tcc.dto.exit.AllocatedEmployeeMachineResultDTO;
-import com.projeto.tcc.entities.AllocatedEmployeesMachine;
+import com.projeto.tcc.entities.AllocatedEmployeeMachine;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.repository.MachineRepositoy;
 import org.mapstruct.Mapper;
@@ -28,8 +29,8 @@ public abstract class AllocatedEmployeeMachineMapper {
             expression =
                     "java(dto.machine() == null ? null : machineRepository.findById(dto.machine()).orElse(null))"
     )
-    public abstract AllocatedEmployeesMachine toEntity(AllocatedEmployeeMachineResultDTO dto);
+    public abstract AllocatedEmployeeMachine toEntity(AllocatedEmployeeMachineDTO dto);
 
-    public abstract AllocatedEmployeeMachineResultDTO toDTO(AllocatedEmployeesMachine entity);
+    public abstract AllocatedEmployeeMachineResultDTO toDTO(AllocatedEmployeeMachine entity);
 
 }

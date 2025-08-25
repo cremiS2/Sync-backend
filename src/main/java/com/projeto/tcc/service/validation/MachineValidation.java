@@ -15,34 +15,22 @@ public class MachineValidation {
     private final MachineRepositoy repositoy;
 
     public void validarEntidade(Machine machine){
-        if(existeBoolean(machine)){
-            throw new CampoInvalidoException("numeroSerie","Máquina com número de série já cadastrada!");
-        } else if (funcionarioJaAlocado(machine)) {
-            throw new CampoInvalidoException("funcionarioOperando","Funcionário já está operando em outra máquina");
+        if(existeBoolean(machine)) {
+            throw new CampoInvalidoException("numeroSerie", "Máquina com número de série já cadastrada!");
         }
     }
 
 
     public void validarInformacoes(Machine machine, MachineDTO dto){
         validarEntidade(machine);
-        if(dto.localMaquina() != null){
-            if(machine.getDepartamentoMaquina() == null){
-                throw new CampoInvalidoException("localMaquina", "Local não existente");
-            }
-        }
-        if(dto.modeloMaquina() != null){
-            if(machine.getModeloMaquina() == null){
+        if(dto.machineModel() != null){
+            if(machine.getMachineModel() == null){
                 throw new CampoInvalidoException("modeloMaquina","Modelo de máquina não existente");
             }
         }
-        if(dto.setor() != null){
-            if(machine.getSetor() == null){
+        if(dto.sector() != null){
+            if(machine.getSector() == null){
                 throw new CampoInvalidoException("setor", "Setor não existente");
-            }
-        }
-        if(dto.funcionarioOperando() != null){
-            if(machine.getFuncionarioOperando() == null){
-                throw new CampoInvalidoException("funcionarioOperando", "funcionário com id " + dto.funcionarioOperando() + " não encontrado");
             }
         }
 
@@ -63,9 +51,8 @@ public class MachineValidation {
     }
 
 
-
     private boolean existeBoolean(Machine machine){
-       var procura = repositoy.findByNumeroSerie(machine.getNumeroSerie());
+       var procura = repositoy.findBySerieNumber(machine.getSerieNumber());
         if(machine.getId() == null){
             return procura.isPresent();
         }
@@ -75,10 +62,5 @@ public class MachineValidation {
                 ).orElse(false);
     }
 
-    private boolean funcionarioJaAlocado(Machine machine){
-        return machine.getFuncionarioOperando() != null && repositoy.findByFuncionarioOperando(
-                        machine.getFuncionarioOperando())
-                .isPresent();
-    }
 
 }

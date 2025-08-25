@@ -19,10 +19,10 @@ public class DepartamentService {
     private final DepartamentValidation validation;
 
 
-    public Departament salvarLocal(DepartamentDTO dto){
-        var localEntidade = mapper.toEntity(dto);
-        validation.validarEntidade(localEntidade);
-        return repository.save(localEntidade);
+    public Departament salveDepartament(DepartamentDTO dto){
+        var departamentEntidade = mapper.toEntity(dto);
+        validation.validarEntidade(departamentEntidade);
+        return repository.save(departamentEntidade);
     }
 
     public DepartamentResultDTO getDepartamentId(Long departamentId){

@@ -22,12 +22,12 @@ public class EmployeeValidation {
 
     public void validarEntidade(Employee employee, EmployeeDTO dto){
         if(existeBoolean(employee)){
-            throw new CampoInvalidoException("matricula", "Funcionário com matrícula já cadastrado!");
+            throw new CampoInvalidoException("employeeID", "Funcionário com employeeID já cadastrado!");
         }
 
         if(dto.sector() != null){
             if(employee.getSector() == null){
-                throw new CampoInvalidoException("setor","Setor não existente");
+                throw new CampoInvalidoException("sector","Setor não existente");
             }
         }
         //Se colocar mais de uma role, ele não identifica se as outras roles existem!

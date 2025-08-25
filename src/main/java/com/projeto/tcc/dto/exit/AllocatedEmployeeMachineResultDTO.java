@@ -8,11 +8,12 @@ import java.time.LocalTime;
 
 public record AllocatedEmployeeMachineResultDTO(
         Long id,
-        CustomEmployeeDTO employees,
+        CustomEmployeeDTO employee,
+        CustomEmployeeDTO changedEmployee,
         CustomMachineDTO machine,
         LocalTime entryTime,
         LocalTime departureTime,
         LocalDate allocationDate,
-        CustomEmployeeDTO changedEmployess
+        AllocatedEmployeeMachineResultDTO allocatedEmployeeMachineResultDTO
 ) {
 }

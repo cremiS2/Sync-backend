@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Table(name = "tb_allocation_employess_machine")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class AllocatedEmployeesMachine {
+public class AllocatedEmployeeMachine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,6 @@ public class AllocatedEmployeesMachine {
     private LocalTime departureTime;
 
     @OneToOne
-    @JoinColumn(name = "changed_employees")
-    private Employee changedEmployees;
+    @JoinColumn(name = "changed_employee")
+    private Employee changedEmployee;
 }

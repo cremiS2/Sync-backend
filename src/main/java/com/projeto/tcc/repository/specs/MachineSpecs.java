@@ -5,7 +5,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
-public class MaquinaSpecs {
+public class MachineSpecs {
 
     public static Specification<Machine> nomeMaquinaLike(String nomeMaquina){
         return (root, query, cb) ->

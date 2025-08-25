@@ -3,6 +3,7 @@ package com.projeto.tcc.controller;
 
 import com.projeto.tcc.dto.LoginInformacoes;
 import com.projeto.tcc.dto.entry.LoginDTO;
+import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.service.EmployeeService;
 import com.projeto.tcc.service.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class PublicController {
 
 
     @PostMapping("login")
-    public ResponseEntity<LoginDTO> entrar(@RequestBody LoginInformacoes acces){
+    public ResponseEntity<LoginDTO> entrar(@RequestBody UserDTO acces){
         return ResponseEntity.ok().body(tokenService.criarToken(acces));
     }
 

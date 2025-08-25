@@ -31,7 +31,6 @@ public class MaquinaController implements GenericController{
 
     @PutMapping("{id}")
     public ResponseEntity<Void> atualizarMaquina(@PathVariable Long id, @RequestBody MachineDTO dto){
-        System.out.println("ID DA MAQUINA "+ id + " PROPRIEDADE NULA "+ dto.funcionarioOperando());
         machineService.updateMaquina(id, dto);
         return ResponseEntity.noContent().build();
     }

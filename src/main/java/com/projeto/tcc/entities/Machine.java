@@ -1,7 +1,6 @@
 package com.projeto.tcc.entities;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 import com.projeto.tcc.enuns.StatusMachine;
 import jakarta.persistence.*;
@@ -34,5 +33,8 @@ public class Machine {
 
 	@Enumerated(EnumType.STRING)
 	private StatusMachine status;
+
+	@OneToOne(mappedBy = "machine")
+	private AllocatedEmployeeMachine allocatedEmployeeMachine;
 
 }

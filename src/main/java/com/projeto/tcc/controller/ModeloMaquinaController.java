@@ -17,7 +17,7 @@ public class ModeloMaquinaController implements GenericController{
 
     @PostMapping
     public ResponseEntity<Void> salvarModeloMaquina(@RequestBody @Valid MachineModelDTO dto){
-        var entidade = service.salvarModelo(dto);
+        var entidade = service.saveModel(dto);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }
 

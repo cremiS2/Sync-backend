@@ -11,7 +11,5 @@ import java.util.Optional;
 @Repository
 public interface MachineRepositoy extends JpaRepository<Machine, Long>, JpaSpecificationExecutor<Machine> {
 
-    Optional<Machine> findByNumeroSerie(Integer numeroSerie);
-
-    Optional<Machine> findByFuncionarioOperando(Employee employee);
+    Optional<Machine> findBySerieNumber(Integer serieNumber);
 }

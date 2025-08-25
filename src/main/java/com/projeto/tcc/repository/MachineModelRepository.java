@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface MachineModelRepository extends JpaRepository<MachineModel, Long> {
 
-    Optional<MachineModel> findByNomeModeloAndDescricaoModelo(String nomeModelo, String descricao);
+    Optional<MachineModel> findByModelNameAndModelDescription(String nomeModelo, String descricao);
 }

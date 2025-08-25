@@ -20,7 +20,7 @@ public class User {
 
 	private String username;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "user")
     private Employee employee;
 
 

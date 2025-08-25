@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
-public class FuncionarioSpecs {
+public class EmployeeSpecs {
 
     public static Specification<Employee>  nomeLike(String nome){
         return (root, query, cb) -> cb.like(cb.upper(root.get("nome")),"%" + nome.toUpperCase() + "%");

@@ -39,9 +39,9 @@ public abstract class EmployeeMapper {
             expression =
                     "java(dto.user() == null ? null : userRepository.findById(dto.user()).orElse(null))"
     )
-    @Mapping(target = "setor",
+    @Mapping(target = "sector",
             expression =
-                    "java(dto.setor() == null ? entidade.getSetor() : setorRepository.findById(dto.setor()).orElse(null))")
+                    "java(dto.sector() == null ? entidade.getSector() : sectorRepository.findById(dto.sector()).orElse(null))")
 
     @Mapping(target = "roles",
             ignore = true)

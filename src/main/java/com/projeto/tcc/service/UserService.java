@@ -1,6 +1,7 @@
 package com.projeto.tcc.service;
 
 import com.projeto.tcc.dto.entry.UserDTO;
+import com.projeto.tcc.dto.exit.UserResultDTO;
 import com.projeto.tcc.dto.mappers.UserMapper;
 import com.projeto.tcc.entities.User;
 import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
@@ -35,7 +36,7 @@ public class UserService {
         if(user.isEmpty()){
             var newUsuario = new User();
             newUsuario.setEmail(usuario.email());
-            newUsuario.setSenha(passwordEncoder.encode(usuario.senha()));
+            newUsuario.setPassword(passwordEncoder.encode(usuario.password()));
             userRepository.save(newUsuario);
             usuariosCache.put(newUsuario.getId(), newUsuario);
             System.out.println("Usuario adicionado no cache com sucesso");
@@ -45,14 +46,14 @@ public class UserService {
     }
 
 
-    public UserDTO atualizar(UserDTO user) {
+    public UserResultDTO atualizar(UserDTO user) {
         var usuario = procurarUserCache(user.id());
         if(usuario != null){
             if(user.email() != null && !user.email().equals(usuario.getEmail())){
                 usuario.setEmail(user.email());
             }
-            if(user.senha() != null && !usuario.verificarSenha(user, passwordEncoder)){
-                usuario.setSenha(passwordEncoder.encode(user.senha()));
+            if(user.password() != null && !usuario.verificarSenha(user, passwordEncoder)){
+                usuario.setPassword(passwordEncoder.encode(user.password()));
             }
 
             userRepository.save(usuario);

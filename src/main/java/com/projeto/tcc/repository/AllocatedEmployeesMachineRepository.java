@@ -1,7 +1,7 @@
 package com.projeto.tcc.repository;
 
-import com.projeto.tcc.entities.AllocatedEmployeesMachine;
+import com.projeto.tcc.entities.AllocatedEmployeeMachine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AllocatedEmployeesMachineRepository extends JpaRepository<AllocatedEmployeesMachine, Long> {
+public interface AllocatedEmployeesMachineRepository extends JpaRepository<AllocatedEmployeeMachine, Long> {
 }

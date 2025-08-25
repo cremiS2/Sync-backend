@@ -19,7 +19,7 @@ public class MachineModelService {
     private final MachineModelMapper mapper;
     private final ModeloMaquinasValidation validation;
 
-    public MachineModel salvarModelo(MachineModelDTO dto){
+    public MachineModel saveModel(MachineModelDTO dto){
         MachineModel modelo = mapper.toEntity(dto);
         validation.validarEntidade(modelo);
         return repository.save(modelo);

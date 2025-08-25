@@ -19,7 +19,7 @@ public class DepartamentService {
     private final DepartamentValidation validation;
 
 
-    public Departament salveDepartament(DepartamentDTO dto){
+    public Departament saveDepartament(DepartamentDTO dto){
         var departamentEntidade = mapper.toEntity(dto);
         validation.validarEntidade(departamentEntidade);
         return repository.save(departamentEntidade);
@@ -30,4 +30,12 @@ public class DepartamentService {
                 () -> new NaoRegistradoExcpetion("Departamento com o id " + departamentId + " não existe"))
         );
     }
-}
+
+    public void deleteDepartament(Long departamentId){
+            repository.delete(
+                    repository.findById(departamentId)
+                            .orElseThrow(() -> new NaoRegistradoExcpetion("Departamento não registrado"))
+            );
+        }
+
+    }

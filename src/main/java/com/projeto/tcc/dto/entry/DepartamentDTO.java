@@ -19,7 +19,7 @@ public record DepartamentDTO(
         BigDecimal budget,
 
         @NotNull(message = "Por favor, preencha o campo")
-        StatusDepartament status,
+        String status,
 
         @NotBlank(message = "Por favor, preencha o campo")
         String name

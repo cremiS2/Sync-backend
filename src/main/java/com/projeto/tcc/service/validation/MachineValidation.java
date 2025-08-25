@@ -34,22 +34,13 @@ public class MachineValidation {
             }
         }
 
-        //Arrumar uma forma melhor de fazer isso depois!
-        if(dto.status() != null){
-            int erro = 0;
-            for(StatusMachine status : StatusMachine.values()){
-                if(!status.getNome().equals(dto.status().toLowerCase())){
-                    erro += 1;
-                }
-            }
-            if(erro == 4){
-                throw new CampoInvalidoException("status", "o status informado não existe");
-            }
+        try{
+            StatusMachine.valueOf(dto.status().toUpperCase());
+        }catch (IllegalArgumentException e){
+            throw new CampoInvalidoException("status", "o status informado não existe");
         }
 
-
     }
-
 
     private boolean existeBoolean(Machine machine){
        var procura = repositoy.findBySerieNumber(machine.getSerieNumber());

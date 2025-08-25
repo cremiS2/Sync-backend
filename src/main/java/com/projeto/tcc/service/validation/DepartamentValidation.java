@@ -1,6 +1,7 @@
 package com.projeto.tcc.service.validation;
 
 import com.projeto.tcc.entities.Departament;
+import com.projeto.tcc.enuns.StatusDepartament;
 import com.projeto.tcc.exceptions.ConflitoCampoException;
 import com.projeto.tcc.repository.DepartamentRepository;
 import lombok.RequiredArgsConstructor;

@@ -25,7 +25,7 @@ public class Sector {
     private List<Machine> machines;
 
     @ManyToOne
-    private Departament departament;
+    private Department department;
 
 }
 

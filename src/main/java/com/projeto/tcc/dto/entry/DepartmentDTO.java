@@ -1,13 +1,14 @@
 package com.projeto.tcc.dto.entry;
 
-import com.projeto.tcc.enuns.StatusDepartament;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
-public record DepartamentDTO(
+public record DepartmentDTO(
+
+        @NotBlank(message = "Por favor, preencha o campo")
+        String name,
 
         @NotNull(message = "Por favor, preencha o campo")
         String description,
@@ -19,9 +20,8 @@ public record DepartamentDTO(
         BigDecimal budget,
 
         @NotNull(message = "Por favor, preencha o campo")
-        String status,
+        String status
 
-        @NotBlank(message = "Por favor, preencha o campo")
-        String name
+
 ) {
 }

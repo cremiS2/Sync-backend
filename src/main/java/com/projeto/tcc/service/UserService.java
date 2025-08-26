@@ -4,7 +4,7 @@ import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.dto.exit.UserResultDTO;
 import com.projeto.tcc.dto.mappers.UserMapper;
 import com.projeto.tcc.entities.User;
-import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
+import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class UserService {
             usuariosCache.put(newUsuario.getId(), newUsuario);
             System.out.println("Usuario adicionado no cache com sucesso");
         }else{
-            throw new NaoRegistradoExcpetion("");
+            throw new NaoRegistradoException("");
         }
     }
 
@@ -62,7 +62,7 @@ public class UserService {
             return mapper.toDTO(usuario);
 
         }else{
-            throw new NaoRegistradoExcpetion("Usuário não encontrado");
+            throw new NaoRegistradoException("Usuário não encontrado");
         }
     }
 

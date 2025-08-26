@@ -1,4 +1,4 @@
-package com.projeto.tcc.enuns;
+package com.projeto.tcc.enums;
 
 public enum Shift {
     DIURNO,

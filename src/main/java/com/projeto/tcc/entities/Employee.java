@@ -1,7 +1,7 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.enuns.StatusEmployee;
-import com.projeto.tcc.enuns.Shift;
+import com.projeto.tcc.enums.StatusEmployee;
+import com.projeto.tcc.enums.Shift;
 import jakarta.persistence.*;
 import lombok.Data;
 

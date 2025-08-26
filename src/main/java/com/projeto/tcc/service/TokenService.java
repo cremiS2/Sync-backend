@@ -1,10 +1,8 @@
 package com.projeto.tcc.service;
 
-import com.projeto.tcc.dto.LoginInformacoes;
 import com.projeto.tcc.dto.entry.LoginDTO;
 import com.projeto.tcc.dto.entry.UserDTO;
-import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
-import com.projeto.tcc.repository.EmployeeRepository;
+import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.RoleRepository;
 import com.projeto.tcc.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class TokenService {
@@ -31,7 +29,7 @@ public class TokenService {
         var user = repository.findByEmail(userAcces.email());
 
         if(user.isEmpty() || !user.get().verificarSenha(userAcces, passwordEncoder)){
-            throw new NaoRegistradoExcpetion("Funcionário não encontrado");
+            throw new NaoRegistradoException("Funcionário não encontrado");
         }
 
         var now = Instant.now();

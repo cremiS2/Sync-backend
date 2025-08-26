@@ -1,10 +1,10 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.enuns.StatusDepartament;
+import com.projeto.tcc.enums.StatusDepartment;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,8 +13,8 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_departament")
 @Data
-@EnableJpaAuditing()
-public class Departament {
+@EntityListeners(AuditingEntityListener.class)
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Departament {
     private String location;
 
     @Enumerated(EnumType.STRING)
-    private StatusDepartament status;
+    private StatusDepartment status;
 
 
     @CreatedDate
@@ -36,7 +36,7 @@ public class Departament {
 
     private BigDecimal budget;
 
-    @OneToMany(mappedBy = "departament")
+    @OneToMany(mappedBy = "department")
     private Set<Sector> sectors;
 
 }

@@ -4,7 +4,7 @@ import com.projeto.tcc.dto.entry.EmployeeDTO;
 import com.projeto.tcc.dto.exit.EmployeeResultDTO;
 import com.projeto.tcc.dto.mappers.EmployeeMapper;
 import com.projeto.tcc.entities.Employee;
-import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
+import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.service.validation.EmployeeValidation;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class EmployeeService {
 
     public EmployeeResultDTO getFuncionarioId(Long idFuncionario){
         return mapper.toDTO(repository.findById(idFuncionario).orElseThrow(
-                () -> new NaoRegistradoExcpetion("Funcionário com o id " + idFuncionario + " não existe")));
+                () -> new NaoRegistradoException("Funcionário com o id " + idFuncionario + " não existe")));
     }
 
     public Employee getFuncionarioEntity(Long id){

@@ -15,6 +15,6 @@ public record SectorDTO(
         String description,
 
         @NotNull(message = "Por favor, preencha o campo")
-        Long departament
+        Long department
 ) {
 }

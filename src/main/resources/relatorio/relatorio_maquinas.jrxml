@@ -16,7 +16,7 @@
 <!--    <field name="nome" class="java.lang.String"/>-->
 <!--    <field name="ultima_manutencao" class="java.time.LocalDate"/>-->
 <!--    <field name="sector" class="java.lang.String"/>-->
-<!--    <field name="status" class="com.projeto.tcc.enuns.StatusMachine"/>-->
+<!--    <field name="status" class="com.projeto.tcc.enums.StatusMachine"/>-->
 
 <!--    &lt;!&ndash; Declaração de variáveis &ndash;&gt;-->
 <!--    <variable name="dateFormatter" class="java.time.format.DateTimeFormatter">-->

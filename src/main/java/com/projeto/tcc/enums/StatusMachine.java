@@ -1,4 +1,4 @@
-package com.projeto.tcc.enuns;
+package com.projeto.tcc.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

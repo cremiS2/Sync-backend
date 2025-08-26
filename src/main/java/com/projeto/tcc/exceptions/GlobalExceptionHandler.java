@@ -30,9 +30,9 @@ public class GlobalExceptionHandler {
         return ErrorResponse.conflito(e.getMessage());
     }
 
-    @ExceptionHandler(NaoRegistradoExcpetion.class)
+    @ExceptionHandler(NaoRegistradoException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleRegistroNaoEncotradoException(NaoRegistradoExcpetion e){
+    public ErrorResponse handleRegistroNaoEncotradoException(NaoRegistradoException e){
         return ErrorResponse.naoRegistrado(e.getMessage());
     }
 

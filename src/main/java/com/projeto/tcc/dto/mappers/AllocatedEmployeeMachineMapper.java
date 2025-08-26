@@ -4,7 +4,7 @@ import com.projeto.tcc.dto.entry.AllocatedEmployeeMachineDTO;
 import com.projeto.tcc.dto.exit.AllocatedEmployeeMachineResultDTO;
 import com.projeto.tcc.entities.AllocatedEmployeeMachine;
 import com.projeto.tcc.repository.EmployeeRepository;
-import com.projeto.tcc.repository.MachineRepositoy;
+import com.projeto.tcc.repository.MachineRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public abstract class AllocatedEmployeeMachineMapper {
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
-    MachineRepositoy machineRepository;
+    MachineRepository machineRepository;
 
     @Mapping(target = "employee",
             expression =

@@ -1,6 +1,6 @@
 package com.projeto.tcc.dto.exit.custom;
 
-import com.projeto.tcc.enuns.StatusMachine;
+import com.projeto.tcc.enums.StatusMachine;
 
 import java.time.LocalDate;
 

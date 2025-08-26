@@ -1,6 +1,6 @@
 package com.projeto.tcc.entities;
 
-import com.projeto.tcc.enuns.StatusMachine;
+import com.projeto.tcc.enums.StatusMachine;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

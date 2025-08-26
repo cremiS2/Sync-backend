@@ -5,7 +5,7 @@ import com.projeto.tcc.dto.entry.MachineModelDTO;
 import com.projeto.tcc.dto.exit.MachineModelResultDTO;
 import com.projeto.tcc.dto.mappers.MachineModelMapper;
 import com.projeto.tcc.entities.MachineModel;
-import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
+import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.MachineModelRepository;
 import com.projeto.tcc.service.validation.ModeloMaquinasValidation;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,6 @@ public class MachineModelService {
 
     public MachineModelResultDTO getModeloMaquinaId(Long idModelo){
         return mapper.toDTO(repository.findById(idModelo).orElseThrow(
-                () -> new NaoRegistradoExcpetion("Modelo de máquina com o id " + idModelo + " não existe")));
+                () -> new NaoRegistradoException("Modelo de máquina com o id " + idModelo + " não existe")));
     }
 }

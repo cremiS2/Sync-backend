@@ -12,9 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("funcionarios")
+@RequestMapping("employee")
 @RequiredArgsConstructor
-public class FuncionarioController implements GenericController {
+public class EmployeeController implements GenericController {
 
     private final EmployeeService employeeService;
 

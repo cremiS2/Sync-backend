@@ -2,7 +2,7 @@ package com.projeto.tcc.entities;
 
 import java.time.LocalDate;
 
-import com.projeto.tcc.enuns.StatusMachine;
+import com.projeto.tcc.enums.StatusMachine;
 import jakarta.persistence.*;
 import lombok.Data;
 

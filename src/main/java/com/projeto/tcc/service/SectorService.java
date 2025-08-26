@@ -4,7 +4,7 @@ import com.projeto.tcc.dto.entry.SectorDTO;
 import com.projeto.tcc.dto.mappers.SectorMapper;
 import com.projeto.tcc.dto.exit.SectorResultDTO;
 import com.projeto.tcc.entities.Sector;
-import com.projeto.tcc.exceptions.NaoRegistradoExcpetion;
+import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.SectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ public class SectorService {
 
     public SectorResultDTO getSetorId(Long idSetor){
         return mapper.toDTO(repository.findById(idSetor).orElseThrow(
-                () -> new NaoRegistradoExcpetion("Setor com o id " + idSetor + " não existe")));
+                () -> new NaoRegistradoException("Setor com o id " + idSetor + " não existe")));
     }
     public Sector getIdReturnEnity(Long idSetor){
-        return repository.findById(idSetor).orElseThrow(() -> new NaoRegistradoExcpetion("Setor com o id " + idSetor + " não encontrado" ));
+        return repository.findById(idSetor).orElseThrow(() -> new NaoRegistradoException("Setor com o id " + idSetor + " não encontrado" ));
     }
 
 }

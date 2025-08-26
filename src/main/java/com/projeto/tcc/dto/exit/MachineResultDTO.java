@@ -3,7 +3,7 @@ package com.projeto.tcc.dto.exit;
 import com.projeto.tcc.dto.exit.custom.CustomMachineModelDTO;
 import com.projeto.tcc.dto.exit.custom.CustomSectorDTO;
 import com.projeto.tcc.entities.AllocatedEmployeeMachine;
-import com.projeto.tcc.enuns.StatusMachine;
+import com.projeto.tcc.enums.StatusMachine;
 
 import java.time.LocalDate;
 

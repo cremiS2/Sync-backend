@@ -2,9 +2,9 @@ package com.projeto.tcc.service.validation;
 
 import com.projeto.tcc.dto.entry.MachineDTO;
 import com.projeto.tcc.entities.Machine;
-import com.projeto.tcc.enuns.StatusMachine;
+import com.projeto.tcc.enums.StatusMachine;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
-import com.projeto.tcc.repository.MachineRepositoy;
+import com.projeto.tcc.repository.MachineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MachineValidation {
 
-    private final MachineRepositoy repositoy;
+    private final MachineRepository repository;
 
     public void validarEntidade(Machine machine){
         if(existeBoolean(machine)) {
@@ -43,7 +43,7 @@ public class MachineValidation {
     }
 
     private boolean existeBoolean(Machine machine){
-       var procura = repositoy.findBySerieNumber(machine.getSerieNumber());
+       var procura = repository.findBySerieNumber(machine.getSerieNumber());
         if(machine.getId() == null){
             return procura.isPresent();
         }

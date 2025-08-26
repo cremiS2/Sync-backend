@@ -3,8 +3,8 @@ package com.projeto.tcc.dto.exit;
 import com.projeto.tcc.dto.exit.custom.CustomSectorDTO;
 import com.projeto.tcc.dto.exit.custom.CustomUserDTO;
 import com.projeto.tcc.entities.Role;
-import com.projeto.tcc.enuns.Shift;
-import com.projeto.tcc.enuns.StatusEmployee;
+import com.projeto.tcc.enums.Shift;
+import com.projeto.tcc.enums.StatusEmployee;
 
 import java.util.Set;
 

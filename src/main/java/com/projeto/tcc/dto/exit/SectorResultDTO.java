@@ -1,5 +1,6 @@
 package com.projeto.tcc.dto.exit;
 
+import com.projeto.tcc.dto.exit.custom.CustomDepartmentDTO;
 import com.projeto.tcc.dto.exit.custom.CustomEmployeeDTO;
 import com.projeto.tcc.dto.exit.custom.CustomMachineDTO;
 import com.projeto.tcc.entities.Department;
@@ -10,7 +11,7 @@ public record SectorResultDTO(
         Long id,
         String name,
         String efficiency,
-        Department department,
+        CustomDepartmentDTO department,
         List<CustomEmployeeDTO> employees,
         List<CustomMachineDTO> machines
 

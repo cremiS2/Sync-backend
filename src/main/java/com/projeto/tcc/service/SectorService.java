@@ -18,6 +18,7 @@ public class SectorService {
 
     public Sector criarSetor(SectorDTO dto){
         Sector sector = mapper.toEntity(dto);
+        System.out.println(dto.department());
         return repository.save(sector);
     }
 

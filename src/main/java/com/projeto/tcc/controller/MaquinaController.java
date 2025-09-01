@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("maquinas")
+@RequestMapping("maquina")
 @RequiredArgsConstructor
 public class MaquinaController implements GenericController{
 
@@ -73,6 +73,7 @@ public class MaquinaController implements GenericController{
                 nomeFuncionario,
                 numeroPagina,
                 tamanhoPagina
+
         ).map(mapper::toDTO);
 
         return ResponseEntity.ok().body(maquinasPesquisa);

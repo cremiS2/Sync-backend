@@ -99,7 +99,6 @@ public class MachineService {
 
     }
 
-
     public void deletarMaquina(Long idMaquina){
         var entidade = getIdReturnMaquina(idMaquina);
         machineRepository.delete(entidade);

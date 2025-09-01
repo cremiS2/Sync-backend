@@ -6,6 +6,7 @@ import com.projeto.tcc.dto.exit.SectorResultDTO;
 import com.projeto.tcc.entities.Sector;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.SectorRepository;
+import com.projeto.tcc.service.validation.SectorValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +16,22 @@ public class SectorService {
 
     private final SectorRepository repository;
     private final SectorMapper mapper;
+    private final SectorValidation validation;
 
-    public Sector criarSetor(SectorDTO dto){
+
+    public Sector createSector(SectorDTO dto){
+
         Sector sector = mapper.toEntity(dto);
-        System.out.println(dto.department());
+        validation.validarInformacoes(sector, dto);
         return repository.save(sector);
     }
 
-    public SectorResultDTO getSetorId(Long idSetor){
+    public SectorResultDTO getSectorId(Long idSetor){
         return mapper.toDTO(repository.findById(idSetor).orElseThrow(
                 () -> new NaoRegistradoException("Setor com o id " + idSetor + " não existe")));
     }
-    public Sector getIdReturnEnity(Long idSetor){
-        return repository.findById(idSetor).orElseThrow(() -> new NaoRegistradoException("Setor com o id " + idSetor + " não encontrado" ));
-    }
 
+    public void deleteSector(Long sectorId){
+        repository.deleteById(sectorId);
+    }
 }

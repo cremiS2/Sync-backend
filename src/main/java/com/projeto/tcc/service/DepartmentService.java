@@ -39,6 +39,10 @@ public class DepartmentService {
         );
     }
 
+    public boolean checkEntity(Long departmentId){
+       return repository.existsById(departmentId);
+    }
+
     public void deleteDepartment(Long departmentId){
             repository.delete(
                     repository.findById(departmentId)

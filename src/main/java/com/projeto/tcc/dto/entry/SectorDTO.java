@@ -11,9 +11,6 @@ public record SectorDTO(
         @NotNull(message = "Por favor, preencha o campo")
         Float efficiency,
 
-        @NotBlank(message = "Por favor, preencha o campo")
-        String description,
-
         @NotNull(message = "Por favor, preencha o campo")
         Long department
 ) {

@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface DepartmentRepository extends JpaRepository<Department, Long>, JpaSpecificationExecutor<Department> {
 
     Optional<Department> findByNameAndLocation(String name, String location);
+
+    boolean existsById(Long id);
 }

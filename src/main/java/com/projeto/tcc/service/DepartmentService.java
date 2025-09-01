@@ -61,7 +61,6 @@ public class DepartmentService {
 
     public Page<Department> pesquisa(
             String name,
-            String location,
             String status,
             BigDecimal budget,
             Integer numeroPagina,
@@ -73,9 +72,9 @@ public class DepartmentService {
         if(name != null){
             specs = specs.and(nameLike(name));
         }
-        if(location != null){
-            specs = specs.and(locationLike(location));
-        }
+//        if(location != null){
+//            specs = specs.and(locationLike(location));
+//        }
         if(status != null){
             specs = specs.and(statusLike(status));
         }

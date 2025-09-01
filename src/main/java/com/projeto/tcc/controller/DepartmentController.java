@@ -48,21 +48,20 @@ public class DepartmentController implements GenericController{
     public ResponseEntity<Page<DepartmentResultDTO>> search(
             @RequestParam(value = "nome-departamento", required = false)
             String name,
-            @RequestParam(value = "local-departamento", required = false)
-            String location,
+//            @RequestParam(value = "local-departamento", required = false)
+//            String location,
             @RequestParam(value = "status-departamento", required = false)
             String status,
-            @RequestParam(value = "budget-departamento", required = false)
+            @RequestParam(value = "orcamento-departamento", required = false)
             BigDecimal budget,
-            @RequestParam(value = "tamanho-pagina", defaultValue = "1")
+            @RequestParam(value = "tamanho-pagina", defaultValue = "10")
             Integer pageSize,
-            @RequestParam(value = "numero-pagina", required = false)
+            @RequestParam(value = "numero-pagina", required = false, defaultValue = "0")
             Integer pageNumber
     ){
 
         var department = service.pesquisa(
                 name,
-                location,
                 status,
                 budget,
                 pageNumber,

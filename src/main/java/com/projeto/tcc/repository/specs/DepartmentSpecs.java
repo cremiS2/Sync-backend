@@ -12,14 +12,14 @@ public class DepartmentSpecs {
                 cb.like(cb.upper(root.get("name")), "%" + name + "%");
     }
 
-    public static Specification<Department> locationLike(String location){
-        return (root, query, cb) ->
-                cb.like(cb.upper(root.get("location")), "%" + location + "%");
-    }
+//    public static Specification<Department> locationLike(String location){
+//        return (root, query, cb) ->
+//                cb.like(cb.upper(root.get("location")), "%" + location + "%");
+//    }
 
     public static Specification<Department> statusLike(String status){
         return (root, query, cb) ->
-                cb.like(cb.upper(root.get("status")), "%" + status + "%");
+                cb.equal(cb.upper(root.get("status")),  status.toUpperCase());
     }
 
     public static Specification<Department> budgetEqual(BigDecimal budget){

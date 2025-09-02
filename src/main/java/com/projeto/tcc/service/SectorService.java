@@ -8,7 +8,12 @@ import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.SectorRepository;
 import com.projeto.tcc.service.validation.SectorValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import static com.projeto.tcc.repository.specs.SectorSpecs.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +38,35 @@ public class SectorService {
 
     public void deleteSector(Long sectorId){
         repository.deleteById(sectorId);
+    }
+
+    public Page<SectorResultDTO> pesquisa(
+            String departmentName,
+            String sectorName,
+            Integer pageSize,
+            Integer pageNumber
+    ){
+        Specification<Sector> specs = Specification.where((
+                root, query, cb) -> cb.conjunction());
+
+        if(departmentName != null){
+            specs = specs.and(departmentNameLike(departmentName));
+        }
+        if(sectorName != null){
+            specs = specs.and(sectorNameLike(sectorName));
+        }
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return repository.findAll(specs, pageable).map(mapper::toDTO);
+    }
+
+    public void updateSector(Long idSector, SectorDTO sectorDTO){
+        Sector sector = repository.findById(idSector).orElseThrow(
+                () -> new NaoRegistradoException("Setor com o id " + idSector + " não encontrado")
+        );
+        validation.validarInformacoes(sector, sectorDTO);
+        mapper.updateEnity(sector, sectorDTO);
+        repository.save(sector);
     }
 }

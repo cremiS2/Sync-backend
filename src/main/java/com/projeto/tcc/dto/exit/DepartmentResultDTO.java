@@ -3,6 +3,7 @@ package com.projeto.tcc.dto.exit;
 import com.projeto.tcc.enums.StatusDepartment;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 public record DepartmentResultDTO(
@@ -12,7 +13,7 @@ public record DepartmentResultDTO(
         String location,
         BigDecimal budget,
         StatusDepartment status,
-        Set<SectorResultDTO> sectors
+        List<SectorResultDTO> sectors
 
 ) {
 }

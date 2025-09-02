@@ -7,6 +7,7 @@ import com.projeto.tcc.entities.Department;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.DepartmentRepository;
 import com.projeto.tcc.service.validation.DepartmentValidation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -63,12 +64,13 @@ public class DepartmentService {
                 .orElseThrow(() -> new NaoRegistradoException("não encontrado"));
     }
 
-    public Page<Department> pesquisa(
+
+    public Page<DepartmentResultDTO> pesquisa(
             String name,
             String status,
             BigDecimal budget,
-            Integer numeroPagina,
-            Integer tamanhoPagina
+            Integer pageNumber,
+            Integer pageSize
     ){
 
         Specification<Department> specs = Specification.where((root, query, cb) -> cb.conjunction());
@@ -86,9 +88,9 @@ public class DepartmentService {
             specs = specs.and(budgetEqual(budget));
         }
 
-        Pageable pageable = PageRequest.of(numeroPagina, tamanhoPagina);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        return repository.findAll(specs, pageable);
+        return repository.findAll(specs, pageable).map(mapper::toDTO);
     }
 
     }

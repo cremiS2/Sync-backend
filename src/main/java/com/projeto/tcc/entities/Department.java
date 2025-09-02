@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,6 +38,6 @@ public class Department {
     private BigDecimal budget;
 
     @OneToMany(mappedBy = "department")
-    private Set<Sector> sectors;
+    private List<Sector> sectors;
 
 }

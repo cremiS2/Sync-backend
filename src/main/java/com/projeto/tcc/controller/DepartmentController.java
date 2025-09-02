@@ -66,7 +66,7 @@ public class DepartmentController implements GenericController{
                 budget,
                 pageNumber,
                 pageSize
-        ).map(mapper::toDTO);
+        );
 
         return ResponseEntity.ok().body(department);
     }

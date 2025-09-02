@@ -45,15 +45,11 @@ public class EmployeeController implements GenericController {
             @RequestParam(value = "nome-funcionario", required = false)
             String nome,
             @RequestParam(value = "matricula-funcionario", required = false)
-            Integer matricula,
-            @RequestParam(value = "nome-role", required = false)
-            String nomeRole,
-            @RequestParam(value = "idEscala", required = false)
-            Long idEscala,
+            Integer emolyeeID,
+            @RequestParam(value = "nome-turno", required = false)
+            String shift,
             @RequestParam(value = "nome-setor",required = false)
             String nomeSetor,
-            @RequestParam(value = "nome-maquina", required = false)
-            String nomeMaquina,
             @RequestParam(value = "numero-pagina", defaultValue = "0")
             Integer numeroPagina,
             @RequestParam(value = "tamanho-pagina", defaultValue = "10")
@@ -62,11 +58,9 @@ public class EmployeeController implements GenericController {
 
         var servicePesquisa = employeeService.pesquisa(
                 nome,
-                matricula,
-                nomeRole,
-                idEscala,
+                emolyeeID,
                 nomeSetor,
-                nomeMaquina,
+                shift,
                 numeroPagina,
                 tamanhoPagina
         );

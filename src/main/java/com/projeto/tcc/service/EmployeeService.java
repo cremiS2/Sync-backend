@@ -47,40 +47,32 @@ public class EmployeeService {
     }
 
     public Page<EmployeeResultDTO> pesquisa(
-            String nome,
-            Integer matricula,
-            String role,
-            Long idEscala,
-            String setor,
-            String maquina,
-            Integer numeroPagina,
-            Integer tamanhoPagina
+            String name,
+            Integer emolyeeID,
+            String sector,
+            String shift,
+            Integer pageNumber,
+            Integer pageSize
     ){
 
         Specification<Employee> specs = Specification.where((root, query, cb) -> cb.conjunction());
 
-        if(nome != null){
-            specs = specs.and(nomeLike(nome));
+        if(name != null){
+            specs = specs.and(nameLike(name));
         }
-        if(matricula != null){
-            specs = specs.and(matriculaEqual(matricula));
-        }
-        if(role != null){
-            specs = specs.and(escalaEqual(idEscala));
-        }
-        if(setor != null){
-            specs =  specs.and(setorLike(setor));
-        }
-        if(maquina != null){
-            specs = specs.and(maquinaLike(maquina));
+        if(emolyeeID != null){
+            specs = specs.and(employeeEqual(emolyeeID));
         }
 
-        //Não está funcionando muito bem
-        if(role != null){
-            specs = specs.and(roleLike(role));
+        if(sector != null){
+            specs =  specs.and(sectorLike(sector));
+        }
+        if(shift != null){
+            specs = specs.and(shiftEqual(shift));
         }
 
-        Pageable pageable = PageRequest.of(numeroPagina, tamanhoPagina);
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         return repository.findAll(specs,pageable)
                 .map(mapper::toDTO);

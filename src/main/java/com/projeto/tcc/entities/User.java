@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Entity(name="tb_usuario")
+@Entity(name="tb_user")
 @Data
 public class User {
 

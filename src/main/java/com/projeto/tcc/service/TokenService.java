@@ -26,7 +26,7 @@ public class TokenService {
     private final  RoleRepository roleRepository;
 
     public LoginDTO criarToken(UserDTO userAcces){
-        var user = repository.findByEmail(userAcces.email());
+        var user = repository.findByEmailOrUsername(userAcces.email(), userAcces.username());
 
         if(user.isEmpty() || !user.get().verificarSenha(userAcces, passwordEncoder)){
             throw new NaoRegistradoException("Funcionário não encontrado");

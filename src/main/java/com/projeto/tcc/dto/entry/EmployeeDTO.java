@@ -10,7 +10,7 @@ public record EmployeeDTO(
         @Size(max = 200, message = "Campo excede o tamanho máximo de 200 caracteres")
         String name,
 
-        @NotBlank(message = "Por favor, preencha o campo")
+        @NotNull(message = "Por favor, preencha o campo")
         @Max(value = 9999, message = "Não pode passar de 5 dígitos")
         @Min(value = 1000, message = "Não pode ter menos de 5 dígitos")
         Integer employeeID,

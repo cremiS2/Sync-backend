@@ -6,6 +6,7 @@ import com.projeto.tcc.entities.Role;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.repository.RoleRepository;
+import com.projeto.tcc.repository.SectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ public class EmployeeValidation {
                 throw new CampoInvalidoException("sector","Setor não existente");
             }
         }
+
         //Se colocar mais de uma role, ele não identifica se as outras roles existem!
        if(dto.roles() != null && !dto.roles().isEmpty()){
            Set<Role> rolesFuncionario = roleRepository.findAllByNameIn(dto.roles().stream().map(String::toLowerCase).collect(Collectors.toSet()));

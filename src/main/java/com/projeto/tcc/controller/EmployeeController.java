@@ -18,28 +18,28 @@ public class EmployeeController implements GenericController {
 
     private final EmployeeService employeeService;
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Void> salvarFuncionario(@RequestBody @Valid EmployeeDTO dto){
-        var funcionario = employeeService.criarFuncionario(dto);
-        var uri = gerarHeaderLocation(funcionario.getId());
+    public ResponseEntity<Void> saveEmployee(@RequestBody @Valid EmployeeDTO dto){
+        var employee = employeeService.criarFuncionario(dto);
+        var uri = gerarHeaderLocation(employee.getId());
         return ResponseEntity.created(uri).build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
     @GetMapping("{id}")
     public ResponseEntity<EmployeeResultDTO> getFuncionarioId(@PathVariable Long id){
         return ResponseEntity.ok().body(employeeService.getFuncionarioId(id));
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<Void> updateFuncionario(@PathVariable Long id, @RequestBody EmployeeDTO dto){
         employeeService.upadateFuncionario(id, dto);
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
     @GetMapping
     public ResponseEntity<Page<EmployeeResultDTO>> pesquisa(
             @RequestParam(value = "nome-funcionario", required = false)

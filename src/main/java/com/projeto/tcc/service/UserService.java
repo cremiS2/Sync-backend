@@ -6,6 +6,7 @@ import com.projeto.tcc.dto.mappers.UserMapper;
 import com.projeto.tcc.entities.User;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.UserRepository;
+import com.projeto.tcc.service.validation.UserValidation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,51 +23,45 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final  Map<Long, User> usuariosCache = new HashMap<>();
     private final UserMapper mapper;
+    private final UserValidation userValidation;
 
-    private User procurarUserCache(Long id) {
+    private User findUser(Long id) {
         return usuariosCache.computeIfAbsent(id, chave ->
                 userRepository.findById(chave).orElse(null)
         );
     }
 
     @Transactional
-    public void adicionarUser(UserDTO usuario) {
-        var user = userRepository.findByEmail(usuario.email());
+    public User addUser(UserDTO usuario) {
+        User user1 = mapper.toEntity(usuario);
+        user1.setPassword(passwordEncoder.encode(usuario.password()));
+        userValidation.validarEntidade(user1);
+        user1 = userRepository.save(user1);
+        usuariosCache.put(user1.getId(), user1);
 
-        if(user.isEmpty()){
-            var newUsuario = new User();
-            newUsuario.setEmail(usuario.email());
-            newUsuario.setPassword(passwordEncoder.encode(usuario.password()));
-            userRepository.save(newUsuario);
-            usuariosCache.put(newUsuario.getId(), newUsuario);
-            System.out.println("Usuario adicionado no cache com sucesso");
+        return user1;
+    }
+
+
+    @Transactional
+    public void update(UserDTO userDTO, Long id) {
+        User user = findUser(id);
+        mapper.updateEntidade(user, userDTO);
+        user.setPassword(passwordEncoder.encode(userDTO.password()));
+        userRepository.save(user);
+        usuariosCache.put(user.getId(), user);
+        System.out.println("Usuario atualizado com sucesso");
+    }
+
+    public void delete(Long id){
+        var user  = findUser(id);
+        if(user != null){
+            userRepository.delete(user);
         }else{
-            throw new NaoRegistradoException("");
+            throw new NaoRegistradoException("User com o id " + id + " não encontrado");
         }
     }
-
-
-    public UserResultDTO atualizar(UserDTO user) {
-        var usuario = procurarUserCache(user.id());
-        if(usuario != null){
-            if(user.email() != null && !user.email().equals(usuario.getEmail())){
-                usuario.setEmail(user.email());
-            }
-            if(user.password() != null && !usuario.verificarSenha(user, passwordEncoder)){
-                usuario.setPassword(passwordEncoder.encode(user.password()));
-            }
-
-            userRepository.save(usuario);
-            usuariosCache.put(usuario.getId(), usuario);
-            System.out.println("Usuario atualizado com sucesso");
-            return mapper.toDTO(usuario);
-
-        }else{
-            throw new NaoRegistradoException("Usuário não encontrado");
-        }
     }
 
-    public void deletar(Long id) {
-        userRepository.deleteById(id);
-    }
-}
+
+

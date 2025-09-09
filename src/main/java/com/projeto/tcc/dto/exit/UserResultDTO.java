@@ -5,7 +5,7 @@ import com.projeto.tcc.dto.exit.custom.CustomEmployeeDTO;
 public record UserResultDTO(
         Long id,
         String email,
-        String name,
+        String username,
         CustomEmployeeDTO employee
 ) {
 }

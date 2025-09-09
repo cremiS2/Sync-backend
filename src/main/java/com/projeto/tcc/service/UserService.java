@@ -9,6 +9,9 @@ import com.projeto.tcc.repository.UserRepository;
 import com.projeto.tcc.service.validation.UserValidation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,21 +50,36 @@ public class UserService {
     public void update(UserDTO userDTO, Long id) {
         User user = findUser(id);
         mapper.updateEntidade(user, userDTO);
-        user.setPassword(passwordEncoder.encode(userDTO.password()));
+        if(userDTO.password() != null){
+            user.setPassword(passwordEncoder.encode(userDTO.password()));
+        }
         userRepository.save(user);
         usuariosCache.put(user.getId(), user);
         System.out.println("Usuario atualizado com sucesso");
     }
 
+    @Transactional
     public void delete(Long id){
         var user  = findUser(id);
         if(user != null){
             userRepository.delete(user);
+            usuariosCache.remove(user.getId());
         }else{
             throw new NaoRegistradoException("User com o id " + id + " não encontrado");
         }
     }
+
+    public UserResultDTO getById(Long id){
+        return userRepository.findById(id).map(
+                mapper::toDTO
+        ).orElseThrow(() -> new NaoRegistradoException("user não encontrado"));
     }
+
+    public Page<UserResultDTO> getPaged(Integer numberPage, Integer pageSize){
+        Pageable pageable = PageRequest.of(numberPage, pageSize);
+        return userRepository.findAll(pageable).map(mapper::toDTO);
+    }
+}
 
 
 

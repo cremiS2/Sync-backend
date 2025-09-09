@@ -2,7 +2,7 @@ spring:
   application:
     name: tcc
   datasource:
-    url: jdbc:postgresql://localhost:12345/tccdb
+    url: jdbc:postgresql://localhost:1234/tccdb
 
 
     username: postgres

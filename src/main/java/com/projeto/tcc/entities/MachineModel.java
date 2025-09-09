@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "tb_machine_model")
 public class MachineModel {
 
     @Id

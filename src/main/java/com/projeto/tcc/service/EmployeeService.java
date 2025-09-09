@@ -25,6 +25,7 @@ public class EmployeeService {
     private final EmployeeValidation validation;
 
     public Employee criarFuncionario(EmployeeDTO dto){
+
         Employee employee = mapper.toEntity(dto);
         validation.validarEntidade(employee, dto);
         return repository.save(employee);

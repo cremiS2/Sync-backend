@@ -16,6 +16,8 @@ public abstract class EmployeeMapper {
     @Autowired
     UserRepository userRepository;
 
+
+
     @Mapping(target = "user",
             expression =
                     "java(dto.user() == null ? null : userRepository.findById(dto.user()).orElse(null))"
@@ -28,16 +30,24 @@ public abstract class EmployeeMapper {
             ignore = true)
     @Mapping(target = "shift",
             ignore = true)
+    @Mapping(target = "status",
+            ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     abstract public Employee toEntity(EmployeeDTO dto);
+
+
+
 
 
     abstract public EmployeeResultDTO toDTO(Employee employee);
 
 
+
+
+
     @Mapping(target = "user",
             expression =
-                    "java(dto.user() == null ? null : userRepository.findById(dto.user()).orElse(null))"
+                    "java(dto.user() == null ? entidade.getUser() : userRepository.findById(dto.user()).orElse(null))"
     )
     @Mapping(target = "sector",
             expression =
@@ -46,6 +56,8 @@ public abstract class EmployeeMapper {
     @Mapping(target = "roles",
             ignore = true)
     @Mapping(target = "shift",
+            ignore = true)
+    @Mapping(target = "status",
             ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateFuncionario(EmployeeDTO dto, @MappingTarget Employee entidade);

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "tb_alteracao_estado_maquina")
+@Table(name = "tb_allocated_status_machine")
 public class HistoricoAlteracaoEstadoMaquina {
 
     @Id

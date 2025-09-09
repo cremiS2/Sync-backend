@@ -1,56 +1,30 @@
 package com.projeto.tcc.repository.specs;
 
 import com.projeto.tcc.entities.Machine;
+import com.projeto.tcc.entities.Sector;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 public class MachineSpecs {
 
-    public static Specification<Machine> nomeMaquinaLike(String nomeMaquina){
+    public static Specification<Machine> nameLike(String nameMachine){
         return (root, query, cb) ->
-                cb.like(cb.upper(root.get("nomeMaquina")), "%" + nomeMaquina.toUpperCase() + "%");
+                cb.like(cb.upper(root.get("name")), "%" + nameMachine.toUpperCase() + "%");
     }
 
-    public static Specification<Machine> numeroSerieLike(Integer numeroSerie){
-        return ((root, query, cb) ->
-                cb.equal(root.get("numeroSerie"),  numeroSerie));
-    }
-
-    public static Specification<Machine> localLike(String nomeUnidade){
+    public static Specification<Machine> sectorLike(String sector){
         return (root, query, cb) ->{
-            Join<Object, Object> joinLocal = root.join("localMaquina", JoinType.INNER);
-            return cb.like(cb.upper(joinLocal.get("nomeUnidade")), "%" + nomeUnidade.toUpperCase() + "%");
+            Join<Machine, Sector> joinSector = root.join("sector", JoinType.INNER);
+            return cb.like(cb.upper(joinSector.get("name")), "%" + sector.toUpperCase() + "%");
 
         };
     }
 
-    public static Specification<Machine> modeloMaquinaLike(String nomeModelo){
-        return ((root, query, cb) -> {
-            Join<Object, Object> joinModelo = root.join("modeloMaquina", JoinType.INNER);
-            return cb.like(cb.upper(joinModelo.get("nomeModelo")), "%" + nomeModelo.toUpperCase() + "%");
-        });
-    }
-
-    public static Specification<Machine> nomeSetorLike(String nomeSetor){
-        return ((root, query, cb) -> {
-            Join<Object, Object> joinSetor = root.join("setor", JoinType.INNER);
-            return cb.like(cb.upper(joinSetor.get("nome")), "%" + nomeSetor.toUpperCase() + "%");
-        });
-    }
-
-    public static Specification<Machine> statusMaquinaLike(String statusMaquina){
+    public static Specification<Machine> statusMachineLike(String statusMachine){
         return ((root, query, cb) ->
-                cb.like(cb.upper(root.get("status")), "%" + statusMaquina.toUpperCase() + "%")
+                cb.like(cb.upper(root.get("status")), "%" + statusMachine.toUpperCase() + "%")
                 );
     }
 
-    public static Specification<Machine> nomeFuncionarioLike(String nomeFuncionario){
-        return ((root, query, cb) ->
-        {
-            Join<Object, Object> joinFuncionario = root.join("funcionarioOperando", JoinType.INNER);
-            return cb.like(cb.upper(joinFuncionario.get("nome")), "%" + nomeFuncionario.toUpperCase() + "%");
-        }
-                );
-    }
 }

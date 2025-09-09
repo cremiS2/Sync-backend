@@ -44,36 +44,23 @@ public class MaquinaController implements GenericController{
     @GetMapping
     public ResponseEntity<Page<MachineResultDTO>> pesquisa(
             @RequestParam(value = "nome-maquina", required = false)
-            String nomeMaquina,
-            @RequestParam(value = "numero-serie", required = false)
-            Integer numeroSerie,
-            @RequestParam(value = "nome-unidade-local", required = false)
-            String nomeUnidadeLocal,
-            @RequestParam(value = "nome-modelo", required = false)
-            String nomeModelo,
+            String name,
             @RequestParam(value = "nome-setor", required = false)
-            String nomeSetor,
+            String nameSector,
             @RequestParam(value = "status-maquina", required = false)
-            String statusMaquina,
-            @RequestParam(value = "nome-funcionario", required = false)
-            String nomeFuncionario,
+            String statusMachine,
             @RequestParam(value = "numero-pagina", defaultValue = "0")
-            Integer numeroPagina,
+            Integer pageNumber,
             @RequestParam(value = "tamanho-pagina", defaultValue = "10")
-            Integer tamanhoPagina
+            Integer pageSize
     ){
 
         var maquinasPesquisa = machineService.pesquisa(
-                nomeMaquina,
-                numeroSerie,
-                nomeUnidadeLocal,
-                nomeModelo,
-                nomeSetor,
-                statusMaquina,
-                nomeFuncionario,
-                numeroPagina,
-                tamanhoPagina
-
+                name,
+                nameSector,
+                statusMachine,
+                pageNumber,
+                pageSize
         ).map(mapper::toDTO);
 
         return ResponseEntity.ok().body(maquinasPesquisa);

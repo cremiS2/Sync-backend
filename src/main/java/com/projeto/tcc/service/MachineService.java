@@ -60,40 +60,24 @@ public class MachineService {
     }
 
     public Page<Machine> pesquisa(
-            String nomeMaquina,
-            Integer numeroSerie,
-            String nomeUnidadeLocal,
-            String nomeModelo,
-            String nomeSetor,
-            String statusMaquina,
-            String nomeFuncionario,
-            Integer numeroPagina,
-            Integer tamanhoPagina
+            String name,
+            String statusMachine,
+            String nameSector,
+            Integer pageNumber,
+            Integer pageSize
     ) {
         Specification<Machine> specs = Specification.where(((root, query, cb) -> cb.conjunction()));
-        if (nomeMaquina != null) {
-            specs = specs.and(nomeMaquinaLike(nomeMaquina));
-        }
-        if (numeroSerie != null) {
-            specs = specs.and(numeroSerieLike(numeroSerie));
-        }
-        if (nomeUnidadeLocal != null) {
-            specs = specs.and(localLike(nomeUnidadeLocal));
-        }
-        if (nomeModelo != null) {
-            specs = specs.and(modeloMaquinaLike(nomeModelo));
-        }
-        if (nomeSetor != null) {
-            specs = specs.and(nomeSetorLike(nomeSetor));
-        }
-        if (statusMaquina != null) {
-            specs = specs.and(statusMaquinaLike(statusMaquina));
-        }
-        if (nomeFuncionario != null) {
-            specs = specs.and(nomeFuncionarioLike(nomeFuncionario));
-        }
 
-        Pageable pageableRequest = PageRequest.of(numeroPagina, tamanhoPagina);
+        if(name != null){
+            specs = specs.and(nameLike(name));
+        }
+        if(statusMachine != null){
+            specs = specs.and(statusMachineLike(statusMachine));
+        }
+        if(nameSector != null){
+            specs = specs.and(sectorLike(nameSector));
+        }
+        Pageable pageableRequest = PageRequest.of(pageNumber, pageSize);
 
         return machineRepository.findAll(specs, pageableRequest);
 

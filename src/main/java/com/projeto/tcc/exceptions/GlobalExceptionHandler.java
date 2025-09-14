@@ -1,13 +1,16 @@
 package com.projeto.tcc.exceptions;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.projeto.tcc.dto.ErrorField;
 import com.projeto.tcc.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
@@ -40,5 +43,10 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse handleCampoInvalidoException(CampoInvalidoException e){
         return new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Informações inválidas", List.of(new ErrorField(e.campo, e.getMessage())));
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    public ErrorResponse handleInvalidFormatException(InvalidFormatException ex) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Formato inválido", List.of(new ErrorField("Só aceita números", ex.getPath().getFirst().getFieldName())));
     }
 }

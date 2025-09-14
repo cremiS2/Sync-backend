@@ -18,7 +18,7 @@ public class  DepartmentValidation {
 
     public void validarEntidade(Department department){
         if(existeBoolean(department)){
-            throw new ConflitoCampoException("Departamento com nome e/ou local já cadastrado!");
+            throw new ConflitoCampoException("Departamento com nome e local já cadastrado!");
         }
 
     }

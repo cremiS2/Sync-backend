@@ -11,8 +11,8 @@ public record EmployeeDTO(
         String name,
 
         @NotNull(message = "Por favor, preencha o campo")
-        @Max(value = 9999, message = "Não pode passar de 5 dígitos")
-        @Min(value = 1000, message = "Não pode ter menos de 5 dígitos")
+        @Max(value = 99999, message = "Não pode passar de 5 dígitos")
+        @Min(value = 10000, message = "Não pode ter menos de 5 dígitos")
         Integer employeeID,
 
         @NotNull(message = "Por favor, preencha o campo")

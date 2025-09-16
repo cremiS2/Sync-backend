@@ -26,7 +26,7 @@ public class MachineService {
     private final MachineValidation validation;
 
 
-    public Machine salvarMaquina(MachineDTO machineDTO) {
+    public Machine saveMachine(MachineDTO machineDTO) {
         Machine machineEntidade = mapper.toEntity(machineDTO);
         validation.validarInformacoes(machineEntidade, machineDTO);
         machineEntidade.setStatus(StatusMachine.valueOf(machineDTO.status().toUpperCase()));

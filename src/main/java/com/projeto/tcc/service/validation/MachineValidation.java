@@ -35,7 +35,9 @@ public class MachineValidation {
         }
 
         try{
-            StatusMachine.valueOf(dto.status().toUpperCase());
+            if(dto.status() != null){
+                StatusMachine.valueOf(dto.status().toUpperCase());
+            }
         }catch (IllegalArgumentException e){
             throw new CampoInvalidoException("status", "o status informado não existe");
         }

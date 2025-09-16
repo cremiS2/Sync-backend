@@ -20,7 +20,7 @@ public class MachineController implements GenericController{
 
     @PostMapping
     public ResponseEntity<Void> saveMachine(@RequestBody @Valid MachineDTO machineDTO) {
-        var entidade = machineService.salvarMaquina(machineDTO);
+        var entidade = machineService.saveMachine(machineDTO);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }
 
@@ -43,22 +43,22 @@ public class MachineController implements GenericController{
 
     @GetMapping
     public ResponseEntity<Page<MachineResultDTO>> pesquisa(
-            @RequestParam(value = "nome-maquina", required = false)
+            @RequestParam(value = "machine-name", required = false)
             String name,
-            @RequestParam(value = "nome-setor", required = false)
+            @RequestParam(value = "sector-name", required = false)
             String nameSector,
-            @RequestParam(value = "status-maquina", required = false)
+            @RequestParam(value = "status-machine", required = false)
             String statusMachine,
-            @RequestParam(value = "numero-pagina", defaultValue = "0")
+            @RequestParam(value = "page-number", defaultValue = "0")
             Integer pageNumber,
-            @RequestParam(value = "tamanho-pagina", defaultValue = "10")
+            @RequestParam(value = "page-size", defaultValue = "10")
             Integer pageSize
     ){
 
         var maquinasPesquisa = machineService.pesquisa(
                 name,
-                nameSector,
                 statusMachine,
+                nameSector,
                 pageNumber,
                 pageSize
         ).map(mapper::toDTO);

@@ -23,7 +23,7 @@ public class MachineSpecs {
 
     public static Specification<Machine> statusMachineLike(String statusMachine){
         return ((root, query, cb) ->
-                cb.like(cb.upper(root.get("status")), "%" + statusMachine.toUpperCase() + "%")
+                cb.like(cb.upper(root.get("status").as(String.class)), "%" + statusMachine.toUpperCase() + "%")
                 );
     }
 

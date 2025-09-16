@@ -45,10 +45,11 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Informações inválidas", List.of(new ErrorField(e.campo, e.getMessage())));
     }
 
-    @ExceptionHandler(InvalidFormatException.class)
-    public ErrorResponse handleInvalidFormatException(InvalidFormatException ex) {
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Formato inválido", List.of(new ErrorField("Só aceita números", ex.getPath().getFirst().getFieldName())));
-    }
+//    @ExceptionHandler(InvalidFormatException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleInvalidFormatException(InvalidFormatException ex) {
+//        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Formato inválido", List.of(new ErrorField(ex.getPath().getFirst().getFieldName(), "Só aceita números")));
+//    }
 
     @ExceptionHandler(InternalError.class)
     public ErrorResponse handleInternalErrorException(InternalError error){

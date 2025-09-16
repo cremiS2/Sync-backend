@@ -11,15 +11,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("maquina")
+@RequestMapping("machine")
 @RequiredArgsConstructor
-public class MaquinaController implements GenericController{
+public class MachineController implements GenericController{
 
     private final MachineService machineService;
     private final MachineMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> salvarMaquina(@RequestBody @Valid MachineDTO machineDTO) {
+    public ResponseEntity<Void> saveMachine(@RequestBody @Valid MachineDTO machineDTO) {
         var entidade = machineService.salvarMaquina(machineDTO);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }

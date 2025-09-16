@@ -3,11 +3,7 @@ package com.projeto.tcc.dto.mappers;
 import com.projeto.tcc.dto.entry.MachineModelDTO;
 import com.projeto.tcc.dto.exit.MachineModelResultDTO;
 import com.projeto.tcc.entities.MachineModel;
-import com.projeto.tcc.repository.MachineModelRepository;
-import com.projeto.tcc.repository.SectorRepository;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", uses = MachineMapper.class)
 public interface MachineModelMapper {
@@ -17,5 +13,9 @@ public interface MachineModelMapper {
 
     @Mapping(target = "machines.machineModel", ignore = true)
     MachineModelResultDTO toDTO(MachineModel entity);
+
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntity(MachineModelDTO dto, @MappingTarget MachineModel machineModel);
 
 }

@@ -1,5 +1,6 @@
 package com.projeto.tcc.service.validation;
 
+import com.projeto.tcc.dto.entry.MachineModelDTO;
 import com.projeto.tcc.entities.MachineModel;
 import com.projeto.tcc.exceptions.ConflitoCampoException;
 import com.projeto.tcc.repository.MachineModelRepository;
@@ -8,20 +9,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ModeloMaquinasValidation {
+public class MachineModelValidation {
 
     private final MachineModelRepository repository;
 
-    public void validarEntidade(MachineModel machineModel){
+    public void validarEntidade(MachineModel machineModel, MachineModelDTO dto){
         if(existeBoolean(machineModel)){
-            throw new ConflitoCampoException("Informações já cadastradas!");
+            throw new ConflitoCampoException("Modelo de máquina já cadastrado!");
         }
     }
 
     private boolean existeBoolean(MachineModel machineModel){
-        var procura = repository.findByModelNameAndModelDescription(
-                machineModel.getModelName(),
-                machineModel.getModelDescription()
+        var procura = repository.findByModelName(
+                machineModel.getModelName()
         );
 
         if(machineModel.getId() == null){

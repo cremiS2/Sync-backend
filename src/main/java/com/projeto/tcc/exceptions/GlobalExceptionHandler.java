@@ -49,4 +49,9 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleInvalidFormatException(InvalidFormatException ex) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Formato inválido", List.of(new ErrorField("Só aceita números", ex.getPath().getFirst().getFieldName())));
     }
+
+    @ExceptionHandler(InternalError.class)
+    public ErrorResponse handleInternalErrorException(InternalError error){
+        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocorreu um erro interno :( \n Contate nossa equipe para que possamos resolver esse problema!", List.of());
+    }
 }

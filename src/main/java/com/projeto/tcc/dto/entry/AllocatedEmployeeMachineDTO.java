@@ -17,10 +17,10 @@ public record AllocatedEmployeeMachineDTO(
         @NotNull(message = "Por favor, preencha o campo")
         Long changedEmployee,
 
-        @NotBlank(message = "Por favor, preencha o campo")
+        @NotNull(message = "Por favor, preencha o campo")
         LocalDate allocationDate,
 
-        @NotBlank(message = "Por favor, preencha o campo")
+        @NotNull(message = "Por favor, preencha o campo")
         LocalTime departureTime
 
 ) {

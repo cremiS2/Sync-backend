@@ -16,10 +16,12 @@ public class AllocatedEmployeeMachineService {
     private final AllocatedEmployeeMachineMapper mapper;
     private final AllocatedEmployeesMachineValidation validation;
 
-    public void createAllocatedEmployees(AllocatedEmployeeMachineDTO dto){
+    public Long createAllocatedEmployees(AllocatedEmployeeMachineDTO dto){
         AllocatedEmployeeMachine allocatedEmployeeMachine = mapper.toEntity(dto);
+        System.out.println(allocatedEmployeeMachine.getEmployee().getName());
         validation.validEntity(allocatedEmployeeMachine);
         allocatedEmployeeMachine.getEmployee().setAvailability(true);
+        return allocatedEmployeesMachineRepository.save(allocatedEmployeeMachine).getId();
     }
 
 

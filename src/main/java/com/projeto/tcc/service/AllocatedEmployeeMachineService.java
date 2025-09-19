@@ -20,7 +20,7 @@ public class AllocatedEmployeeMachineService {
         AllocatedEmployeeMachine allocatedEmployeeMachine = mapper.toEntity(dto);
         System.out.println(allocatedEmployeeMachine.getEmployee().getName());
         validation.validEntity(allocatedEmployeeMachine);
-        allocatedEmployeeMachine.getEmployee().setAvailability(true);
+        allocatedEmployeeMachine.getEmployee().setAvailability(false);
         return allocatedEmployeesMachineRepository.save(allocatedEmployeeMachine).getId();
     }
 

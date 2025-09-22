@@ -42,6 +42,9 @@ public class EmployeeService {
 
     public void upadateFuncionario(Long id, EmployeeDTO employeeDTO){
         Employee employee = getFuncionarioEntity(id);
+        if(employee.getAvailability()){
+
+        }
         mapper.updateFuncionario(employeeDTO, employee);
         validation.validarEntidade(employee, employeeDTO);
         repository.save(employee);

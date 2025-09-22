@@ -31,8 +31,7 @@ public abstract class MachineMapper {
 
 
     // TRANSFORMAÇÃO
-
-    @Mapping(target = "allocatedEmployeesMachine.machine", ignore = true)
+    @Mapping(target = "allocatedEmployeeMachine.machine", ignore = true)
     abstract public MachineResultDTO toDTO(Machine machine);
 
 
@@ -43,7 +42,7 @@ public abstract class MachineMapper {
 
     @Mapping(target = "machineModel",
             expression =
-                    "java(dto.machineModel() == null ? null : machineModelRepository.findById(dto.machineModel()).orElse(null))")
+                    "java(dto.machineModel() == null ? machine.getMachineModel() : machineModelRepository.findById(dto.machineModel()).orElse(null))")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "status", ignore = true)
     public abstract void updateEntityFromDto(MachineDTO dto, @MappingTarget Machine machine);

@@ -22,7 +22,7 @@ public class AllocatedEmployeeMachine {
     @JoinColumn(name = "employees_id")
     private Employee employee;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "machine_id")
     private Machine machine;
 
@@ -30,9 +30,6 @@ public class AllocatedEmployeeMachine {
     @Column(name = "allocation_date")
     private LocalDate allocationDate;
 
-    private LocalTime entryTime;
-
-    private LocalTime departureTime;
 
     @OneToOne
     @JoinColumn(name = "changed_employee")

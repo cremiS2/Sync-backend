@@ -49,7 +49,7 @@ public class TokenService {
 
         var claims = JwtClaimsSet.builder()
                 .issuer("login")
-                .subject(user.get().getUsername())
+                .subject(user.get().getId().toString())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expir))
                 .claim("scope", scopes)

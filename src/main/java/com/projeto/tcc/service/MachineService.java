@@ -59,7 +59,7 @@ public class MachineService {
         machineRepository.save(machine);
     }
 
-    public Page<Machine> pesquisa(
+    public Page<Machine> search(
             String name,
             String statusMachine,
             String nameSector,
@@ -79,11 +79,14 @@ public class MachineService {
         }
         Pageable pageableRequest = PageRequest.of(pageNumber, pageSize);
 
-        return machineRepository.findAll(specs, pageableRequest);
+        return machineRepository.findAll(specs, pageableRequest).map(m -> { m.getAllocatedEmployeeMachine()
+                .forEach(a -> a.setMachine(null));
+                return m;
+        });
 
     }
 
-    public void deletarMaquina(Long idMaquina){
+    public void deleteMachine(Long idMaquina){
         var entidade = getIdReturnMaquina(idMaquina);
         machineRepository.delete(entidade);
     }

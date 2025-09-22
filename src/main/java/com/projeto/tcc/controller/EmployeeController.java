@@ -42,27 +42,27 @@ public class EmployeeController implements GenericController {
 //    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
     @GetMapping
     public ResponseEntity<Page<EmployeeResultDTO>> pesquisa(
-            @RequestParam(value = "nome-funcionario", required = false)
-            String nome,
-            @RequestParam(value = "matricula-funcionario", required = false)
+            @RequestParam(value = "employee-name", required = false)
+            String name,
+            @RequestParam(value = "employee-id", required = false)
             Integer emolyeeID,
-            @RequestParam(value = "nome-turno", required = false)
+            @RequestParam(value = "shift", required = false)
             String shift,
-            @RequestParam(value = "nome-setor",required = false)
-            String nomeSetor,
-            @RequestParam(value = "numero-pagina", defaultValue = "0")
-            Integer numeroPagina,
-            @RequestParam(value = "tamanho-pagina", defaultValue = "10")
-            Integer tamanhoPagina
+            @RequestParam(value = "sector-name",required = false)
+            String nameSector,
+            @RequestParam(value = "page-number", defaultValue = "0")
+            Integer pageNumber,
+            @RequestParam(value = "page-size", defaultValue = "10")
+            Integer pageSize
     ){
 
         var servicePesquisa = employeeService.pesquisa(
-                nome,
+                name,
                 emolyeeID,
-                nomeSetor,
+                nameSector,
                 shift,
-                numeroPagina,
-                tamanhoPagina
+                pageNumber,
+                pageSize
         );
         return ResponseEntity.ok(servicePesquisa);
     }

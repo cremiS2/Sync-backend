@@ -1,6 +1,7 @@
 package com.projeto.tcc.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.projeto.tcc.enums.StatusMachine;
 import jakarta.persistence.*;
@@ -34,7 +35,7 @@ public class Machine {
 	@Enumerated(EnumType.STRING)
 	private StatusMachine status;
 
-	@OneToOne(mappedBy = "machine")
-	private AllocatedEmployeeMachine allocatedEmployeeMachine;
+	@ManyToMany(mappedBy = "machine")
+	private List<AllocatedEmployeeMachine> allocatedEmployeeMachine;
 
 }

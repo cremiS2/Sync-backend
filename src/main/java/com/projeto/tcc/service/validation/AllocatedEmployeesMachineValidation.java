@@ -17,7 +17,7 @@ public class AllocatedEmployeesMachineValidation {
 
     public void validEntity(AllocatedEmployeeMachine allocatedEmployeeMachine){
 
-        if(!checkIfExist(allocatedEmployeeMachine)){
+        if(checkIfExist(allocatedEmployeeMachine)){
             throw new ConflitoCampoException("O funcionário já está alocado em uma máquina");
         }
     }

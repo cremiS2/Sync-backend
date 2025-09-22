@@ -37,7 +37,7 @@ public class MachineController implements GenericController{
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void>  deletarMaquina(@PathVariable Long id){
-        machineService.deletarMaquina(id);
+        machineService.deleteMachine(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -55,7 +55,7 @@ public class MachineController implements GenericController{
             Integer pageSize
     ){
 
-        var maquinasPesquisa = machineService.pesquisa(
+        var maquinasPesquisa = machineService.search(
                 name,
                 statusMachine,
                 nameSector,

@@ -6,6 +6,7 @@ import com.projeto.tcc.entities.AllocatedEmployeeMachine;
 import com.projeto.tcc.enums.StatusMachine;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record MachineResultDTO(
         Long id,
@@ -18,6 +19,6 @@ public record MachineResultDTO(
         Integer throughput,
         LocalDate lastMaintence,
         CustomSectorDTO sector,
-        AllocatedEmployeeMachine allocatedEmployeeMachine
+        List<AllocatedEmployeeMachineResultDTO> allocatedEmployeeMachine
 ) {
 }

@@ -28,7 +28,7 @@ public class UserService {
     private final UserMapper mapper;
     private final UserValidation userValidation;
 
-    private User findUser(Long id) {
+    public User findUser(Long id) {
         return usuariosCache.computeIfAbsent(id, chave ->
                 userRepository.findById(chave).orElse(null)
         );

@@ -17,6 +17,9 @@ public class AllocatedEmployeesMachineValidation {
 
     public void validEntity(AllocatedEmployeeMachine allocatedEmployeeMachine){
 
+        if(allocatedEmployeeMachine.getEmployee() == null || allocatedEmployeeMachine.getChangedEmployee() == null){
+            throw new NaoRegistradoException("Funcionário não encontrado");
+        }
         if(checkIfExist(allocatedEmployeeMachine)){
             throw new ConflitoCampoException("O funcionário já está alocado em uma máquina");
         }
@@ -24,13 +27,12 @@ public class AllocatedEmployeesMachineValidation {
 
 
     private boolean checkIfExist(AllocatedEmployeeMachine allocatedEmployeeMachine) {
-        Boolean alocado = allocatedEmployeeMachine.getEmployee().getAvailability();
 
-        if(alocado != null) {
-            return !alocado;
+        if(allocatedEmployeeMachine.getEmployee().getAvailability() != null){
+            return !allocatedEmployeeMachine.getEmployee().getAvailability();
         }
-
         return false;
+
     }
 
 }

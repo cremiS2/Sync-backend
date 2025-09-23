@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("setor")
+@RequestMapping("sector")
 @RequiredArgsConstructor
 public class SectorController implements GenericController{
 
     private final SectorService sectorService;
 
     @PostMapping
-    public ResponseEntity<URI> salvarSetor(@RequestBody @Valid SectorDTO dto){
-        var setor = sectorService.createSector(dto);
-        var uri = gerarHeaderLocation(setor.getId());
+    public ResponseEntity<URI> saveSector(@RequestBody @Valid SectorDTO dto){
+        var sectorId = sectorService.createSector(dto);
+        var uri = gerarHeaderLocation(sectorId);
         return ResponseEntity.created(uri).build();
     }
 
 
     @GetMapping("{id}")
-    public ResponseEntity<SectorResultDTO> getSetorId(@PathVariable Long id){
+    public ResponseEntity<SectorResultDTO> getSectorId(@PathVariable Long id){
         return ResponseEntity.ok().body(sectorService.getSectorId(id));
     }
 
@@ -39,13 +39,13 @@ public class SectorController implements GenericController{
 
     @GetMapping
     public ResponseEntity<Page<SectorResultDTO>> research(
-            @RequestParam(value = "nome-departamento", required = false)
+            @RequestParam(value = "department-name", required = false)
             String departmentName,
-            @RequestParam(value = "nome-setor", required = false)
+            @RequestParam(value = "sector-name", required = false)
             String sectorName,
-            @RequestParam(value = "numero-pagina", defaultValue = "0")
+            @RequestParam(value = "page-size", defaultValue = "0")
             Integer pageNumber,
-            @RequestParam(value = "tamanho-pagina", defaultValue = "10")
+            @RequestParam(value = "page-number", defaultValue = "10")
             Integer pageSize
     ){
         return ResponseEntity.ok().body(

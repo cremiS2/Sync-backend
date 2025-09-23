@@ -7,10 +7,14 @@ import java.math.BigDecimal;
 
 public class DepartmentSpecs {
 
-    public static Specification<Department> nameLike(String name){
-        return (root, query, cb) ->
-                cb.like(cb.upper(root.get("name")), "%" + name + "%");
+    public static Specification<Department> nameLike(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return (root, query, cb) -> cb.conjunction(); // Retorna uma condição vazia
+        }
+        String nameUpper = name.trim().toUpperCase(); // Evita problemas com espaços em branco
+        return (root, query, cb) -> cb.like(cb.upper(root.get("name")), "%" + nameUpper + "%");
     }
+
 
 //    public static Specification<Department> locationLike(String location){
 //        return (root, query, cb) ->

@@ -24,11 +24,11 @@ public class SectorService {
     private final SectorValidation validation;
 
 
-    public Sector createSector(SectorDTO dto){
+    public Long createSector(SectorDTO dto){
 
         Sector sector = mapper.toEntity(dto);
         validation.validarInformacoes(sector, dto);
-        return repository.save(sector);
+        return repository.save(sector).getId();
     }
 
     public SectorResultDTO getSectorId(Long idSetor){
@@ -37,7 +37,7 @@ public class SectorService {
     }
 
     public void deleteSector(Long sectorId){
-        repository.deleteById(sectorId);
+        repository.deleteById(repository.findById(sectorId).orElseThrow(() -> new NaoRegistradoException("Setor não encontrado")).getId());
     }
 
     public Page<SectorResultDTO> pesquisa(

@@ -22,7 +22,7 @@ public class AllocatedEmployeeMachineService {
     private final AllocatedEmployeesMachineRepository repository;
     private final AllocatedEmployeeMachineMapper mapper;
     private final AllocatedEmployeesMachineValidation validation;
-    private final UserService userService;
+
 
     public Long createAllocatedEmployees(AllocatedEmployeeMachineDTO dto) {
         AllocatedEmployeeMachine allocatedEmployeeMachine = mapper.toEntity(dto);

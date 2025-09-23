@@ -7,7 +7,6 @@ import com.projeto.tcc.entities.Department;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.DepartmentRepository;
 import com.projeto.tcc.service.validation.DepartmentValidation;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,7 +64,7 @@ public class DepartmentService {
     }
 
 
-    public Page<DepartmentResultDTO> pesquisa(
+    public Page<DepartmentResultDTO> search(
             String name,
             String status,
             BigDecimal budget,

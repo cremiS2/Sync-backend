@@ -3,7 +3,6 @@ package com.projeto.tcc.controller;
 import com.projeto.tcc.dto.entry.DepartmentDTO;
 import com.projeto.tcc.dto.exit.DepartmentResultDTO;
 import com.projeto.tcc.dto.mappers.DepartmentMapper;
-import com.projeto.tcc.entities.Department;
 import com.projeto.tcc.service.DepartmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("departamento")
+@RequestMapping("department")
 @RequiredArgsConstructor
 public class DepartmentController implements GenericController{
 
@@ -46,21 +45,21 @@ public class DepartmentController implements GenericController{
 
     @GetMapping
     public ResponseEntity<Page<DepartmentResultDTO>> search(
-            @RequestParam(value = "nome-departamento", required = false)
+            @RequestParam(value = "department-name", required = false)
             String name,
 //            @RequestParam(value = "local-departamento", required = false)
 //            String location,
-            @RequestParam(value = "status-departamento", required = false)
+            @RequestParam(value = "status-department", required = false)
             String status,
-            @RequestParam(value = "orcamento-departamento", required = false)
+            @RequestParam(value = "department-budget", required = false)
             BigDecimal budget,
-            @RequestParam(value = "tamanho-pagina", defaultValue = "10")
+            @RequestParam(value = "page-size", defaultValue = "10")
             Integer pageSize,
-            @RequestParam(value = "numero-pagina", required = false, defaultValue = "0")
+            @RequestParam(value = "page-number", required = false, defaultValue = "0")
             Integer pageNumber
     ){
 
-        var department = service.pesquisa(
+        var department = service.search(
                 name,
                 status,
                 budget,

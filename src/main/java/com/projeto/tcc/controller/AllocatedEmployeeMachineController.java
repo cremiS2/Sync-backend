@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class AllocatedEmployeeMachineController implements GenericController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasHole='admin'")
     @GetMapping
     public ResponseEntity<Page<AllocatedEmployeeMachineResultDTO>> search(
             @RequestParam(name = "page-size", defaultValue = "10")

@@ -4,7 +4,6 @@ import com.projeto.tcc.dto.entry.EmployeeDTO;
 import com.projeto.tcc.dto.exit.EmployeeResultDTO;
 import com.projeto.tcc.dto.mappers.EmployeeMapper;
 import com.projeto.tcc.entities.Employee;
-import com.projeto.tcc.enums.StatusEmployee;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.service.validation.EmployeeValidation;
@@ -81,16 +80,20 @@ public class EmployeeService {
 
     }
 
+
     @Transactional
-    public void deletarFuncionario(Long idFuncionario){
-        Employee e = repository.findById(idFuncionario)
-                .orElseThrow(() -> new NaoRegistradoException("Employee não encontrado!"));
+    public void deleteEmployee(Long idFuncionario){
+        Employee employee = repository.findById(idFuncionario)
+                .orElseThrow(() -> new NaoRegistradoException("Funcionário não encontrado"));
 
-        System.out.println("User: " + (e.getUser() != null ? e.getUser().getId() : null));
-        System.out.println("Sector: " + (e.getSector() != null ? e.getSector().getId() : null));
-        e.getRoles().forEach(r -> System.out.println("Role: " + r.getId()));
+        if (employee.getUser() != null) {
+            employee.getUser().setEmployee(null);
+            employee.setUser(null);
+        }
 
-        repository.delete(e);
+        repository.delete(employee);
     }
+
+
 
 }

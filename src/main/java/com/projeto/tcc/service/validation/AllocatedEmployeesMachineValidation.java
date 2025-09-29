@@ -17,7 +17,7 @@ public class AllocatedEmployeesMachineValidation {
 
     public void validEntity(AllocatedEmployeeMachine allocatedEmployeeMachine){
 
-        if(allocatedEmployeeMachine.getEmployee() == null || allocatedEmployeeMachine.getChangedEmployee() == null){
+        if(allocatedEmployeeMachine.getEmployee() == null || allocatedEmployeeMachine.getChangedEmployee() == null  ){
             throw new NaoRegistradoException("Funcionário não encontrado");
         }
         if(checkIfExist(allocatedEmployeeMachine)){

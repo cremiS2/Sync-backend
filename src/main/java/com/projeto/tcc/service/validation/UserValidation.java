@@ -16,13 +16,13 @@ public class UserValidation {
 
     public void validarEntidade(User user){
         if(varificarExiste(user)){
-            throw new ConflitoCampoException("Usuário com e-mail e/ou username já cadastrado!");
+            throw new ConflitoCampoException("Usuário com e-mail já cadastrado!");
         }
     }
 
 
     private boolean varificarExiste(User user) {
-        var userFound = repository.findByEmailOrUsername(user.getEmail(), user.getUsername());
+        var userFound = repository.findByEmail(user.getEmail());
 
         if (user.getId() == null) {
             return userFound.isPresent();

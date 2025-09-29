@@ -11,16 +11,19 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private Long id;
+
     private String name;
 
     public Role(Long id, String name) {
         this.id = id;
         this.name = name;
     }
-    public Role(String name){};
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     public Role() {
-
     }
 
     public Long getId() {
@@ -39,7 +42,21 @@ public class Role {
         this.name = name;
     }
 
-    public enum Values{
+    // 👇 implementação essencial para ManyToMany funcionar sem erro
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+        Role role = (Role) o;
+        return id != null && id.equals(role.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    public enum Values {
         ADMIN(1L),
         GERENTE(2L),
         OPERADOR(3L);
@@ -58,6 +75,5 @@ public class Role {
             this.value = value;
         }
     }
-
-
 }
+

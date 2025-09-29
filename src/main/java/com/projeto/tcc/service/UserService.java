@@ -41,7 +41,6 @@ public class UserService {
         userValidation.validarEntidade(user1);
         user1 = userRepository.save(user1);
         usuariosCache.put(user1.getId(), user1);
-
         return user1;
     }
 
@@ -63,7 +62,7 @@ public class UserService {
         var user  = findUser(id);
         if(user != null){
             userRepository.delete(user);
-            usuariosCache.remove(user.getId());
+            usuariosCache.remove(id);
         }else{
             throw new NaoRegistradoException("User com o id " + id + " não encontrado");
         }

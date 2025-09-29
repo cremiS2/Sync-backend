@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Shift {
     DIURNO("diurno"),
-    NORTURNO("noturno"),
+    NOTURNO("noturno"),
     VESPERTINO("vespertino");
 
     private final String name;

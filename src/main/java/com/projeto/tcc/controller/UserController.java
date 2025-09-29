@@ -40,9 +40,9 @@ public class UserController implements GenericController{
 
     @GetMapping
     public ResponseEntity<Page<UserResultDTO>> research(
-            @RequestParam(value = "numero-pagina", defaultValue = "0")
+            @RequestParam(value = "page-number", defaultValue = "0")
             Integer numberPage,
-            @RequestParam(value = "tamanho-pagina", defaultValue = "10")
+            @RequestParam(value = "page-size", defaultValue = "10")
             Integer pageSize
     ){
         Page<UserResultDTO> userResultDTO = userService.getPaged(numberPage, pageSize);

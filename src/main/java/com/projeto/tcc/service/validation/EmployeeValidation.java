@@ -45,13 +45,17 @@ public class EmployeeValidation {
         }
 
         try{
-            employee.setShift(Shift.valueOf(dto.shift().toUpperCase()));
+            if(dto.shift() != null){
+                employee.setShift(Shift.valueOf(dto.shift().toUpperCase()));
+            }
         }catch (IllegalArgumentException e){
             throw new CampoInvalidoException("shift", "O turno informado não existe");
         }
 
         try{
-            employee.setStatus(StatusEmployee.valueOf(dto.status()));
+            if(dto.status() != null){
+                employee.setStatus(StatusEmployee.valueOf(dto.status().toUpperCase()));
+            }
         }catch (IllegalArgumentException e){
             throw new CampoInvalidoException("status", "O status informado não existe");
         }

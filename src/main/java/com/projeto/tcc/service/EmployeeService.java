@@ -4,9 +4,11 @@ import com.projeto.tcc.dto.entry.EmployeeDTO;
 import com.projeto.tcc.dto.exit.EmployeeResultDTO;
 import com.projeto.tcc.dto.mappers.EmployeeMapper;
 import com.projeto.tcc.entities.Employee;
+import com.projeto.tcc.enums.StatusEmployee;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.service.validation.EmployeeValidation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +27,6 @@ public class EmployeeService {
     private final EmployeeValidation validation;
 
     public Employee criarFuncionario(EmployeeDTO dto){
-
         Employee employee = mapper.toEntity(dto);
         validation.validarEntidade(employee, dto);
         return repository.save(employee);
@@ -42,9 +43,6 @@ public class EmployeeService {
 
     public void upadateFuncionario(Long id, EmployeeDTO employeeDTO){
         Employee employee = getFuncionarioEntity(id);
-        if(employee.getAvailability()){
-
-        }
         mapper.updateFuncionario(employeeDTO, employee);
         validation.validarEntidade(employee, employeeDTO);
         repository.save(employee);
@@ -83,7 +81,16 @@ public class EmployeeService {
 
     }
 
+    @Transactional
     public void deletarFuncionario(Long idFuncionario){
-        repository.delete(getFuncionarioEntity(idFuncionario));
+        Employee e = repository.findById(idFuncionario)
+                .orElseThrow(() -> new NaoRegistradoException("Employee não encontrado!"));
+
+        System.out.println("User: " + (e.getUser() != null ? e.getUser().getId() : null));
+        System.out.println("Sector: " + (e.getSector() != null ? e.getSector().getId() : null));
+        e.getRoles().forEach(r -> System.out.println("Role: " + r.getId()));
+
+        repository.delete(e);
     }
+
 }

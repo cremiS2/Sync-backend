@@ -18,7 +18,7 @@ public class Sector {
 
     private Float efficiency;
 
-    @OneToMany(mappedBy = "sector")
+    @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
     private List<Employee> employees;
 
     @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)

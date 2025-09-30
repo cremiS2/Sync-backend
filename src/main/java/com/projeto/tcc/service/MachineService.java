@@ -49,7 +49,7 @@ public class MachineService {
     //Arrumar uma forma melhor de fazer isso depois!
     public void updateMaquina(Long idMaquina, MachineDTO dto){
         Machine machine = getIdReturnMaquina(idMaquina);
-        validation.validarInformacoes(mapper.toEntity(dto), dto);
+        validation.validarInformacoes(machine, dto);
         if(dto.status() != null){
             machine.setStatus(StatusMachine.valueOf(dto.status().toUpperCase()));
         }

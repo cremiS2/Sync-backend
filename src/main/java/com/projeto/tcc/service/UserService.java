@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +31,10 @@ public class UserService {
         return usuariosCache.computeIfAbsent(id, chave ->
                 userRepository.findById(chave).orElse(null)
         );
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() -> new NaoRegistradoException("Usuário com email " +  email + " não encontrado"));
     }
 
     @Transactional

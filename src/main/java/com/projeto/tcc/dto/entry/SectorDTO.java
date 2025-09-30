@@ -12,6 +12,9 @@ public record SectorDTO(
         Float efficiency,
 
         @NotNull(message = "Por favor, preencha o campo")
-        Long department
+        Long department,
+
+        @NotNull(message = "Por favor, preencha o campo")
+        Integer maximumQuantEmployee
 ) {
 }

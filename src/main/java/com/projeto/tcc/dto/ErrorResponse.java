@@ -14,6 +14,10 @@ public record ErrorResponse(int statusErro, String menssagem, List<ErrorField> e
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), mensagem, List.of());
     }
 
+    public static ErrorResponse excedeuQuantidadeSetor(String menssagem){
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), menssagem, List.of());
+    }
+
 
 
 }

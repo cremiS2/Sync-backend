@@ -7,6 +7,7 @@ import com.projeto.tcc.enums.Shift;
 import com.projeto.tcc.enums.StatusEmployee;
 import com.projeto.tcc.exceptions.CampoInvalidoException;
 import com.projeto.tcc.exceptions.ConflitoCampoException;
+import com.projeto.tcc.exceptions.ExcedeuQuantidadeException;
 import com.projeto.tcc.repository.EmployeeRepository;
 import com.projeto.tcc.repository.RoleRepository;
 
@@ -32,6 +33,9 @@ public class EmployeeValidation {
         if(dto.sector() != null){
             if(employee.getSector() == null){
                 throw new CampoInvalidoException("sector","Setor não existente");
+            }
+            if(employee.getSector().checkQuantMaximumEmployee()){
+                throw new ExcedeuQuantidadeException("Este setor já está com sua capacidade máxima de funcionários");
             }
         }
 

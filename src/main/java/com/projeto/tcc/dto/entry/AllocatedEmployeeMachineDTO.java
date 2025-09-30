@@ -9,6 +9,5 @@ public record AllocatedEmployeeMachineDTO(
 
         @NotNull(message = "Por favor, preencha o campo")
         Long machine
-
-        ) {
+) {
 }

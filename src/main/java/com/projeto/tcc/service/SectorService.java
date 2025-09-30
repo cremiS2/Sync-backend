@@ -25,7 +25,6 @@ public class SectorService {
 
 
     public Long createSector(SectorDTO dto){
-
         Sector sector = mapper.toEntity(dto);
         validation.validarInformacoes(sector, dto);
         return repository.save(sector).getId();

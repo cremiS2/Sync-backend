@@ -55,4 +55,10 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleInternalErrorException(InternalError error){
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocorreu um erro interno :( \n Contate nossa equipe para que possamos resolver esse problema!", List.of());
     }
+
+    @ExceptionHandler(ExcedeuQuantidadeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleExcedeuQuantidadeException(ExcedeuQuantidadeException e){
+        return ErrorResponse.excedeuQuantidadeSetor(e.getMessage());
+    }
 }

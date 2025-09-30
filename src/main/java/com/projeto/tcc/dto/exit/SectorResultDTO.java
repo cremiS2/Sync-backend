@@ -13,7 +13,8 @@ public record SectorResultDTO(
         String efficiency,
         CustomDepartmentDTO department,
         List<CustomEmployeeDTO> employees,
-        List<CustomMachineDTO> machines
+        List<CustomMachineDTO> machines,
+        Integer maximumQuantEmployee
 
 ) {
 }

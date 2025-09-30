@@ -27,5 +27,13 @@ public class Sector {
     @ManyToOne
     private Department department;
 
+    private Integer maximumQuantEmployee;
+
+
+    public boolean checkQuantMaximumEmployee(){
+        System.out.println(this.employees.size());
+        return maximumQuantEmployee <= employees.size();
+    }
+
 }
 

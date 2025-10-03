@@ -25,9 +25,6 @@ public abstract class EmployeeMapper {
     @Mapping(target = "sector",
             expression =
                     "java(dto.sector() == null ? null : sectorRepository.findById(dto.sector()).orElse(null))")
-
-    @Mapping(target = "roles",
-            ignore = true)
     @Mapping(target = "shift",
             ignore = true)
     @Mapping(target = "status",
@@ -52,9 +49,6 @@ public abstract class EmployeeMapper {
     @Mapping(target = "sector",
             expression =
                     "java(dto.sector() == null ? entidade.getSector() : sectorRepository.findById(dto.sector()).orElse(null))")
-
-    @Mapping(target = "roles",
-            ignore = true)
     @Mapping(target = "shift",
             ignore = true)
     @Mapping(target = "status",

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -21,29 +22,34 @@ public class DepartmentController implements GenericController{
     private final DepartmentMapper mapper;
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> saveDepartment(@RequestBody @Valid DepartmentDTO dto){
         var entidade = service.saveDepartment(dto);
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     public ResponseEntity<DepartmentResultDTO> getById(@PathVariable("id") Long idDepartment){
         return ResponseEntity.ok(service.getDepartmentId(idDepartment));
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long idDepartment){
         service.deleteDepartment(idDepartment);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> updateById(@PathVariable("id") Long idDepartment, @RequestBody DepartmentDTO departmentDTO){
         service.updateDepartment(idDepartment, departmentDTO);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     public ResponseEntity<Page<DepartmentResultDTO>> search(
             @RequestParam(value = "department-name", required = false)
             String name,

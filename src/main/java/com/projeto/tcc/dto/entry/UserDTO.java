@@ -1,19 +1,21 @@
 package com.projeto.tcc.dto.entry;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+
+import java.util.List;
 
 public record UserDTO(
-        Long id,
-        @NotBlank(message = "Por favor, informe o username")
-        @Size(max = 100, message = "Excedeu a quantidade permitida de caracteres")
-        String username,
+
         @NotBlank(message = "Por favor, informe o e-mail")
         @Email(message = "Preencha em formato de e-mail")
         String email,
+
         @NotBlank(message = "Por favor, informe o password")
-        String password
+        String password,
+
+        @NotNull(message = "Por favor, preencha o campo")
+        @NotEmpty(message = "Por favor, preencha o campo. Tipos: ADMIN, GERENTE, OPERADOR")
+        List<String> roles
         ) {
 
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final  Map<Long, User> usuariosCache = new HashMap<>();
     private final UserMapper mapper;
     private final UserValidation userValidation;
@@ -41,7 +42,7 @@ public class UserService {
     public User addUser(UserDTO usuario) {
         User user1 = mapper.toEntity(usuario);
         user1.setPassword(passwordEncoder.encode(usuario.password()));
-        userValidation.validarEntidade(user1);
+        userValidation.validarEntidade(user1, usuario);
         user1 = userRepository.save(user1);
         usuariosCache.put(user1.getId(), user1);
         return user1;
@@ -52,6 +53,7 @@ public class UserService {
     public void update(UserDTO userDTO, Long id) {
         User user = findUser(id);
         mapper.updateEntidade(user, userDTO);
+        userValidation.validarEntidade(user, userDTO);
         if(userDTO.password() != null){
             user.setPassword(passwordEncoder.encode(userDTO.password()));
         }

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Set;
+
 @Entity(name="tb_user")
 @Data
 public class User {
@@ -19,6 +21,13 @@ public class User {
 	private String email;
 
 	private String username;
+
+	@ManyToMany
+	@JoinTable( name = "tb_user_roles",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	private Set<Role> roles;
 
     @OneToOne(mappedBy = "user")
     private Employee employee;

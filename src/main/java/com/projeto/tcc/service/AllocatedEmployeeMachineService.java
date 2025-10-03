@@ -4,14 +4,18 @@ import com.projeto.tcc.dto.entry.AllocatedEmployeeMachineDTO;
 import com.projeto.tcc.dto.exit.AllocatedEmployeeMachineResultDTO;
 import com.projeto.tcc.dto.mappers.AllocatedEmployeeMachineMapper;
 import com.projeto.tcc.entities.AllocatedEmployeeMachine;
+import com.projeto.tcc.entities.User;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.AllocatedEmployeesMachineRepository;
+import com.projeto.tcc.security.CustomUserDetails;
 import com.projeto.tcc.service.validation.AllocatedEmployeesMachineValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import static com.projeto.tcc.repository.specs.AllocatedEmployeeMachineSpecs.*;
 
@@ -22,14 +26,25 @@ public class AllocatedEmployeeMachineService {
     private final AllocatedEmployeesMachineRepository repository;
     private final AllocatedEmployeeMachineMapper mapper;
     private final AllocatedEmployeesMachineValidation validation;
+    private final UserService userService;
+
 
 
     public Long createAllocatedEmployees(AllocatedEmployeeMachineDTO dto) {
+
         AllocatedEmployeeMachine allocatedEmployeeMachine = mapper.toEntity(dto);
+
+        Authentication employeeChanged =  SecurityContextHolder.getContext().getAuthentication();
+        User userChanged = userService.findByEmail(employeeChanged.getName());
+
+        if (userChanged.getEmployee() == null) {
+            throw new NaoRegistradoException("Por favor, relacione um employee ao user");
+        }
+
+        allocatedEmployeeMachine.setChangedEmployee(userChanged.getEmployee());
         validation.validEntity(allocatedEmployeeMachine);
+
         allocatedEmployeeMachine.getEmployee().setAvailability(false);
-//        Employee changedEmployee = userService.findUser(Long.valueOf(idEmployeeAllocated)).getEmployee();
-//        allocatedEmployeeMachine.setEmployee(changedEmployee);
         return repository.save(allocatedEmployeeMachine).getId();
     }
 

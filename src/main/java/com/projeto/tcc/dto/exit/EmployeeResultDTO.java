@@ -14,7 +14,6 @@ public record EmployeeResultDTO(
         String name,
         String photo,
         Shift shift,
-        Set<Role> roles,
         CustomSectorDTO sector,
         StatusEmployee status,
         Boolean availability,

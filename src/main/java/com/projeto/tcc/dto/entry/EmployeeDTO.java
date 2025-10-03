@@ -18,10 +18,6 @@ public record EmployeeDTO(
         @NotNull(message = "Por favor, preencha o campo")
         Long sector,
 
-        @NotNull(message = "Por favor, preencha o campo")
-        @NotEmpty(message = "Por favor, preencha o campo. Tipos: ADMIN, GERENTE, OPERADOR")
-        List<String> roles,
-
         @NotBlank(message = "Por favor, preencha o campo")
         String shift,
 

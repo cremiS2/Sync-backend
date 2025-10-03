@@ -20,15 +20,15 @@ public class AllocatedEmployeeMachineController implements GenericController {
 
     private final AllocatedEmployeeMachineService service;
 
-
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     public ResponseEntity<Void> saveAllocation(@RequestBody @Valid AllocatedEmployeeMachineDTO dto){
         Long allocationId = service.createAllocatedEmployees(dto);
         URI uri = gerarHeaderLocation(allocationId);
         return ResponseEntity.created(uri).build();
     }
 
-    @PreAuthorize("hasHole='admin'")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     @GetMapping
     public ResponseEntity<Page<AllocatedEmployeeMachineResultDTO>> search(
             @RequestParam(name = "page-size", defaultValue = "10")

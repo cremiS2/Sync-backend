@@ -10,10 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface UserMapper {
 
     UserResultDTO toDTO(User user);
+
+    @Mapping(target = "roles",
+            ignore = true)
     @Mapping(target = "password", ignore = true)
     User toEntity(UserDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "password",
+            ignore = true)
+    @Mapping(target = "roles",
+            ignore = true)
     void updateEntidade(@MappingTarget User user, UserDTO userDTO);
 }

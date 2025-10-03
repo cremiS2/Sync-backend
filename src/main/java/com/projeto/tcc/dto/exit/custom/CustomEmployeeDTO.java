@@ -11,7 +11,7 @@ public record CustomEmployeeDTO(
         String name,
         String photo,
         Shift shift,
-        StatusEmployee status,
-        Set<Role> roles
+        StatusEmployee status
+
 ) {
 }

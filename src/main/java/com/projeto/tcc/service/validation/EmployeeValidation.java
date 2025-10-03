@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class EmployeeValidation {
 
     private final EmployeeRepository repository;
-    private final RoleRepository roleRepository;
 
 
     public void validarEntidade(Employee employee, EmployeeDTO dto){
@@ -63,13 +62,6 @@ public class EmployeeValidation {
         }catch (IllegalArgumentException e){
             throw new CampoInvalidoException("status", "O status informado não existe");
         }
-
-        //Se colocar mais de uma role, ele não identifica se as outras roles existem!
-       if(dto.roles() != null && !dto.roles().isEmpty()){
-           Set<Role> rolesFuncionario = roleRepository.findAllByNameIn(dto.roles().stream().map(String::toLowerCase).collect(Collectors.toSet()));
-           if (rolesFuncionario.isEmpty()) throw new CampoInvalidoException("roles","Roles não encontradas");
-           employee.setRoles(rolesFuncionario);
-       }
 
     }
 

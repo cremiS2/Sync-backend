@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,25 +20,22 @@ public class UserController implements GenericController{
 
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<Void> saveUser(@RequestBody @Valid UserDTO userDTO){
-        User user = userService.addUser(userDTO);
-        URI uri = gerarHeaderLocation(user.getId());
-        return ResponseEntity.created(uri).build();
-    }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
         userService.update(userDTO, id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     @GetMapping
     public ResponseEntity<Page<UserResultDTO>> research(
             @RequestParam(value = "page-number", defaultValue = "0")
@@ -49,6 +47,7 @@ public class UserController implements GenericController{
         return ResponseEntity.ok(userResultDTO);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     @GetMapping("{id}")
     public ResponseEntity<UserResultDTO> getById(@PathVariable("id") Long id){
         return ResponseEntity.ok(userService.getById(id));

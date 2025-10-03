@@ -1,11 +1,18 @@
 package com.projeto.tcc.service;
 
+import com.projeto.tcc.dto.LoginInformacoes;
 import com.projeto.tcc.dto.entry.LoginDTO;
 import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.exceptions.NaoRegistradoException;
 import com.projeto.tcc.repository.RoleRepository;
 import com.projeto.tcc.repository.UserRepository;
+import com.projeto.tcc.security.CustomUserDetails;
+import com.projeto.tcc.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -20,36 +27,36 @@ import java.util.List;
 @Service
 public class TokenService {
 
-    private final UserRepository repository;
-    private final  BCryptPasswordEncoder passwordEncoder;
     private final  JwtEncoder encoder;
     private final  RoleRepository roleRepository;
+    private final AuthenticationManager authenticationManager;
 
-    public LoginDTO criarToken(UserDTO userAcces){
-        var user = repository.findByEmail(userAcces.email());
 
-        if(user.isEmpty() || !user.get().verificarSenha(userAcces, passwordEncoder)){
-            throw new NaoRegistradoException("Funcionário não encontrado");
-        }
+    public LoginDTO criarToken(LoginInformacoes userAcces){
+
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(userAcces.email(), userAcces.password());
+
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+        user.getAuthorities().forEach(System.out::println);
 
         var now = Instant.now();
         var expir = 300L;
 
         List<String> scopes = new ArrayList<>();
 
-        if(user.get().getEmployee() != null){
-            user.get().getEmployee().getRoles()
-                    .stream()
-                    .map(role -> role.getName().toUpperCase())
-                    .forEach(scopes::add);
-        }
-        else{
+        if(user.getAuthorities().isEmpty()){
              scopes.add(roleRepository.findById(3L).get().getName().toUpperCase());
+        }else{
+            user.getAuthorities().forEach(r -> scopes.add(r.getAuthority()));
         }
 
         var claims = JwtClaimsSet.builder()
                 .issuer("login")
-                .subject(user.get().getId().toString())
+                .subject(user.getUsername())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expir))
                 .claim("scope", scopes)

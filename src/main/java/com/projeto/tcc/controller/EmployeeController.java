@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,28 +18,28 @@ public class EmployeeController implements GenericController {
 
     private final EmployeeService employeeService;
 
-//    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> saveEmployee(@RequestBody @Valid EmployeeDTO dto){
-        var employee = employeeService.criarFuncionario(dto);
+        var employee = employeeService.saveEmployee(dto);
         var uri = gerarHeaderLocation(employee.getId());
         return ResponseEntity.created(uri).build();
     }
 
-//    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     @GetMapping("{id}")
     public ResponseEntity<EmployeeResultDTO> getFuncionarioId(@PathVariable Long id){
         return ResponseEntity.ok().body(employeeService.getFuncionarioId(id));
     }
 
-//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<Void> updateFuncionario(@PathVariable Long id, @RequestBody EmployeeDTO dto){
         employeeService.upadateFuncionario(id, dto);
         return ResponseEntity.noContent().build();
     }
 
-//    @PreAuthorize("hasAnyAuthority('SCOPE_GERENTE', 'SCOPE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     @GetMapping
     public ResponseEntity<Page<EmployeeResultDTO>> pesquisa(
             @RequestParam(value = "employee-name", required = false)
@@ -68,6 +69,7 @@ public class EmployeeController implements GenericController {
 
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id){
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();

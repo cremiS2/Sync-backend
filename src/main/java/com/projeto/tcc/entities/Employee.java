@@ -27,12 +27,6 @@ public class Employee {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable( name = "tb_employee_roles",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
 
     @Enumerated(EnumType.STRING)
     private Shift shift;

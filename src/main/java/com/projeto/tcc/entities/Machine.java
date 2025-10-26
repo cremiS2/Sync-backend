@@ -35,7 +35,7 @@ public class Machine {
 	@Enumerated(EnumType.STRING)
 	private StatusMachine status;
 
-	@ManyToMany(mappedBy = "machine")
+	@OneToMany(mappedBy = "machine")
 	private List<AllocatedEmployeeMachine> allocatedEmployeeMachine;
 
 }

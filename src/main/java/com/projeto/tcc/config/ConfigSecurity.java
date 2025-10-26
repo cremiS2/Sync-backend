@@ -26,9 +26,13 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -42,21 +46,44 @@ public class ConfigSecurity {
     private RSAPublicKey publicKey;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                // rotas públicas
                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/sign-in").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .anyRequest().permitAll())
+                                .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                                // qualquer outra rota, por enquanto, liberada
+                                .anyRequest().permitAll()
+                )
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
+    }
 
+    // ✅ Configuração de CORS corrigida
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+                "https://fronttcc-v6al.vercel.app",
+                "http://localhost:*",
+                "http://127.0.0.1",
+                "http://[::1]"
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
@@ -64,29 +91,20 @@ public class ConfigSecurity {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
     @Bean
-    public NimbusJwtDecoder decoder(){
+    public NimbusJwtDecoder decoder() {
         return NimbusJwtDecoder.withPublicKey(publicKey).build();
     }
 
-
-
     @Bean
-    public NimbusJwtEncoder encoder(){
+    public NimbusJwtEncoder encoder() {
         JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
         var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
 
     @Bean
-    public PasswordEncoder cryptPasswordEncoder(){
+    public PasswordEncoder cryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
-
-
-
 }

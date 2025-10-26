@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("employee")
@@ -73,6 +76,12 @@ public class EmployeeController implements GenericController {
     public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id){
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @GetMapping("/relatorio")
+    public ResponseEntity<byte[]> gerarRelatorioFuncionarios() {
+        return employeeService.gerarRelatorioFuncionarios();
     }
 
 }

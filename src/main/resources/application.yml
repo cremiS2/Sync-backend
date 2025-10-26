@@ -2,11 +2,10 @@ spring:
   application:
     name: tcc
   datasource:
-    url: jdbc:postgresql://localhost:1234/tccdb
-
-
-    username: postgres
-    password: postgres
+    url: jdbc:mysql://cremibd-cremasco-1d4c.g.aivencloud.com:22623/tccdb
+    username: avnadmin
+    password: AVNS_nVqfqoOKT0Gzn-PSvWp
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
     hibernate:
@@ -17,6 +16,25 @@ spring:
     time-format: HH:mm
     serialization:
       write-dates-as-timestamps: false
+
+  web:
+    cors:
+      allowed-origin-patterns:
+        - "http://localhost:*"
+        - "http://127.0.0.1:*"
+        - "http://[::1]:*"
+        - "https://seu-front.azurewebsites.net" # <-- depois coloca o link real do front aqui
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+        - OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+      max-age: 3600
+
 jwt:
   private:
     key: "classpath:chave_privada.key"

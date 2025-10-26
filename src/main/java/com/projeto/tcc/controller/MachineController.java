@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("machine")
@@ -70,6 +72,17 @@ public class MachineController implements GenericController{
         ).map(mapper::toDTO);
 
         return ResponseEntity.ok().body(maquinasPesquisa);
+    }
+
+    @GetMapping("/relatorio")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    public ResponseEntity<byte[]> gerarRelatorioMaquinas() {
+        byte[] pdf = machineService.gerarRelatorioMaquinas();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=relatorio_maquinas.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 
 }

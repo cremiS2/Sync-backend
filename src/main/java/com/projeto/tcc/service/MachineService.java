@@ -93,39 +93,4 @@ public class MachineService {
         var entidade = getIdReturnMaquina(idMaquina);
         machineRepository.delete(entidade);
     }
-
-    public byte[] gerarRelatorioMaquinas() {
-        try {
-            // Carrega o arquivo .jrxml da pasta resources/reports
-            InputStream reportStream = getClass().getResourceAsStream("/reports/relatorio_maquinas.jrxml");
-            if (reportStream == null) {
-                throw new RuntimeException("Arquivo relatorio_maquinas.jrxml não encontrado!");
-            }
-
-            // Compila o relatório
-            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
-
-            // Obtém os dados (todas as máquinas)
-            List<MachineResultDTO> maquinas = machineRepository.findAll()
-                    .stream()
-                    .map(mapper::toDTO)
-                    .toList();
-
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(maquinas);
-
-            // Parâmetros opcionais
-            Map<String, Object> params = new HashMap<>();
-            params.put("logo", getClass().getResource("/static/logo.png").toString()); // opcional
-            params.put("titulo", "Relatório de Máquinas");
-
-            // Preenche o relatório
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
-
-            // Exporta para PDF em bytes
-            return JasperExportManager.exportReportToPdf(jasperPrint);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar relatório: " + e.getMessage(), e);
-        }
-    }
 }

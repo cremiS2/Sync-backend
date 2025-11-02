@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+                  http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="subreport_funcionarios"
+              pageWidth="555"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="0"
+              rightMargin="0"
+              topMargin="0"
+              bottomMargin="0">
+
+    <style name="TableCell" fontName="SansSerif" fontSize="10"/>
+    <style name="TableCellAlt" mode="Opaque" backcolor="#F5F5F5" fontName="SansSerif" fontSize="10"/>
+
+    <field name="name" class="java.lang.String"/>
+    <field name="shift" class="com.projeto.tcc.enums.Shift"/>
+    <field name="availability" class="java.lang.Boolean"/>
+    <field name="sector" class="com.projeto.tcc.entities.Sector"/>
+    <field name="status" class="com.projeto.tcc.enums.StatusEmployee"/>
+
+    <variable name="rowNumber" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[1]]></variableExpression>
+        <initialValueExpression><![CDATA[0]]></initialValueExpression>
+    </variable>
+
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="100" height="20" style="TableCell">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <box leftPadding="3"><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="0" y="0" width="100" height="20" style="TableCellAlt">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 != 0]]></printWhenExpression>
+                </reportElement>
+                <box leftPadding="3"><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="100" y="0" width="70" height="20" style="TableCell">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{shift}.toString()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="100" y="0" width="70" height="20" style="TableCellAlt">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 != 0]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{shift}.toString()]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="170" y="0" width="70" height="20" style="TableCell">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{availability} ? "Sim" : "Não"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="170" y="0" width="70" height="20" style="TableCellAlt">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 != 0]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{availability} ? "Sim" : "Não"]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="240" y="0" width="100" height="20" style="TableCell">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <box leftPadding="3"><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{sector} != null ? $F{sector}.getName() : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="240" y="0" width="100" height="20" style="TableCellAlt">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 != 0]]></printWhenExpression>
+                </reportElement>
+                <box leftPadding="3"><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{sector} != null ? $F{sector}.getName() : ""]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="340" y="0" width="120" height="20" style="TableCell">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <box leftPadding="3"><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{sector} != null && $F{sector}.getDepartment() != null ? $F{sector}.getDepartment().getName() : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="340" y="0" width="120" height="20" style="TableCellAlt">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 != 0]]></printWhenExpression>
+                </reportElement>
+                <box leftPadding="3"><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{sector} != null && $F{sector}.getDepartment() != null ? $F{sector}.getDepartment().getName() : ""]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="460" y="0" width="95" height="20" style="TableCell">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{status}.toString()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="460" y="0" width="95" height="20" style="TableCellAlt">
+                    <printWhenExpression><![CDATA[$V{rowNumber} % 2 != 0]]></printWhenExpression>
+                </reportElement>
+                <box><pen lineWidth="0.5" lineColor="#E0E0E0"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{status}.toString()]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+</jasperReport>

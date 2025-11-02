@@ -74,15 +74,4 @@ public class MachineController implements GenericController{
         return ResponseEntity.ok().body(maquinasPesquisa);
     }
 
-    @GetMapping("/relatorio")
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
-    public ResponseEntity<byte[]> gerarRelatorioMaquinas() {
-        byte[] pdf = machineService.gerarRelatorioMaquinas();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=relatorio_maquinas.pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdf);
-    }
-
 }

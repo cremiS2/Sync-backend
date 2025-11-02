@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+                  http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Relatorio_Completo"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="40"
+              bottomMargin="40">
+
+    <!-- ESTILOS -->
+    <style name="TitleStyle" fontName="SansSerif" fontSize="20" isBold="true" forecolor="#00468C"/>
+    <style name="SectionTitle" fontName="SansSerif" fontSize="14" isBold="true" forecolor="#282828"/>
+    <style name="TableHeader" mode="Opaque" backcolor="#00468C" forecolor="#FFFFFF" fontName="SansSerif" fontSize="11" isBold="true"/>
+    <style name="TableCell" fontName="SansSerif" fontSize="10"/>
+    <style name="TableCellAlt" mode="Opaque" backcolor="#F0F0F0" fontName="SansSerif" fontSize="10"/>
+
+    <!-- PARÂMETROS -->
+    <parameter name="titulo" class="java.lang.String"/>
+    <parameter name="FuncionariosDataSource" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <parameter name="MaquinasDataSource" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <parameter name="SUBREPORT_FUNCIONARIOS" class="net.sf.jasperreports.engine.JasperReport"/>
+    <parameter name="SUBREPORT_MAQUINAS" class="net.sf.jasperreports.engine.JasperReport"/>
+
+    <!-- TÍTULO -->
+    <title>
+        <band height="80">
+            <textField>
+                <reportElement x="0" y="15" width="555" height="40" style="TitleStyle"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="70" width="555" height="1"/>
+                <graphicElement>
+                    <pen lineWidth="2.0" lineColor="#00468C"/>
+                </graphicElement>
+            </line>
+        </band>
+    </title>
+
+    <!-- RODAPÉ -->
+    <pageFooter>
+        <band height="30">
+            <textField>
+                <reportElement x="0" y="5" width="300" height="20"/>
+                <textElement>
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Gerado em: " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date())]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="450" y="5" width="100" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <!-- SUMÁRIO -->
+    <summary>
+        <band height="700">
+            
+            <!-- SEÇÃO FUNCIONÁRIOS -->
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="25" style="SectionTitle"/>
+                <box>
+                    <bottomPen lineWidth="1.0" lineColor="#00468C"/>
+                </box>
+                <textElement verticalAlignment="Middle"/>
+                <text><![CDATA[Relatório de Funcionários]]></text>
+            </staticText>
+
+            <!-- CABEÇALHO TABELA FUNCIONÁRIOS -->
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="40" width="100" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Nome]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="100" y="40" width="70" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Turno]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="170" y="40" width="70" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Disponível]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="240" y="40" width="100" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Setor]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="340" y="40" width="120" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Departamento]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="460" y="40" width="95" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+
+            <!-- SUBRELATÓRIO FUNCIONÁRIOS -->
+            <subreport>
+                <reportElement x="0" y="65" width="555" height="150"/>
+                <dataSourceExpression><![CDATA[$P{FuncionariosDataSource}]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{SUBREPORT_FUNCIONARIOS}]]></subreportExpression>
+            </subreport>
+
+            <!-- SEÇÃO MÁQUINAS -->
+            <staticText>
+                <reportElement x="0" y="230" width="555" height="25" style="SectionTitle"/>
+                <box>
+                    <bottomPen lineWidth="1.0" lineColor="#00468C"/>
+                </box>
+                <textElement verticalAlignment="Middle"/>
+                <text><![CDATA[Relatório de Máquinas]]></text>
+            </staticText>
+
+            <!-- CABEÇALHO TABELA MÁQUINAS -->
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="260" width="120" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Máquina]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="120" y="260" width="90" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Nº Série]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="210" y="260" width="120" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Última Manutenção]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="330" y="260" width="100" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Setor]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="430" y="260" width="125" height="25" style="TableHeader"/>
+                <box><pen lineWidth="0.5" lineColor="#FFFFFF"/></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+
+            <!-- SUBRELATÓRIO MÁQUINAS -->
+            <subreport>
+                <reportElement x="0" y="285" width="555" height="150"/>
+                <dataSourceExpression><![CDATA[$P{MaquinasDataSource}]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{SUBREPORT_MAQUINAS}]]></subreportExpression>
+            </subreport>
+
+        </band>
+    </summary>
+
+</jasperReport>

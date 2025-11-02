@@ -78,10 +78,4 @@ public class EmployeeController implements GenericController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
-    @GetMapping("/relatorio")
-    public ResponseEntity<byte[]> gerarRelatorioFuncionarios() {
-        return employeeService.gerarRelatorioFuncionarios();
-    }
-
 }

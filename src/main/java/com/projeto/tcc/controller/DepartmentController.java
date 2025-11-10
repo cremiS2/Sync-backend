@@ -29,7 +29,7 @@ public class DepartmentController implements GenericController{
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     public ResponseEntity<DepartmentResultDTO> getById(@PathVariable("id") Long idDepartment){
         return ResponseEntity.ok(service.getDepartmentId(idDepartment));
     }
@@ -49,7 +49,7 @@ public class DepartmentController implements GenericController{
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     public ResponseEntity<Page<DepartmentResultDTO>> search(
             @RequestParam(value = "department-name", required = false)
             String name,

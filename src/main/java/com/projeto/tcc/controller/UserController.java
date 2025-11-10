@@ -35,7 +35,7 @@ public class UserController implements GenericController{
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping
     public ResponseEntity<Page<UserResultDTO>> research(
             @RequestParam(value = "page-number", defaultValue = "0")
@@ -47,7 +47,7 @@ public class UserController implements GenericController{
         return ResponseEntity.ok(userResultDTO);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping("{id}")
     public ResponseEntity<UserResultDTO> getById(@PathVariable("id") Long id){
         return ResponseEntity.ok(userService.getById(id));

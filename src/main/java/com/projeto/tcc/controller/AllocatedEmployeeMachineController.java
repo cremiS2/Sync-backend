@@ -28,7 +28,7 @@ public class AllocatedEmployeeMachineController implements GenericController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping
     public ResponseEntity<Page<AllocatedEmployeeMachineResultDTO>> search(
             @RequestParam(name = "page-size", defaultValue = "10")

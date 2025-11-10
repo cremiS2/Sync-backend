@@ -71,7 +71,7 @@ public class ConfigSecurity {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList(
-                "https://fronttcc-v6al.vercel.app",
+                "https://sync-front-end-brown.vercel.app",
                 "http://localhost:*",
                 "http://127.0.0.1",
                 "http://[::1]"

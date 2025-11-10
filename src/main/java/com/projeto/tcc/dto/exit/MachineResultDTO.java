@@ -17,7 +17,7 @@ public record MachineResultDTO(
         Float oee,
         String photo,
         Integer throughput,
-        LocalDate lastMaintence,
+        LocalDate lastMaintenance,
         CustomSectorDTO sector,
         List<AllocatedEmployeeMachineResultDTO> allocatedEmployeeMachine
 ) {

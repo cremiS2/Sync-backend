@@ -28,7 +28,7 @@ public class SectorController implements GenericController{
     }
 
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping("{id}")
     public ResponseEntity<SectorResultDTO> getSectorId(@PathVariable Long id){
         return ResponseEntity.ok().body(sectorService.getSectorId(id));
@@ -41,7 +41,7 @@ public class SectorController implements GenericController{
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping
     public ResponseEntity<Page<SectorResultDTO>> research(
             @RequestParam(value = "department-name", required = false)

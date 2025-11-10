@@ -29,7 +29,7 @@ public class EmployeeController implements GenericController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping("{id}")
     public ResponseEntity<EmployeeResultDTO> getFuncionarioId(@PathVariable Long id){
         return ResponseEntity.ok().body(employeeService.getFuncionarioId(id));
@@ -42,7 +42,7 @@ public class EmployeeController implements GenericController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping
     public ResponseEntity<Page<EmployeeResultDTO>> pesquisa(
             @RequestParam(value = "employee-name", required = false)

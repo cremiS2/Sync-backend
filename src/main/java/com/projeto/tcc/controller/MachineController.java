@@ -29,7 +29,7 @@ public class MachineController implements GenericController{
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     public ResponseEntity<MachineResultDTO> verPorId(@PathVariable("id") Long idMaquina){
         return ResponseEntity.ok(machineService.getMaquinaId(idMaquina));
     }
@@ -48,7 +48,7 @@ public class MachineController implements GenericController{
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping
     public ResponseEntity<Page<MachineResultDTO>> pesquisa(
             @RequestParam(value = "machine-name", required = false)

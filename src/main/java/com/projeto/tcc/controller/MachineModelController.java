@@ -24,13 +24,13 @@ public class MachineModelController implements GenericController{
         return ResponseEntity.created(gerarHeaderLocation(entidade.getId())).build();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping("{id}")
     public ResponseEntity<MachineModelResultDTO> getById(@PathVariable("id") Long idModelo){
         return ResponseEntity.ok(service.getModeloMaquinaId(idModelo));
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE', 'SCOPE_OPERADOR')")
     @GetMapping
     public ResponseEntity<Page<MachineModelResultDTO>> getAllModels(
             @RequestParam(name = "numero-pagina", defaultValue = "0")

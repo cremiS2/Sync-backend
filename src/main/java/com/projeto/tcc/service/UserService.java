@@ -1,5 +1,7 @@
 package com.projeto.tcc.service;
 
+import com.projeto.tcc.dto.entry.ForgotPasswordDTO;
+import com.projeto.tcc.dto.entry.ResetPasswordDTO;
 import com.projeto.tcc.dto.entry.UserDTO;
 import com.projeto.tcc.dto.exit.UserResultDTO;
 import com.projeto.tcc.dto.mappers.UserMapper;
@@ -82,6 +84,30 @@ public class UserService {
     public Page<UserResultDTO> getPaged(Integer numberPage, Integer pageSize){
         Pageable pageable = PageRequest.of(numberPage, pageSize);
         return userRepository.findAll(pageable).map(mapper::toDTO);
+    }
+
+    /**
+     * Valida se o email existe no sistema para solicitação de reset de senha
+     * @param forgotPasswordDTO DTO contendo o email
+     * @return true se o email existe, lança exceção caso contrário
+     */
+    public boolean requestPasswordReset(ForgotPasswordDTO forgotPasswordDTO) {
+        User user = findByEmail(forgotPasswordDTO.email());
+        // Se chegou aqui, o usuário existe (findByEmail lança exceção se não encontrar)
+        return true;
+    }
+
+    /**
+     * Redefine a senha do usuário
+     * @param resetPasswordDTO DTO contendo email e nova senha
+     */
+    @Transactional
+    public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
+        User user = findByEmail(resetPasswordDTO.email());
+        user.setPassword(passwordEncoder.encode(resetPasswordDTO.newPassword()));
+        userRepository.save(user);
+        usuariosCache.put(user.getId(), user);
+        System.out.println("Senha redefinida com sucesso para o usuário: " + resetPasswordDTO.email());
     }
 }
 

@@ -56,6 +56,8 @@ public class ConfigSecurity {
                                 // rotas públicas
                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/sign-in").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/forgot-password").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/reset-password").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 // qualquer outra rota, por enquanto, liberada
                                 .anyRequest().permitAll()

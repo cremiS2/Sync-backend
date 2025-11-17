@@ -1,76 +1,50 @@
-Sync - Backend (API Industrial Management System)
-Visão Geral
+# Sync - Backend (API Industrial Management System)
 
-O Sync Backend é a API REST responsável por gerenciar dados de máquinas, funcionários, departamentos e relatórios de produção industrial.
-Desenvolvido em Java Spring Boot e integrado ao banco de dados MySQL, o sistema segue arquitetura limpa, separação de camadas e boas práticas profissionais.
+## Visão Geral
+O **Sync Backend** é a API REST responsável pela gestão de máquinas, funcionários, departamentos e relatórios de produção industrial.  
+Desenvolvido em **Java Spring Boot** e integrado ao **MySQL**, segue arquitetura limpa e profissional, servindo como base de dados do front-end do projeto.
 
-Esta API fornece os endpoints necessários para que o front-end consuma e exiba métricas em tempo real sobre produção, desempenho e manutenção industrial.
+---
 
-Tecnologias Utilizadas
-Backend
+## 🚀 Tecnologias Utilizadas
+- Java 17+
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- Spring Validation
+- Lombok
+- MySQL 8+
+- MySQL Connector
+- DevTools
+- Postman
 
-Java 17+
+---
 
-Spring Boot
-
-Spring Web
-
-Spring Data JPA
-
-Spring Validation
-
-Lombok
-
-MySQL Connector
-
-Spring DevTools
-
-Banco de Dados
-
-MySQL 8+
-
-Ferramentas
-
-Postman
-
-MySQL Workbench
-
-IntelliJ / VSCode / Eclipse
-
-Arquitetura do Projeto
+## 📁 Arquitetura do Projeto
 src/
 ├── main/
-│   ├── java/com/sync
-│   │   ├── controllers/      # Endpoints REST
-│   │   ├── dtos/             # Objetos de transferência
-│   │   ├── entities/         # Entidades JPA
-│   │   ├── repositories/     # Interfaces DAO com JPA
-│   │   ├── services/         # Regras de negócio
-│   │   ├── config/           # Configurações (CORS, auth, etc.)
-│   │   └── SyncApplication.java
-│   └── resources/
-│       ├── application.properties
-│       └── data.sql          # Seeding inicial (opcional)
+│ ├── java/com/sync
+│ │ ├── controllers/
+│ │ ├── dtos/
+│ │ ├── entities/
+│ │ ├── repositories/
+│ │ ├── services/
+│ │ ├── config/
+│ │ └── SyncApplication.java
+│ └── resources/
+│ ├── application.properties
+│ └── data.sql
 └── test/
 
-Princípios da Arquitetura
+yaml
+Copiar código
 
-MVC + Services
+---
 
-Responsabilidade única
+## 🗄 Configuração do Banco de Dados
+Arquivo: `application.properties`
 
-DTOs para entrada e saída de dados
-
-Regras isoladas no service
-
-Repository padrão JPA
-
-Controllers limpos e objetivos
-
-Configuração do Banco de Dados
-
-Arquivo: src/main/resources/application.properties
-
+```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/sync?useSSL=false&serverTimezone=UTC
 spring.datasource.username=root
 spring.datasource.password=SUASENHA
@@ -78,26 +52,51 @@ spring.datasource.password=SUASENHA
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
+Criação do banco:
 
-Como Executar
-1. Clonar o repositório
-git clone https://github.com/seu-repo/sync-backend.git
-
-2. Rodar o MySQL
-
-Criar o banco:
-
+sql
+Copiar código
 CREATE DATABASE sync;
-
-3. Iniciar o projeto
+▶ Como Executar
+1. Clonar o repositório
+bash
+Copiar código
+git clone https://github.com/seu-repo/sync-backend.git
+2. Rodar o MySQL e criar o banco
+sql
+Copiar código
+CREATE DATABASE sync;
+3. Rodar a aplicação
+bash
+Copiar código
 mvn spring-boot:run
+Servidor disponível em:
 
-4. Acessar
+arduino
+Copiar código
 http://localhost:8080
+📦 Entidades Principais
+Departamento
+id
 
-Entidades Principais
+nome
+
+orçamento
+
+performance
+
+Funcionário
+id
+
+nome
+
+cargo
+
+desempenho
+
+departamento_id
+
 Máquina
-
 id
 
 nome
@@ -110,95 +109,66 @@ oee
 
 vazao
 
-manutencaoPreventiva
+departamento_id
 
-Funcionário
-
-id
-
-nome
-
-cargo
-
-departamento
-
-turno
-
-desempenho
-
-Departamento
-
-id
-
-nome
-
-orçamento
-
-performance
-
-totalFuncionarios
-
-Endpoints
-Autenticação
-Método	Rota	Descrição
-POST	/auth/login	Login
-POST	/auth/register	Criar usuário
+🔗 Endpoints
 Máquinas
 Método	Rota	Descrição
 GET	/maquinas	Lista todas
-GET	/maquinas/{id}	Busca ID
+GET	/maquinas/{id}	Busca por ID
 POST	/maquinas	Cadastra
 PUT	/maquinas/{id}	Atualiza
 DELETE	/maquinas/{id}	Remove
+
 Funcionários
 Método	Rota	Descrição
-GET	/funcionarios	Listagem
-POST	/funcionarios	Cadastro
-PUT	/funcionarios/{id}	Atualização
-DELETE	/funcionarios/{id}	Remoção
+GET	/funcionarios	Lista
+POST	/funcionarios	Cadastra
+PUT	/funcionarios/{id}	Atualiza
+DELETE	/funcionarios/{id}	Remove
+
 Departamentos
 Método	Rota	Descrição
-GET	/departamentos	Listagem
-POST	/departamentos	Cadastro
-PUT	/departamentos/{id}	Atualização
-DELETE	/departamentos/{id}	Remoção
-Diagrama Conceitual (DER)
-DEPARTAMENTO (1) -------- (N) FUNCIONARIOS
+GET	/departamentos	Lista
+POST	/departamentos	Cadastra
+PUT	/departamentos/{id}	Atualiza
+DELETE	/departamentos/{id}	Remove
 
-DEPARTAMENTO (1) -------- (N) MAQUINAS
-
-FUNCIONARIOS (N) -------- (N) MAQUINAS
-(relacionamento opcional dependendo do escopo do TCC)
-
-
-Representação:
-
+🧩 DER — Diagrama Conceitual
+scss
+Copiar código
+DEPARTAMENTO (1) ---- (N) FUNCIONARIO
+DEPARTAMENTO (1) ---- (N) MAQUINA
+bash
+Copiar código
 [Departamento]
- ID (PK)
+ id (PK)
  nome
- orçamento
+ orcamento
  performance
 
-        1:N
+            1:N
 
-[Funcionário]
- ID (PK)
+[Funcionario]
+ id (PK)
  nome
  cargo
  desempenho
- dept_id (FK)
+ departamento_id (FK)
 
-        1:N
+            1:N
 
-[Máquina]
- ID (PK)
+[Maquina]
+ id (PK)
  nome
  setor
  status
  oee
- dept_id (FK)
-
-Modelo de Dados Relacional (SQL)
+ vazao
+ departamento_id (FK)
+🧱 Modelo Relacional (SQL)
+sql
+Copiar código
 CREATE TABLE departamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -225,61 +195,50 @@ CREATE TABLE maquina (
     departamento_id INT,
     FOREIGN KEY (departamento_id) REFERENCES departamento(id)
 );
+📌 Boas Práticas
+Uso de DTOs
 
-Boas Práticas do Projeto
+Controllers limpos
 
-Uso de DTOs para reduzir acoplamento
-
-Services com regras de negócio isoladas
-
-Controllers somente para fluxo de requisição
-
-Validação com Bean Validation
-
-Lombok para reduzir repetição
+Services contendo regras de negócio
 
 Respostas HTTP adequadas
 
-Código limpo e organizado
+Lombok para reduzir boilerplate
 
-Padrão de Commits
+Código padronizado e organizado
+
+📝 Padrão de Commits
+scss
+Copiar código
 feat(maquinas): cria CRUD completo
-feat(funcionarios): adiciona validação e DTOs
-fix(departamentos): corrige regra de atualização
+feat(funcionarios): implementa validação
+fix(departamentos): ajusta regra de negócio
 refactor(api): separa responsabilidades
-docs(readme): adiciona documentação do backend
-
-Status do Projeto
+docs(readme): atualiza documentação
+📊 Status do Projeto
 ✔ Concluído
-
-Estrutura do backend
-
-Entidades principais
-
 CRUD completo
 
-Integração com MySQL
+Integração MySQL
 
-Testes no Postman
+Testes via Postman
 
 🚧 Em Desenvolvimento
-
 Autenticação JWT
 
-Endpoints de relatório
+Endpoints de relatórios
 
-Testes unitários
+Testes automatizados
 
-Próximos Passos
-
+📋 Próximos Passos
 Implementação de JWT
 
-Dashboard com KPIs calculados
+KPIs industriais
 
 Exportação de relatórios
 
-Deploy completo
+Deploy final
 
-Contato
-
-Para dúvidas, sugestões ou contribuições, entre em contato com o responsável pelo projeto.
+📞 Contato
+Para dúvidas e sugestões, entre em contato com o responsável pelo projeto.

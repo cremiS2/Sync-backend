@@ -1,244 +1,249 @@
-# Sync - Backend (API Industrial Management System)
+# Sync - Backend - Sistema de Gestão Industrial
 
 ## Visão Geral
-O **Sync Backend** é a API REST responsável pela gestão de máquinas, funcionários, departamentos e relatórios de produção industrial.  
-Desenvolvido em **Java Spring Boot** e integrado ao **MySQL**, segue arquitetura limpa e profissional, servindo como base de dados do front-end do projeto.
+O **Sync Backend** é uma API REST para gestão de produção industrial, responsável pelo cadastro, consulta e gerenciamento de:
+
+- Máquinas
+- Funcionários
+- Setores/Departamentos
+- Usuários e autenticação
+- Relatórios de operação e produção
+
+Desenvolvido em **Java Spring Boot** com **MySQL**, o backend fornece dados e regras de negócio consumidos pelo front-end do projeto Sync.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
-- Java 17+
-- Spring Boot
-- Spring Web
-- Spring Data JPA
-- Spring Validation
-- Lombok
-- MySQL 8+
-- MySQL Connector
-- DevTools
-- Postman
+## Rotas Principais da API
+
+### Rotas públicas (sem autenticação JWT)
+
+| Método | Rota               | Descrição                                                |
+|--------|--------------------|----------------------------------------------------------|
+| POST   | `/login`           | Autenticação de usuário, geração de token JWT           |
+| POST   | `/sign-in`         | Cadastro de usuário                                     |
+| POST   | `/forgot-password` | Solicitação de redefinição de senha                     |
+| POST   | `/reset-password`  | Redefinição de senha a partir de token/código           |
+
+### Rotas de máquinas (`MachineController`)
+
+Requerem token JWT com escopos adequados.
+
+| Método | Rota                 | Descrição                                                   | Permissões                         |
+|--------|----------------------|-------------------------------------------------------------|------------------------------------|
+| POST   | `/machine`           | Cadastro de máquina                                         | `ADMIN`                            |
+| GET    | `/machine/{id}`      | Detalhes de uma máquina por ID                             | `ADMIN`, `GERENTE`, `OPERADOR`     |
+| PUT    | `/machine/{id}`      | Atualização de dados da máquina                            | `ADMIN`                            |
+| DELETE | `/machine/{id}`      | Exclusão de máquina                                        | `ADMIN`                            |
+| GET    | `/machine`           | Pesquisa paginada com filtros (nome, setor, status, etc.) | `ADMIN`, `GERENTE`, `OPERADOR`     |
+
+### Rotas de funcionários (`EmployeeController`)
+
+Também protegidas por JWT.
+
+| Método | Rota                   | Descrição                                                     | Permissões                         |
+|--------|------------------------|----------------------------------------------------------------|------------------------------------|
+| POST   | `/employee`            | Cadastro de funcionário                                       | `ADMIN`                            |
+| GET    | `/employee/{id}`       | Detalhes de um funcionário por ID                             | `ADMIN`, `GERENTE`, `OPERADOR`     |
+| PUT    | `/employee/{id}`       | Atualização de dados do funcionário                           | `ADMIN`                            |
+| DELETE | `/employee/{id}`       | Exclusão de funcionário                                       | `ADMIN`                            |
+| GET    | `/employee`            | Pesquisa paginada com filtros (nome, matrícula, turno, etc.) | `ADMIN`, `GERENTE`, `OPERADOR`     |
+
+Outros módulos (departamentos, setores, relatórios, etc.) seguem o mesmo padrão de:
+
+- Controllers REST
+- DTOs de entrada e saída
+- Services com regras de negócio
+- Repositórios JPA
 
 ---
 
-## 📁 Arquitetura do Projeto
+## Tecnologias e Ferramentas
+
+- Java 21
+- Spring Boot 3
+- Spring Web — criação das APIs REST
+- Spring Data JPA — acesso e persistência de dados
+- Spring Validation — validação de DTOs
+- Spring Security + OAuth2 Resource Server — autenticação com JWT
+- Lombok — redução de boilerplate (getters, construtores, etc.)
+- MapStruct — mapeamento entre entidades e DTOs
+- MySQL — banco de dados relacional
+- springdoc-openapi — documentação automática (Swagger UI)
+- JasperReports — geração de relatórios (PDF, etc.)
+- Maven — gerenciamento de dependências e build
+
+---
+
+## Estrutura de Pastas
+
+```text
 src/
 ├── main/
-│ ├── java/com/sync
-│ │ ├── controllers/
-│ │ ├── dtos/
-│ │ ├── entities/
-│ │ ├── repositories/
-│ │ ├── services/
-│ │ ├── config/
-│ │ └── SyncApplication.java
-│ └── resources/
-│ ├── application.properties
-│ └── data.sql
+│   ├── java/com/projeto/tcc/
+│   │   ├── config/           # Configurações (Security, CORS, JWT, etc.)
+│   │   ├── controller/       # Controllers REST (Machine, Employee, Public, etc.)
+│   │   ├── dto/              # DTOs de entrada/saída
+│   │   │   ├── entry/        # Dados recebidos na requisição
+│   │   │   └── exit/         # Dados devolvidos na resposta
+│   │   ├── entities/         # Entidades JPA
+│   │   ├── repository/       # Interfaces JPA (Repositórios)
+│   │   ├── service/          # Regras de negócio
+│   │   ├── security/         # UserDetails, serviços de autenticação
+│   │   ├── mapper/           # MapStruct mappers (MachineMapper, etc.)
+│   │   └── TccApplication.java  # Classe principal (Spring Boot)
+│   └── resources/
+│       ├── application.yml   # Configurações de banco, CORS, JWT, etc.
+│       └── templates/        # Relatórios Jasper (quando aplicável)
 └── test/
-
-yaml
-Copiar código
+    └── ...                   # Testes unitários e de integração
+```
 
 ---
 
-## 🗄 Configuração do Banco de Dados
-Arquivo: `application.properties`
+## Organização e Padrões do Projeto
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/sync?useSSL=false&serverTimezone=UTC
-spring.datasource.username=root
-spring.datasource.password=SUASENHA
+### Arquitetura e Camadas
 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-Criação do banco:
+- Controller: recebe requisições HTTP, valida DTOs e delega para o service.
+- Service: contém regras de negócio, orquestra repositórios, validações e integrações.
+- Repository: interfaces JPA para acesso ao banco de dados.
+- DTOs (entry/exit): separam modelos de domínio (entidades) dos contratos de API.
+- Mapper (MapStruct): conversão automática entre entidades e DTOs.
 
-sql
-Copiar código
-CREATE DATABASE sync;
-▶ Como Executar
+### Boas Práticas
+
+- Validação com Bean Validation (`@Valid`, `@NotNull`, etc.).
+- Respostas consistentes com `ResponseEntity`.
+- Paginação via `Page<T>` do Spring Data nas listagens.
+- Segurança por escopo (`SCOPE_ADMIN`, `SCOPE_GERENTE`, `SCOPE_OPERADOR`).
+- Não expor entidades diretamente na API (uso de DTOs).
+
+---
+
+## Configuração de Banco de Dados
+
+As configurações principais ficam em `src/main/resources/application.yml`.
+
+Exemplo genérico (ajuste para seu ambiente):
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/tccdb
+    username: seu_usuario
+    password: sua_senha
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+```
+
+Ajuste `url`, `username` e `password` conforme o ambiente local ou de produção. Não versione credenciais reais em repositórios públicos.
+
+---
+
+## Autenticação e Segurança
+
+- Autenticação baseada em **JWT** (Resource Server).
+- Chaves pública/privada configuradas em `application.yml`:
+  - `jwt.private.key`: caminho para chave privada
+  - `jwt.public.key`: caminho para chave pública
+- Rotas públicas definidas em `ConfigSecurity`:
+  - `/login`, `/sign-in`, `/forgot-password`, `/reset-password`
+  - `/swagger-ui/**`, `/v3/api-docs/**`
+- Demais rotas protegidas, com validação de escopos (`SCOPE_*`).
+
+---
+
+## Instruções de Uso
+
 1. Clonar o repositório
-bash
-Copiar código
-git clone https://github.com/seu-repo/sync-backend.git
-2. Rodar o MySQL e criar o banco
-sql
-Copiar código
-CREATE DATABASE sync;
-3. Rodar a aplicação
-bash
-Copiar código
-mvn spring-boot:run
-Servidor disponível em:
 
-arduino
-Copiar código
-http://localhost:8080
-📦 Entidades Principais
-Departamento
-id
+   ```bash
+   git clone https://seu-repo/sync-backend.git
+   cd sync-backend
+   ```
 
-nome
+2. Configurar o banco de dados MySQL
 
-orçamento
+   - Criar o banco:
+     ```sql
+     CREATE DATABASE tccdb;
+     ```
+   - Ajustar credenciais em `application.yml`.
 
-performance
+3. Gerar chaves JWT (se ainda não existirem)
 
-Funcionário
-id
+   - Gerar par de chaves RSA (privada e pública).
+   - Colocar os arquivos na pasta `resources` ou caminho acessível.
+   - Atualizar `jwt.private.key` e `jwt.public.key` em `application.yml`.
 
-nome
+4. Rodar a aplicação
 
-cargo
+   ```bash
+   mvn spring-boot:run
+   ```
 
-desempenho
+5. Acessar a documentação da API (Swagger/OpenAPI)
 
-departamento_id
+   - Geralmente disponível em:
+     - `http://localhost:8080/swagger-ui/index.html`
+     - `http://localhost:8080/v3/api-docs`
 
-Máquina
-id
+---
 
-nome
+## Como Contribuir
 
-setor
+### Padrões de Código
 
-status
+- Manter a separação em camadas: `controller`, `service`, `repository`, `dto`, `mapper`.
+- Utilizar DTOs para entrada/saída, evitando expor entidades JPA.
+- Implementar validação com Bean Validation em DTOs.
+- Padronizar mensagens de erro e respostas HTTP.
+- Manter classes pequenas, com responsabilidade única.
 
-oee
+### Estrutura de Commits
 
-vazao
+```text
+feat(machine): adiciona criação e listagem paginada de máquinas
+feat(employee): implementa filtros de turno e setor na busca de funcionários
+fix(security): ajusta CORS e escopos de autorização
+refactor(dto): separa DTOs de entrada e saída para máquinas
+docs(readme): atualiza documentação da API e rotas públicas
+```
 
-departamento_id
+### Criando Novas Features
 
-🔗 Endpoints
-Máquinas
-Método	Rota	Descrição
-GET	/maquinas	Lista todas
-GET	/maquinas/{id}	Busca por ID
-POST	/maquinas	Cadastra
-PUT	/maquinas/{id}	Atualiza
-DELETE	/maquinas/{id}	Remove
+1. Criar entidades e repositórios JPA (se necessário).
+2. Criar DTOs de entrada e saída.
+3. Criar mappers com MapStruct.
+4. Implementar service com regras de negócio e validações.
+5. Expor a funcionalidade via controller REST.
+6. Adicionar testes e, se aplicável, atualizar a documentação Swagger.
 
-Funcionários
-Método	Rota	Descrição
-GET	/funcionarios	Lista
-POST	/funcionarios	Cadastra
-PUT	/funcionarios/{id}	Atualiza
-DELETE	/funcionarios/{id}	Remove
+---
 
-Departamentos
-Método	Rota	Descrição
-GET	/departamentos	Lista
-POST	/departamentos	Cadastra
-PUT	/departamentos/{id}	Atualiza
-DELETE	/departamentos/{id}	Remove
+## Status do Projeto
 
-🧩 DER — Diagrama Conceitual
-scss
-Copiar código
-DEPARTAMENTO (1) ---- (N) FUNCIONARIO
-DEPARTAMENTO (1) ---- (N) MAQUINA
-bash
-Copiar código
-[Departamento]
- id (PK)
- nome
- orcamento
- performance
+- API base de autenticação: implementada (login, cadastro, recuperação de senha).
+- Módulo de máquinas: CRUD completo com filtros e paginação.
+- Módulo de funcionários: CRUD completo com filtros e paginação.
+- Segurança / JWT / CORS: configurados e integrados com o front.
+- Relatórios: em evolução com apoio de JasperReports.
+- Documentação OpenAPI: disponível via Swagger UI.
 
-            1:N
+---
 
-[Funcionario]
- id (PK)
- nome
- cargo
- desempenho
- departamento_id (FK)
+## Integração com o Front-end Sync
 
-            1:N
+- O front consome as rotas `/login`, `/machine`, `/employee`, entre outras.
+- CORS configurado para aceitar domínios de desenvolvimento (`localhost`) e de produção (URL do front).
+- O token JWT retornado pelo `/login` deve ser enviado no header `Authorization: Bearer <token>` em todas as chamadas protegidas.
 
-[Maquina]
- id (PK)
- nome
- setor
- status
- oee
- vazao
- departamento_id (FK)
-🧱 Modelo Relacional (SQL)
-sql
-Copiar código
-CREATE TABLE departamento (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    orcamento DECIMAL(10,2),
-    performance DECIMAL(5,2)
-);
+---
 
-CREATE TABLE funcionario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    cargo VARCHAR(100),
-    desempenho DECIMAL(5,2),
-    departamento_id INT,
-    FOREIGN KEY (departamento_id) REFERENCES departamento(id)
-);
-
-CREATE TABLE maquina (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    setor VARCHAR(100),
-    status VARCHAR(50),
-    oee DECIMAL(5,2),
-    vazao DECIMAL(10,2),
-    departamento_id INT,
-    FOREIGN KEY (departamento_id) REFERENCES departamento(id)
-);
-📌 Boas Práticas
-Uso de DTOs
-
-Controllers limpos
-
-Services contendo regras de negócio
-
-Respostas HTTP adequadas
-
-Lombok para reduzir boilerplate
-
-Código padronizado e organizado
-
-📝 Padrão de Commits
-scss
-Copiar código
-feat(maquinas): cria CRUD completo
-feat(funcionarios): implementa validação
-fix(departamentos): ajusta regra de negócio
-refactor(api): separa responsabilidades
-docs(readme): atualiza documentação
-📊 Status do Projeto
-✔ Concluído
-CRUD completo
-
-Integração MySQL
-
-Testes via Postman
-
-🚧 Em Desenvolvimento
-Autenticação JWT
-
-Endpoints de relatórios
-
-Testes automatizados
-
-📋 Próximos Passos
-Implementação de JWT
-
-KPIs industriais
-
-Exportação de relatórios
-
-Deploy final
-
-📞 Contato
-Para dúvidas e sugestões, entre em contato com o responsável pelo projeto.
+> Para dúvidas, sugestões ou colaboração, entre em contato com o responsável pelo projeto.

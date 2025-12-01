@@ -52,8 +52,13 @@ public class StockService {
     }
 
     public void updateStock(Long id, StockDTO dto){
-        validation.entityValidation(mapper.toEntity(dto));
         Stock stock = repository.findById(id).orElseThrow(() -> new NaoRegistradoException("Stock não encontrado!"));
+        
+        // Criar entidade temporária com o id para validação
+        Stock tempStock = mapper.toEntity(dto);
+        tempStock.setId(id);
+        validation.entityValidation(tempStock);
+        
         mapper.update(stock, dto);
         repository.save(stock);
     }

@@ -42,13 +42,13 @@ public class StockController implements GenericController{
 
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateStock(@PathVariable("id") Long id, StockDTO dto){
+    public ResponseEntity<Void> updateStock(@PathVariable("id") Long id, @RequestBody StockDTO dto){
         service.updateStock(id, dto);
         return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
-    @DeleteMapping("id")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id){
         service.deleteStock(id);
         return ResponseEntity.noContent().build();

@@ -7,6 +7,8 @@ import java.util.Date;
 
 public record StockDTO(
 
+        Long id,
+
         @NotBlank(message = "Por favor, preencha este campo")
         @Size(max = 5, message = "O código não pode ter mais de 5 caracteres ")
         String codigo,

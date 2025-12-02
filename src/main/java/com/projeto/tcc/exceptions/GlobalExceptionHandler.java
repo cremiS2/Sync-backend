@@ -61,4 +61,15 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleExcedeuQuantidadeException(ExcedeuQuantidadeException e){
         return ErrorResponse.excedeuQuantidadeSetor(e.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleGenericException(Exception e){
+        e.printStackTrace(); // Isso vai aparecer nos logs do Azure
+        return new ErrorResponse(
+            HttpStatus.INTERNAL_SERVER_ERROR.value(), 
+            "Erro interno: " + e.getMessage(), 
+            List.of()
+        );
+    }
 }

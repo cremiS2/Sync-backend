@@ -44,4 +44,11 @@ public class AllocatedEmployeeMachineController implements GenericController {
         Page<AllocatedEmployeeMachineResultDTO> resultDTOS = service.search(nameEmployee, nameEmployeeChanged,pageSize, pageNumber);
         return ResponseEntity.ok(resultDTOS);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_GERENTE')")
+    public ResponseEntity<Void> deleteAllocation(@PathVariable Long id){
+        service.deleteAllocation(id);
+        return ResponseEntity.noContent().build();
+    }
 }

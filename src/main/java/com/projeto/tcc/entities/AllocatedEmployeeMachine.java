@@ -31,7 +31,7 @@ public class AllocatedEmployeeMachine {
     private LocalDate allocationDate;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "changed_employee")
     private Employee changedEmployee;
 }

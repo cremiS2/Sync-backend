@@ -34,17 +34,22 @@ public class AllocatedEmployeeMachineService {
 
         AllocatedEmployeeMachine allocatedEmployeeMachine = mapper.toEntity(dto);
 
+        // Validar primeiro antes de tentar acessar propriedades
+        validation.validEntity(allocatedEmployeeMachine);
+
         Authentication employeeChanged =  SecurityContextHolder.getContext().getAuthentication();
         User userChanged = userService.findByEmail(employeeChanged.getName());
 
-        if (userChanged.getEmployee() == null) {
-            throw new NaoRegistradoException("Por favor, relacione um employee ao user");
+        // Apenas define o changedEmployee se o usuário tiver um employee associado
+        if (userChanged != null && userChanged.getEmployee() != null) {
+            allocatedEmployeeMachine.setChangedEmployee(userChanged.getEmployee());
         }
 
-        allocatedEmployeeMachine.setChangedEmployee(userChanged.getEmployee());
-        validation.validEntity(allocatedEmployeeMachine);
+        // Garantir que o employee não é null antes de acessar
+        if (allocatedEmployeeMachine.getEmployee() != null) {
+            allocatedEmployeeMachine.getEmployee().setAvailability(false);
+        }
 
-        allocatedEmployeeMachine.getEmployee().setAvailability(false);
         return repository.save(allocatedEmployeeMachine).getId();
     }
 
@@ -71,6 +76,17 @@ public class AllocatedEmployeeMachineService {
 
     private AllocatedEmployeeMachine getAllocatedById(Long id){
         return repository.findById(id).orElseThrow(() -> new NaoRegistradoException("Alocação não encontrada"));
+    }
+
+    public void deleteAllocation(Long id) {
+        AllocatedEmployeeMachine allocation = getAllocatedById(id);
+        
+        // Liberar o funcionário
+        if (allocation.getEmployee() != null) {
+            allocation.getEmployee().setAvailability(true);
+        }
+        
+        repository.delete(allocation);
     }
 
 

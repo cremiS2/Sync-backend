@@ -10,4 +10,6 @@ import java.util.Optional;
 
 public interface AllocatedEmployeesMachineRepository extends JpaRepository<AllocatedEmployeeMachine, Long>, JpaSpecificationExecutor<AllocatedEmployeeMachine> {
 
+    boolean existsByEmployee(Employee employee);
+
 }
